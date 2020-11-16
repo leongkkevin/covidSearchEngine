@@ -17,7 +17,7 @@ TEST_CASE("DSHashTable Tests with primitive data types")
         integers.insert(insert);
     }
 
-    int x = 1;
+    int x = 11;
     for(int i = 100001; i <= 100010; i++)
     {
         std::pair<int, int> insert(i, x);
@@ -60,16 +60,16 @@ TEST_CASE("DSHashTable Tests with primitive data types")
         REQUIRE((integers.get(8).second == 8));
         REQUIRE((integers.get(9).second == 9));
         REQUIRE((integers.get(10).second == 10));
-        REQUIRE((integers.get(100001).second == 1));
-        REQUIRE((integers.get(100002).second == 2));
-        REQUIRE((integers.get(100003).second == 3));
-        REQUIRE((integers.get(100004).second == 4));
-        REQUIRE((integers.get(100005).second == 5));
-        REQUIRE((integers.get(100006).second == 6));
-        REQUIRE((integers.get(100007).second == 7));
-        REQUIRE((integers.get(100008).second == 8));
-        REQUIRE((integers.get(100009).second == 9));
-        REQUIRE((integers.get(100010).second == 10));
+        REQUIRE((integers.get(100001).second == 11));
+        REQUIRE((integers.get(100002).second == 12));
+        REQUIRE((integers.get(100003).second == 13));
+        REQUIRE((integers.get(100004).second == 14));
+        REQUIRE((integers.get(100005).second == 15));
+        REQUIRE((integers.get(100006).second == 16));
+        REQUIRE((integers.get(100007).second == 17));
+        REQUIRE((integers.get(100008).second == 18));
+        REQUIRE((integers.get(100009).second == 19));
+        REQUIRE((integers.get(100010).second == 20));
 
         REQUIRE((intAndChar.get(1).second == 'a'));
         REQUIRE((intAndChar.get(2).second == 'b'));
@@ -124,16 +124,16 @@ TEST_CASE("DSHashTable Tests with primitive data types")
         REQUIRE((integers[8] == 8));
         REQUIRE((integers[9] == 9));
         REQUIRE((integers[10] == 10));
-        REQUIRE((integers[100001] == 1));
-        REQUIRE((integers[100002] == 2));
-        REQUIRE((integers[100003] == 3));
-        REQUIRE((integers[100004] == 4));
-        REQUIRE((integers[100005] == 5));
-        REQUIRE((integers[100006] == 6));
-        REQUIRE((integers[100007] == 7));
-        REQUIRE((integers[100008] == 8));
-        REQUIRE((integers[100009] == 9));
-        REQUIRE((integers[100010] == 10));
+        REQUIRE((integers[100001] == 11));
+        REQUIRE((integers[100002] == 12));
+        REQUIRE((integers[100003] == 13));
+        REQUIRE((integers[100004] == 14));
+        REQUIRE((integers[100005] == 15));
+        REQUIRE((integers[100006] == 16));
+        REQUIRE((integers[100007] == 17));
+        REQUIRE((integers[100008] == 18));
+        REQUIRE((integers[100009] == 19));
+        REQUIRE((integers[100010] == 20));
 
         REQUIRE((intAndChar[1] == 'a'));
         REQUIRE((intAndChar[2] == 'b'));
