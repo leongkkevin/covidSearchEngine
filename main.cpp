@@ -13,9 +13,11 @@ int runCatchTests(int argc, char* const argv[])
 
 int main(int argc, char** argv)
 {
-    if(argc == 2)
+    if(strcmp(argv[1], "-test") == 0)
     {
         return runCatchTests(1, argv);
     }
+
+    return 0;
 }
 

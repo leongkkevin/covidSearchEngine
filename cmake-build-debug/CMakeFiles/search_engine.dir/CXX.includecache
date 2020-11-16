@@ -6,20 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/Users/stimmins/Documents/GitHub/search-engine-timmins-leong/DSHashTable.h
-list
--
-algorithm
--
-iostream
--
-
-/Users/stimmins/Documents/GitHub/search-engine-timmins-leong/DSHashTableTests.cpp
-catch.hpp
-/Users/stimmins/Documents/GitHub/search-engine-timmins-leong/catch.hpp
-DSHashTable.h
-/Users/stimmins/Documents/GitHub/search-engine-timmins-leong/DSHashTable.h
-
 /Users/stimmins/Documents/GitHub/search-engine-timmins-leong/catch.hpp
 TargetConditionals.h
 -
@@ -599,4 +585,10 @@ algorithm
 -
 cassert
 -
+
+/Users/stimmins/Documents/GitHub/search-engine-timmins-leong/main.cpp
+iostream
+-
+catch.hpp
+/Users/stimmins/Documents/GitHub/search-engine-timmins-leong/catch.hpp
 
