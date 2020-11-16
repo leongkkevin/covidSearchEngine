@@ -264,4 +264,17 @@ TEST_CASE("DSHashTable Tests with primitive data types")
         REQUIRE(!(charAndInt.find('z', 1)));
         REQUIRE(!(charAndInt.find('a', 2)));
     }
+
+    SECTION("testing resize() function")
+    {
+        REQUIRE((integers.getHash(100001) == 1));
+        for(int i = 100011; i < 200000; i++)
+        {
+            std::pair<int, int> insert(i, i);
+            integers.insert(insert);
+        }
+        REQUIRE((integers.getSize() == 200000));
+        REQUIRE((integers.getHash(100001) == 100001));
+        REQUIRE((integers.getCount() == 100009));
+    }
 }

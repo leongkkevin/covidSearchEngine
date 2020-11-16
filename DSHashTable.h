@@ -6,7 +6,6 @@
 #define SEARCH_ENGINE_DSHASHTABLE_H
 
 #include <list>
-#include <algorithm>
 #include <iostream>
 
 template <typename Key, typename Value>
@@ -19,6 +18,7 @@ private:
 
     int hashFunction(Key key);
     void resize();
+
 public:
     DSHashTable();
     ~DSHashTable();
@@ -31,8 +31,12 @@ public:
     bool find (const Key &keyToFind, const Value &valueToFind);
     int getSize();
     int getCount();
+    int getHash(const Key &keyToGet);
 };
 
+/**
+ * calculates the hash value of the key
+ */
 template <typename Key, typename Value>
 int DSHashTable<Key, Value>::hashFunction(Key key)
 {
@@ -40,18 +44,59 @@ int DSHashTable<Key, Value>::hashFunction(Key key)
     return toReturn;
 }
 
+/**
+ * resize function
+ * resizes the hash table when the proportion of count to size == 1
+ * hash table size doubles
+ */
+template<typename Key, typename Value>
+void DSHashTable<Key, Value>::resize()
+{
+    std::list<std::pair<Key, Value>> *temp = new std::list<std::pair<Key, Value>>[size];
+    for(int i = 0; i < size; i++)
+    {
+        temp[i] = table[i];
+    }
+
+    int oldSize = size;
+    size *= 2;
+    delete [] table;
+    count = 0;
+    table = new std::list<std::pair<Key, Value>>[size];
+
+    for(int i = 0; i < oldSize; i++)
+    {
+        typename std::list<std::pair<Key, Value>>::iterator it;
+        for(it = temp[i].begin(); it != temp[i].end(); it++)
+        {
+            std::pair<Key, Value> rehash = *it;
+            this->insert(rehash);
+        }
+    }
+}
+
+/**
+ * default constructor
+ * initializes hash table size to 100,000
+ */
 template <typename Key, typename Value>
 DSHashTable<Key, Value>::DSHashTable()
 {
     table = new std::list<std::pair<Key, Value>>[size];
 }
 
+/**
+ * destructor
+ */
 template<typename Key, typename Value>
 DSHashTable<Key, Value>::~DSHashTable()
 {
     delete [] table;
 }
 
+/**
+ * copy constructor
+ */
 template<typename Key, typename Value>
 DSHashTable<Key, Value>::DSHashTable(DSHashTable &copy)
 {
@@ -64,6 +109,9 @@ DSHashTable<Key, Value>::DSHashTable(DSHashTable &copy)
     }
 }
 
+/**
+ * overloaded assignment operator
+ */
 template<typename Key, typename Value>
 DSHashTable<Key, Value> &DSHashTable<Key, Value>::operator=(DSHashTable &copy)
 {
@@ -112,6 +160,11 @@ void DSHashTable<Key, Value>::insert(std::pair<Key, Value> pair)
 
     table[index].push_back(pair);
     count++;
+
+    if((double)count / (double)size == 1.0)
+    {
+        resize();
+    }
 }
 
 template<typename Key, typename Value>
@@ -173,6 +226,12 @@ int DSHashTable<Key, Value>::getSize()
 template<typename Key, typename Value>
 int DSHashTable<Key, Value>::getCount() {
     return count;
+}
+
+template<typename Key, typename Value>
+int DSHashTable<Key, Value>::getHash(const Key &keyToGet)
+{
+    return hashFunction(keyToGet);
 }
 
 #endif //SEARCH_ENGINE_DSHASHTABLE_H
