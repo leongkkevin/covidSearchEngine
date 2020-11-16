@@ -6,19 +6,27 @@
 
 #IncludeRegexTransform: 
 
-/Users/stimmins/Documents/GitHub/search-engine-timmins-leong/DSHashTable.h
+/Users/kevinleong/Documents/GitHub/search-engine-timmins-leong/DSHashTable.h
 list
 -
 iostream
 -
 
-/Users/stimmins/Documents/GitHub/search-engine-timmins-leong/DSHashTableTests.cpp
+/Users/kevinleong/Documents/GitHub/search-engine-timmins-leong/DSHashTableTests.cpp
 catch.hpp
-/Users/stimmins/Documents/GitHub/search-engine-timmins-leong/catch.hpp
+/Users/kevinleong/Documents/GitHub/search-engine-timmins-leong/catch.hpp
 DSHashTable.h
-/Users/stimmins/Documents/GitHub/search-engine-timmins-leong/DSHashTable.h
+/Users/kevinleong/Documents/GitHub/search-engine-timmins-leong/DSHashTable.h
 
-/Users/stimmins/Documents/GitHub/search-engine-timmins-leong/catch.hpp
+/Users/kevinleong/Documents/GitHub/search-engine-timmins-leong/DSTree.h
+
+/Users/kevinleong/Documents/GitHub/search-engine-timmins-leong/TreeTest.cpp
+catch.hpp
+/Users/kevinleong/Documents/GitHub/search-engine-timmins-leong/catch.hpp
+DSTree.h
+/Users/kevinleong/Documents/GitHub/search-engine-timmins-leong/DSTree.h
+
+/Users/kevinleong/Documents/GitHub/search-engine-timmins-leong/catch.hpp
 TargetConditionals.h
 -
 ciso646
@@ -394,7 +402,7 @@ string
 memory
 -
 Foundation/Foundation.h
-/Users/stimmins/Documents/GitHub/search-engine-timmins-leong/Foundation/Foundation.h
+/Users/kevinleong/Documents/GitHub/search-engine-timmins-leong/Foundation/Foundation.h
 limits
 -
 set
@@ -597,4 +605,10 @@ algorithm
 -
 cassert
 -
+
+/Users/kevinleong/Documents/GitHub/search-engine-timmins-leong/main.cpp
+iostream
+-
+catch.hpp
+/Users/kevinleong/Documents/GitHub/search-engine-timmins-leong/catch.hpp
 
