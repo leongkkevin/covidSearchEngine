@@ -1,0 +1,178 @@
+//
+// Created by Sammy Timmins on 11/15/20.
+//
+
+#ifndef SEARCH_ENGINE_DSHASHTABLE_H
+#define SEARCH_ENGINE_DSHASHTABLE_H
+
+#include <list>
+#include <algorithm>
+#include <iostream>
+
+template <typename Key, typename Value>
+class DSHashTable
+{
+private:
+    int size = 100000;
+    int count = 0;
+    std::list<std::pair<Key, Value>> *table = nullptr;
+
+    int hashFunction(Key key);
+    void resize();
+public:
+    DSHashTable();
+    ~DSHashTable();
+    DSHashTable(DSHashTable &copy);
+    DSHashTable& operator=(DSHashTable &copy);
+    Value& operator[](const Key &keyToGet);
+    void insert(std::pair<Key, Value> pair);
+    void remove(std::pair<Key, Value> pair);
+    std::pair<Key, Value>& get(const Key &keyToGet);
+    bool find (const Key &keyToFind, const Value &valueToFind);
+    int getSize();
+    int getCount();
+};
+
+template <typename Key, typename Value>
+int DSHashTable<Key, Value>::hashFunction(Key key)
+{
+    int toReturn = key % size;
+    return toReturn;
+}
+
+template <typename Key, typename Value>
+DSHashTable<Key, Value>::DSHashTable()
+{
+    table = new std::list<std::pair<Key, Value>>[size];
+}
+
+template<typename Key, typename Value>
+DSHashTable<Key, Value>::~DSHashTable()
+{
+    delete [] table;
+}
+
+template<typename Key, typename Value>
+DSHashTable<Key, Value>::DSHashTable(DSHashTable &copy)
+{
+    size = copy.size;
+    count = copy.count;
+    table = new std::list<std::pair<Key, Value>>[size];
+    for(int i = 0; i < size; i++)
+    {
+        table[i] = copy.table[i];
+    }
+}
+
+template<typename Key, typename Value>
+DSHashTable<Key, Value> &DSHashTable<Key, Value>::operator=(DSHashTable &copy)
+{
+    if(this != &copy)
+    {
+        if(count != 0)
+        {
+            delete this;
+        }
+
+        size = copy.size;
+        count = copy.count;
+        for(int i = 0; i < size; i++)
+        {
+            table[i] = copy.table[i];
+        }
+        return *this;
+    }
+}
+
+template<typename Key, typename Value>
+Value &DSHashTable<Key, Value>::operator[](const Key &keyToGet)
+{
+    int index = hashFunction(keyToGet);
+
+    typename std::list<std::pair<Key, Value>>::iterator it;
+    for(it = table[index].begin(); it != table[index].end(); it++)
+    {
+        if(keyToGet == it->first)
+        {
+            return it->second;
+        }
+    }
+
+    std::pair<Key, Value> newPair;
+    newPair.first = keyToGet;
+
+    this->insert(newPair);
+    return newPair.second;
+}
+
+template<typename Key, typename Value>
+void DSHashTable<Key, Value>::insert(std::pair<Key, Value> pair)
+{
+    int index = hashFunction(pair.first);
+
+    table[index].push_back(pair);
+    count++;
+}
+
+template<typename Key, typename Value>
+void DSHashTable<Key, Value>::remove(std::pair<Key, Value> pair)
+{
+    int index = hashFunction(pair.first);
+
+    table[index].remove(pair);
+    count--;
+}
+
+template<typename Key, typename Value>
+std::pair<Key, Value>& DSHashTable<Key, Value>::get(const Key &keyToGet)
+{
+    int index = hashFunction(keyToGet);
+    typename std::list<std::pair<Key, Value>>::iterator it;
+
+    for(it = table[index].begin(); it != table[index].end(); it++)
+    {
+        if(keyToGet == it->first)
+        {
+            return *it;
+        }
+    }
+
+    std::pair<Key, Value> newPair;
+    newPair.first = keyToGet;
+
+    this->insert(newPair);
+    return newPair;
+}
+
+template<typename Key, typename Value>
+bool DSHashTable<Key, Value>::find(const Key &keyToFind, const Value &valueToFind) {
+    int index = hashFunction(keyToFind);
+    std::pair<Key, Value> toFind(keyToFind, valueToFind);
+
+    typename std::list<std::pair<Key, Value>>::iterator it;
+
+    for(it = table[index].begin(); it != table[index].end(); it++)
+    {
+        if(keyToFind == it->first)
+        {
+            if(valueToFind == it->second)
+            {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+template<typename Key, typename Value>
+int DSHashTable<Key, Value>::getSize()
+{
+    return size;
+}
+
+template<typename Key, typename Value>
+int DSHashTable<Key, Value>::getCount() {
+    return count;
+}
+
+#endif //SEARCH_ENGINE_DSHASHTABLE_H
