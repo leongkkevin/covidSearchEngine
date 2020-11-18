@@ -8,20 +8,14 @@ Author::Author()
 {
     firstName = "";
     lastName = "";
-    middleInitial = "";
-    email = "";
-    affiliation = "";
     suffix = "";
 }
 
-Author::Author(std::string firstName, std::string lastName, std::string middleInitial, std::string email,
-               std::string affiliation, std::string suffix)
+Author::Author(std::string firstName, std::string lastName, std::vector<std::string> &middleInitial, std::string suffix)
 {
     this->firstName = firstName;
     this->lastName = lastName;
     this->middleInitial = middleInitial;
-    this->email = email;
-    this->affiliation = affiliation;
     this->suffix = suffix;
 }
 
@@ -30,8 +24,6 @@ Author::Author(Author &copy)
     firstName = copy.firstName;
     lastName = copy.lastName;
     middleInitial = copy.middleInitial;
-    email = copy.email;
-    affiliation = copy.affiliation;
     suffix = copy.suffix;
 }
 
@@ -40,8 +32,6 @@ Author &Author::operator=(Author &copy)
     firstName = copy.firstName;
     lastName = copy.lastName;
     middleInitial = copy.middleInitial;
-    email = copy.email;
-    affiliation = copy.affiliation;
     suffix = copy.suffix;
 
     return *this;
@@ -57,19 +47,9 @@ void Author::setLastName(std::string name)
     lastName = name;
 }
 
-void Author::setMiddleInitial(std::string initial)
+void Author::addMiddleInitial(std::string initial)
 {
-    middleInitial = initial;
-}
-
-void Author::setEmail(std::string address)
-{
-    email = address;
-}
-
-void Author::setAffiliation(std::string affiliation)
-{
-    this->affiliation = affiliation;
+    middleInitial.push_back(initial);
 }
 
 void Author::setSuffix(std::string suffix)
@@ -87,19 +67,9 @@ std::string Author::getLastName()
     return lastName;
 }
 
-std::string Author::getMiddleInitial()
+std::vector<std::string> Author::getMiddleInitials()
 {
     return middleInitial;
-}
-
-std::string Author::getEmail()
-{
-    return email;
-}
-
-std::string Author::getAffiliation()
-{
-    return affiliation;
 }
 
 std::string Author::getSuffix()

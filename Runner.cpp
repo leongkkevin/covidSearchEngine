@@ -5,19 +5,19 @@
 #include "Runner.h"
 
 using namespace std;
+using namespace rapidjson;
 
 void runSearchEngine()
 {
-    DSHashTable<string, vector<string>> authorIndex;
+    DSHashTable<Author, vector<string>> authorIndex;
     DSTree<Word> wordIndex;
 
-    buildIndex(authorIndex, wordIndex);
+    buildIndexes(authorIndex, wordIndex);
 }
 
-void buildIndex(DSHashTable<string, vector<string>> &authorIndex, DSTree<Word> &wordIndex)
+void buildIndexes(DSHashTable<Author, vector<string>> &authorIndex, DSTree<Word> &wordIndex)
 {
-    ifstream file;
-    string filePath, directory = "../cs2341_data";
+    string filePath, paperID, directory = "/Users/stimmins/Documents/cs2341_data";
     DIR *directoryPath;
     struct dirent *dirp;
 
@@ -29,13 +29,63 @@ void buildIndex(DSHashTable<string, vector<string>> &authorIndex, DSTree<Word> &
         exit(0);
     }
 
+    dirp = readdir(directoryPath);
+    dirp = readdir(directoryPath);
+
     while((dirp = readdir(directoryPath)))
     {
         filePath = directory + "/" + dirp->d_name;
-        file.open(filePath.c_str());
 
-        
+        Document doc;
+        doc.Parse(getFile(filePath).c_str());
 
-        file.close();
+        if(doc.IsObject())
+        {
+            if(doc.HasMember("paper_id"))
+            {
+                paperID = doc["paper_id"].GetString();
+            }
+            if(doc["metadata"].HasMember("authors"))
+            {
+                for(int i = 0; i < doc["metadata"]["authors"].Size(); i++)
+                {
+                    Author author;
+                    author.setFirstName(doc["metadata"]["authors"][i]["first"].GetString());
+                    if(doc["metadata"]["authors"][i]["middle"].Size() > 0)
+                    {
+                        for(int j = 0; j < doc["metadata"]["authors"][i]["middle"].Size(); j++)
+                        {
+                            author.addMiddleInitial(doc["metadata"]["authors"][i]["middle"][j].GetString());
+                        }
+                    }
+                    else
+                    {
+                        author.addMiddleInitial("");
+                    }
+                    author.setLastName(doc["metadata"]["authors"][i]["last"].GetString());
+                    author.setSuffix(doc["metadata"]["authors"][i]["suffix"].GetString());
+                    cout << author.getFirstName() << " ";
+                    for(int i = 0; i < author.getMiddleInitials().size(); i++)
+                    {
+                        cout << author.getMiddleInitials().at(i) << ". ";
+                    }
+                    authorIndex
+                }
+            }
+        }
     }
+}
+
+string getFile(string &filePath)
+{
+    ifstream file;
+    file.open(filePath.c_str());
+
+    string json, line;
+    while(getline(file, line))
+    {
+        json += line;
+    }
+    file.close();
+    return json;
 }

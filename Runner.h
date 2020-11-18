@@ -11,14 +11,13 @@
 #include <fstream>
 #include <dirent.h>
 #include "rapidjson/document.h"
-#include "rapidjson/writer.h"
-#include "rapidjson/stringbuffer.h"
 #include "DSHashTable.h"
 #include "DSTree.h"
 #include "Author.h"
 #include "Word.h"
 
 void runSearchEngine();
-void buildIndex(DSHashTable<std::string, std::vector<std::string>> &authorIndex, DSTree<Word> &wordIndex);
+void buildIndexes(DSHashTable<Author, std::vector<std::string>> &authorIndex, DSTree<Word> &wordIndex);
+std::string getFile(std::string &filePath);
 
 #endif //SEARCH_ENGINE_RUNNER_H

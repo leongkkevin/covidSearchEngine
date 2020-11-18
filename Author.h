@@ -6,29 +6,27 @@
 #define SEARCH_ENGINE_AUTHOR_H
 
 #include <string>
+#include <vector>
 
 class Author
 {
 private:
-    std::string firstName, lastName, middleInitial, email, affiliation, suffix;
+    std::string firstName, lastName, suffix;
+    std::vector<std::string> middleInitial;
 
 public:
     Author();
-    Author(std::string firstName, std::string lastName, std::string middleInitial, std::string email, std::string affiliation, std::string suffix);
+    Author(std::string firstName, std::string lastName, std::vector<std::string> &middleInitial, std::string suffix);
     ~Author() = default;
     Author(Author &copy);
     Author& operator=(Author &copy);
     void setFirstName(std::string name);
     void setLastName(std::string name);
-    void setMiddleInitial(std::string initial);
-    void setEmail(std::string address);
-    void setAffiliation(std::string affiliation);
+    void addMiddleInitial(std::string initial);
     void setSuffix(std::string suffix);
     std::string getFirstName();
     std::string getLastName();
-    std::string getMiddleInitial();
-    std::string getEmail();
-    std::string getAffiliation();
+    std::vector<std::string> getMiddleInitials();
     std::string getSuffix();
 };
 
