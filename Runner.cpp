@@ -69,7 +69,7 @@ void buildIndexes(DSHashTable<Author, vector<string>> &authorIndex, DSTree<Word>
                     {
                         cout << author.getMiddleInitials().at(i) << ". ";
                     }
-                    authorIndex
+                    //authorIndex
                 }
             }
         }

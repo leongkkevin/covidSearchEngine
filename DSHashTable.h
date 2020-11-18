@@ -22,11 +22,12 @@ private:
 public:
     DSHashTable();
     ~DSHashTable();
-    DSHashTable(DSHashTable &copy);
-    DSHashTable& operator=(DSHashTable &copy);
+    DSHashTable(const DSHashTable &copy);
+    DSHashTable& operator=(const DSHashTable &copy);
     Value& operator[](const Key &keyToGet);
-    void insert(std::pair<Key, Value> pair);
-    void remove(std::pair<Key, Value> pair);
+    void insert(const std::pair<Key, Value> pair);
+    void insert(const Key &key, const Value value);
+    void remove(const std::pair<Key, Value> pair);
     std::pair<Key, Value>& get(const Key &keyToGet);
     bool find (const Key &keyToFind, const Value &valueToFind);
     int getSize();
@@ -98,7 +99,7 @@ DSHashTable<Key, Value>::~DSHashTable()
  * copy constructor
  */
 template<typename Key, typename Value>
-DSHashTable<Key, Value>::DSHashTable(DSHashTable &copy)
+DSHashTable<Key, Value>::DSHashTable(const DSHashTable &copy)
 {
     size = copy.size;
     count = copy.count;
@@ -113,7 +114,7 @@ DSHashTable<Key, Value>::DSHashTable(DSHashTable &copy)
  * overloaded assignment operator
  */
 template<typename Key, typename Value>
-DSHashTable<Key, Value> &DSHashTable<Key, Value>::operator=(DSHashTable &copy)
+DSHashTable<Key, Value> &DSHashTable<Key, Value>::operator=(const DSHashTable &copy)
 {
     if(this != &copy)
     {
@@ -154,7 +155,7 @@ Value &DSHashTable<Key, Value>::operator[](const Key &keyToGet)
 }
 
 template<typename Key, typename Value>
-void DSHashTable<Key, Value>::insert(std::pair<Key, Value> pair)
+void DSHashTable<Key, Value>::insert(const std::pair<Key, Value> pair)
 {
     int index = hashFunction(pair.first);
 
@@ -168,7 +169,14 @@ void DSHashTable<Key, Value>::insert(std::pair<Key, Value> pair)
 }
 
 template<typename Key, typename Value>
-void DSHashTable<Key, Value>::remove(std::pair<Key, Value> pair)
+void DSHashTable<Key, Value>::insert(const Key &key, const Value value)
+{
+    std::pair<Key, Value> insert(key, value);
+    this->insert(insert);
+}
+
+template<typename Key, typename Value>
+void DSHashTable<Key, Value>::remove(const std::pair<Key, Value> pair)
 {
     int index = hashFunction(pair.first);
 
