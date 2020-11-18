@@ -4,11 +4,12 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/Users/kevinleong/Documents/GitHub/search-engine-timmins-leong/DSHashTableTests.cpp" "/Users/kevinleong/Documents/GitHub/search-engine-timmins-leong/cmake-build-debug/CMakeFiles/search_engine.dir/DSHashTableTests.cpp.o"
-  "/Users/kevinleong/Documents/GitHub/search-engine-timmins-leong/TreeTest.cpp" "/Users/kevinleong/Documents/GitHub/search-engine-timmins-leong/cmake-build-debug/CMakeFiles/search_engine.dir/TreeTest.cpp.o"
-  "/Users/kevinleong/Documents/GitHub/search-engine-timmins-leong/main.cpp" "/Users/kevinleong/Documents/GitHub/search-engine-timmins-leong/cmake-build-debug/CMakeFiles/search_engine.dir/main.cpp.o"
+  "/Users/stimmins/Documents/GitHub/search-engine-timmins-leong/Author.cpp" "/Users/stimmins/Documents/GitHub/search-engine-timmins-leong/cmake-build-debug/CMakeFiles/search_engine.dir/Author.cpp.o"
+  "/Users/stimmins/Documents/GitHub/search-engine-timmins-leong/DSHashTableTests.cpp" "/Users/stimmins/Documents/GitHub/search-engine-timmins-leong/cmake-build-debug/CMakeFiles/search_engine.dir/DSHashTableTests.cpp.o"
+  "/Users/stimmins/Documents/GitHub/search-engine-timmins-leong/Runner.cpp" "/Users/stimmins/Documents/GitHub/search-engine-timmins-leong/cmake-build-debug/CMakeFiles/search_engine.dir/Runner.cpp.o"
+  "/Users/stimmins/Documents/GitHub/search-engine-timmins-leong/main.cpp" "/Users/stimmins/Documents/GitHub/search-engine-timmins-leong/cmake-build-debug/CMakeFiles/search_engine.dir/main.cpp.o"
   )
-set(CMAKE_CXX_COMPILER_ID "AppleClang")
+set(CMAKE_CXX_COMPILER_ID "GNU")
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH

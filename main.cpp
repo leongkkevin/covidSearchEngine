@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include "catch.hpp"
+#include "Runner.h"
 
 int runCatchTests(int argc, char* const argv[])
 {
@@ -13,7 +14,11 @@ int runCatchTests(int argc, char* const argv[])
 
 int main(int argc, char** argv)
 {
-    if(strcmp(argv[1], "-test") == 0)
+    if(argc == 1)
+    {
+        runSearchEngine();
+    }
+    else if(strcmp(argv[1], "-test") == 0)
     {
         return runCatchTests(1, argv);
     }

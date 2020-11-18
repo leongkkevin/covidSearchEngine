@@ -1,6 +1,7 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/search_engine.dir/Author.cpp.o"
   "CMakeFiles/search_engine.dir/DSHashTableTests.cpp.o"
-  "CMakeFiles/search_engine.dir/TreeTest.cpp.o"
+  "CMakeFiles/search_engine.dir/Runner.cpp.o"
   "CMakeFiles/search_engine.dir/main.cpp.o"
   "search_engine"
   "search_engine.pdb"

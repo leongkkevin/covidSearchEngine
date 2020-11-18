@@ -25,7 +25,5 @@ endforeach()
 
 set(CMAKE_CXX_STANDARD 14)
 #set(CMAKE_CXX_FLAGS_DEBUG "-O3")
-add_executable(${EXE_NAME} main.cpp DSHashTable.h catch.hpp DSHashTableTests.cpp
-                            DSTree.h TreeTest.cpp)
-
+add_executable(${EXE_NAME} main.cpp DSHashTable.h catch.hpp DSHashTableTests.cpp Runner.cpp Runner.h Author.cpp Author.h)
 
