@@ -19,7 +19,11 @@ private:
 
         int height;
 
-        TreeNode() = default;
+        TreeNode(){
+            this->payload = NULL;
+            this->left = this->right = nullptr;
+            this->height = NULL;
+        }
         TreeNode(T value){
             this->payload = value;
             this->left = nullptr;
@@ -108,7 +112,7 @@ private:
     int height(TreeNode<T> *t) const{
         return t == NULL ? -1 : t->height;
     }
-    int max (T left, T right) const{
+    int max (int left, int right) const{
         return left > right ? left : right;
     }
 

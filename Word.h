@@ -15,6 +15,14 @@ private:
     string word;
     DSHashTable<int, string> titleList;
 public:
+    Word() = default;
+    Word(string word);
+    Word(char* word);
+    Word(const Word &copy);
+
+    bool operator> (const Word&)  const;
+    bool operator< (const Word&)  const;
+    bool operator== (const Word&) const;
 
     string getWord();
     DSHashTable<int, string> getWordList();

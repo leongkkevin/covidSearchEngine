@@ -17,5 +17,15 @@ TEST_CASE("Insert"){
     intTree.get(2);
 
     DSTree<Word> wordTree;
+    Word word1("Cap");
+    Word word2("Bap");
+    wordTree.insert(word1);
+    wordTree.insert(word2);
+    Word word3("Trees");
+    Word word4("A");
+    Word word5("Apple");
+    wordTree.insert(word3);
+    wordTree.insert(word4);
+    wordTree.insert(word5);
 
 }

@@ -22,12 +22,11 @@ private:
 public:
     DSHashTable();
     ~DSHashTable();
-    DSHashTable(const DSHashTable &copy);
+    DSHashTable(DSHashTable &copy);
     DSHashTable& operator=(DSHashTable &copy);
     Value& operator[](const Key &keyToGet);
-    void insert(const std::pair<Key, Value> pair);
-    void insert(const Key key, Value value);
-    void remove(const std::pair<Key, Value> pair);
+    void insert(std::pair<Key, Value> pair);
+    void remove(std::pair<Key, Value> pair);
     std::pair<Key, Value>& get(const Key &keyToGet);
     bool find (const Key &keyToFind, const Value &valueToFind);
     int getSize();
