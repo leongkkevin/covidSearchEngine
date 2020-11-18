@@ -12,7 +12,7 @@ Word::Word(char *word) {
 }
 Word::Word(const Word &copy) {
     this->word = copy.word;
-    //this->titleList = copy.titleList;
+    this->titleList = copy.titleList;
 }
 
 bool Word::operator>(const Word &comp) const {

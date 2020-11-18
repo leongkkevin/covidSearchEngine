@@ -23,7 +23,7 @@ public:
     DSHashTable();
     ~DSHashTable();
     DSHashTable(DSHashTable &copy);
-    DSHashTable& operator=(DSHashTable &copy);
+    DSHashTable& operator=(const DSHashTable &copy);
     Value& operator[](const Key &keyToGet);
     void insert(std::pair<Key, Value> pair);
     void remove(std::pair<Key, Value> pair);
@@ -113,7 +113,7 @@ DSHashTable<Key, Value>::DSHashTable(DSHashTable &copy)
  * overloaded assignment operator
  */
 template<typename Key, typename Value>
-DSHashTable<Key, Value> &DSHashTable<Key, Value>::operator=(DSHashTable &copy)
+DSHashTable<Key, Value> &DSHashTable<Key, Value>::operator=(const DSHashTable &copy)
 {
     if(this != &copy)
     {
