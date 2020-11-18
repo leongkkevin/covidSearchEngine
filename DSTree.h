@@ -43,14 +43,17 @@ private:
             this->height = copy.height;
         }
 
-        ~TreeNode() = default;
+        ~TreeNode(){
+            delete this->left;
+            delete this->right;
+        }
 
-        TreeNode &operator= (const TreeNode &copy)
+        TreeNode &operator= (const TreeNode *&copy)
         {
-            this->payload = copy.payload;
-            this->left = copy.left;
-            this->right = copy.right;
-            this->height = copy.height;
+            this->payload = copy->payload;
+            this->left = copy->left;
+            this->right = copy->right;
+            this->height = copy->height;
         }
 
         T getPayload()
@@ -69,6 +72,16 @@ private:
     TreeNode<T> *root;
     int depth;
     int numNode;
+
+    int getBalance(TreeNode<T>* node)
+    {
+        if(node->left && node->right != nullptr){
+            return node->left->height - node->right->height;
+        } else
+        {
+            return 0;
+        }
+    }
 
     void insert(T value, TreeNode<T> *&newVal)
     {
@@ -107,6 +120,109 @@ private:
             }
         } else;
         newVal->height = max(height(newVal->left),height(newVal->right)) + 1;
+    }
+
+    TreeNode<T>* minNode(TreeNode<T>* node)
+    {
+        TreeNode<T>* curr = node;
+        while(curr->left != nullptr)
+        {
+            curr = curr->left;
+        }
+
+        return curr;
+    }
+
+    TreeNode<T>* remove(T value, TreeNode<T> *node)
+    {
+        TreeNode<T>* temp;
+
+        if (node == NULL)
+        {
+            return node;
+        } else if(value < node->payload)
+        {
+            remove(value, node->left);
+        } else if(value > node->payload)
+        {
+            remove (value, node->right);
+        } else if(value == node->payload)
+        {
+            // node with only one child or no child
+            if( (node->left == NULL) || (node->right == NULL) )
+            {
+                temp = node->left ? node->left :node->right;
+
+                // No child case
+                if (temp == NULL)
+                {
+                    temp = node;
+                    node = NULL;
+                }
+                else
+                {
+                    *node = *temp;
+                } // One child case
+
+                delete temp;
+            }
+            else
+            {
+                // node with two children: Get the inorder
+                // successor (smallest in the right subtree)
+                temp = minNode(node->right);
+
+                // Copy the inorder successor's
+                // data to this node
+                node->payload = temp->payload;
+                node->height = temp->height;
+
+                // Delete the inorder successor
+                node->right = remove(temp->payload, node->right);
+            }
+        }
+
+        // If the tree had only one node
+        // then return
+        if (node == NULL)
+            return node;
+
+        // STEP 2: UPDATE HEIGHT OF THE CURRENT NODE
+        node->height = 1 + max(height(node->left),height(node->right));
+
+        // STEP 3: GET THE BALANCE FACTOR OF
+        // THIS NODE (to check whether this
+        // node became unbalanced)
+        int balance = getBalance(node);
+
+        // If this node becomes unbalanced,
+        // then there are 4 cases
+
+        // Left Left Case
+        if (balance > 1 && getBalance(node->left) >= 0)
+            rotateWithRightChild(node);
+
+        // Left Right Case
+        if (balance > 1 && getBalance(node->left) < 0)
+        {
+            doubleWithRightChild(node);
+//            node->left = rotateWithLeftChild(node->left);
+//            return rotateWithRightChild(node);
+        }
+
+        // Right Right Case
+        if (balance < -1 && getBalance(node->right) <= 0)
+            rotateWithLeftChild(node);
+
+        // Right Left Case
+        if (balance < -1 && getBalance(node->right) > 0)
+        {
+            doubleWithLeftChild(node);
+//            node->right = rightRotate(node->right);
+//            return leftRotate(node);
+        }
+
+        return node;
     }
 
     int height(TreeNode<T> *t) const{
@@ -190,6 +306,7 @@ public:
     ~DSTree<T>();
 
     void insert(T value);
+    void remove(T value);
 
     int getNumNodes();
 
@@ -233,11 +350,19 @@ void DSTree<T>::insert(T value)
     }
     this->numNode++;
 }
+template<typename T>
+void DSTree<T>::remove(T value) {
+    if(this->numNode != 0){
+        delete remove(value, this->root);
+        this->numNode--;
+    } else;
+}
 
 template<typename T>
 int DSTree<T>::getNumNodes() {
     return this->numNode;
 }
+
 
 
 #endif //SEARCH_ENGINE_DSTREE_H
