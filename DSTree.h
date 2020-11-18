@@ -142,10 +142,10 @@ private:
             return node;
         } else if(value < node->payload)
         {
-            remove(value, node->left);
+            node->left = remove(value, node->left);
         } else if(value > node->payload)
         {
-            remove (value, node->right);
+            node->right = remove (value, node->right);
         } else if(value == node->payload)
         {
             // node with only one child or no child
@@ -353,7 +353,7 @@ void DSTree<T>::insert(T value)
 template<typename T>
 void DSTree<T>::remove(T value) {
     if(this->numNode != 0){
-        delete remove(value, this->root);
+        this->root = remove(value, this->root);
         this->numNode--;
     } else;
 }
