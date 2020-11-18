@@ -9,9 +9,12 @@ using namespace std;
 void runSearchEngine()
 {
     DSHashTable<string, vector<string>> authorIndex;
+    DSTree<Word> wordIndex;
+
+    buildIndex(authorIndex, wordIndex);
 }
 
-void buildIndex(DSHashTable<string, vector<string>> authorIndex)
+void buildIndex(DSHashTable<string, vector<string>> &authorIndex, DSTree<Word> &wordIndex)
 {
     ifstream file;
     string filePath, directory = "../cs2341_data";
