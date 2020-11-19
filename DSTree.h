@@ -338,11 +338,15 @@ void DSTree<T>::remove(T value) {
  */
 template<typename T>
 bool DSTree<T>::find(T value) {
-    TreeNode<T>* comp = find(value, this->root);
-    if(comp == NULL){
-       return false;
+    if(this->root == nullptr){
+        return false;
     } else {
-        return true;
+        TreeNode<T>* comp = find(value, this->root);
+        if(comp == NULL){
+            return false;
+        } else {
+            return true;
+        }
     }
 }
 /**

@@ -27,7 +27,7 @@ public:
     bool operator== (const Word&) const;
 
     string getWord();
-    map<string, int> getTitleList();
+    map<string, int>& getTitleList();
     void addPaperID(string paperID);
 };
 

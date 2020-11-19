@@ -104,16 +104,16 @@ void buildIndexes(DSHashTable<string, Title> &authorIndex, DSTree<Word> &wordInd
                     ss << abstract;
 
                     string singleWord;
-                    getline(ss, singleWord, ' ');
+                    while(getline(ss, singleWord, ' ')){
+                        if((fillerSet.count(singleWord) == 0)){
+                            Porter2Stemmer::stem(singleWord); //stemmer from: https://bitbucket.org/smassung/porter2_stemmer/src/master/
 
-                    if((fillerSet.count(singleWord) == 0)){
-                        Porter2Stemmer::stem(singleWord); //stemmer from: https://bitbucket.org/smassung/porter2_stemmer/src/master/
-
-                        if(wordIndex.find(singleWord)){
-                            wordIndex.get(singleWord).getTitleList().at(paperID)++;
-                        } else {
-                            wordIndex.insert(singleWord);
-                            wordIndex.get(singleWord).getTitleList();
+                            if(wordIndex.find(singleWord)){
+                                wordIndex.get(singleWord).getTitleList().at(paperID)++;
+                            } else {
+                                wordIndex.insert(singleWord);
+                                wordIndex.get(singleWord).addPaperID(paperID);
+                            }
                         }
                     }
                 }

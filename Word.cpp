@@ -28,6 +28,9 @@ bool Word::operator==(const Word &comp) const {
 string Word::getWord(){
     return this->word;
 }
+map<string, int>& Word::getTitleList() {
+    return this->titleList;
+}
 
 void Word::addPaperID(string paperID) {
     this->titleList[paperID];
