@@ -284,14 +284,106 @@ TEST_CASE("DSHashTable Tests with primitive data types")
 TEST_CASE("DSHashTable with objects")
 {
     DSHashTable<std::string, std::string> strings;
-    std::pair<std::string, std::string> insert("hello", "there");
-
+    std::pair<std::string, std::string> insert("what is", "up");
+    strings.insert(insert);
+    std::pair<std::string, std::string> insert2("", "");
+    strings.insert(insert2);
     strings.insert("hello", "there");
     strings.insert("hey", "there");
     strings.insert("please", "work");
 
-    SECTION("please work")
+    SECTION("insert() and get() with objects")
+    {
+        REQUIRE((strings.get("hello").second == "there"));
+        REQUIRE((strings.get("hey").second == "there"));
+        REQUIRE((strings.get("please").second == "work"));
+        REQUIRE((strings.get("what is").second == "up"));
+        REQUIRE((strings.get("").second == ""));
+    }
+
+    SECTION("Overloaded [] operator with objects")
     {
         REQUIRE((strings["hello"] == "there"));
+        REQUIRE((strings["hey"] == "there"));
+        REQUIRE((strings["please"] == "work"));
+        REQUIRE((strings["what is"] == "up"));
+        REQUIRE((strings[""] == ""));
+    }
+
+    SECTION("find() with objects")
+    {
+        REQUIRE(strings.find("hello"));
+        REQUIRE(strings.find("hey"));
+        REQUIRE(strings.find("please"));
+        REQUIRE(strings.find("what is"));
+        REQUIRE(strings.find(""));
+        REQUIRE(strings.find("hello", "there"));
+        REQUIRE(strings.find("hey", "there"));
+        REQUIRE(strings.find("what is", "up"));
+        REQUIRE(strings.find("please", "work"));
+        REQUIRE(strings.find("", ""));
+        REQUIRE(!strings.find("hello", "work"));
+        REQUIRE(!strings.find("", "there"));
+    }
+
+    SECTION("remove() with objects")
+    {
+        std::pair<std::string, std::string> remove("hello", "there");
+        strings.remove(remove);
+        REQUIRE(!strings.find("hello", "there"));
+        REQUIRE((strings.getCount() == 4));
+
+        remove.first = "";
+        remove.second = "";
+        strings.remove(remove);
+        REQUIRE(!strings.find("", ""));
+        REQUIRE((strings.getCount() == 3));
+    }
+
+    SECTION("getSize() with objects")
+    {
+        REQUIRE((strings.getSize() == 100000));
+    }
+
+    SECTION("getCount() with objects")
+    {
+        REQUIRE((strings.getCount() == 5));
+    }
+
+    SECTION("Copy constructor with objects")
+    {
+        DSHashTable<std::string, std::string> stringsCopy(strings);
+
+        REQUIRE(stringsCopy.find("hello"));
+        REQUIRE(stringsCopy.find("hey"));
+        REQUIRE(stringsCopy.find("please"));
+        REQUIRE(stringsCopy.find("what is"));
+        REQUIRE(stringsCopy.find(""));
+        REQUIRE(stringsCopy.find("hello", "there"));
+        REQUIRE(stringsCopy.find("hey", "there"));
+        REQUIRE(stringsCopy.find("what is", "up"));
+        REQUIRE(stringsCopy.find("please", "work"));
+        REQUIRE(stringsCopy.find("", ""));
+        REQUIRE(!stringsCopy.find("hello", "work"));
+        REQUIRE(!stringsCopy.find("", "there"));
+    }
+
+    SECTION("Overloaded assignment operator with objects")
+    {
+        DSHashTable<std::string, std::string> stringsCopy;
+        stringsCopy = strings;
+
+        REQUIRE(stringsCopy.find("hello"));
+        REQUIRE(stringsCopy.find("hey"));
+        REQUIRE(stringsCopy.find("please"));
+        REQUIRE(stringsCopy.find("what is"));
+        REQUIRE(stringsCopy.find(""));
+        REQUIRE(stringsCopy.find("hello", "there"));
+        REQUIRE(stringsCopy.find("hey", "there"));
+        REQUIRE(stringsCopy.find("what is", "up"));
+        REQUIRE(stringsCopy.find("please", "work"));
+        REQUIRE(stringsCopy.find("", ""));
+        REQUIRE(!stringsCopy.find("hello", "work"));
+        REQUIRE(!stringsCopy.find("", "there"));
     }
 }
