@@ -109,7 +109,7 @@ void buildIndexes(DSHashTable<string, Title> &authorIndex, DSTree<Word> &wordInd
                             Porter2Stemmer::stem(singleWord); //stemmer from: https://bitbucket.org/smassung/porter2_stemmer/src/master/
 
                             if(wordIndex.find(singleWord)){
-                                wordIndex.get(singleWord).getTitleList().at(paperID)++;
+                                wordIndex.get(singleWord).getTitleList()[paperID]++;
                             } else {
                                 wordIndex.insert(singleWord);
                                 wordIndex.get(singleWord).addPaperID(paperID);
