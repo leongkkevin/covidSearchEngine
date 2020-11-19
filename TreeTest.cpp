@@ -20,10 +20,10 @@ TEST_CASE("Insert"){
     intTree.insert(19);
 
     //REQUIRE(intTree.get(5)->getHeight() == 1);
-    intTree.get(2);
+    intTree.find(2);
 
     intTree.remove(4);
-    intTree.get(4);
+    intTree.find(4);
     intTree.insert(3);
     intTree.remove(20);
     intTree.insert(21);
