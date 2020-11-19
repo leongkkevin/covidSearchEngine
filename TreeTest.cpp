@@ -41,4 +41,6 @@ TEST_CASE("Insert"){
     wordTree.insert(word4);
     wordTree.insert(word5);
 
+    REQUIRE(wordTree.find("Jeff") == false);
+
 }

@@ -241,7 +241,7 @@ private:
     *   Also couts an error
     */
     TreeNode<T>* find(T value, TreeNode<T> *node) const{
-        TreeNode<T>* returnNode;
+        TreeNode<T> *returnNode = nullptr;
         if(value < node->payload && node->active)
         {
             if(node->left != nullptr)
@@ -259,10 +259,7 @@ private:
         } else if(value == node->payload && node->active)
         {
             returnNode = node;
-        } else {
-            returnNode = new TreeNode<T>(value);
-            //std::cout << "Not found!" << std::endl;
-        }
+        } else;
 
         return returnNode;
     }
@@ -274,18 +271,15 @@ public:
 
     void insert(T value);
     void remove(T value);
+    bool find(T value);
 
     int getNumNodes();
 
     /**
-    *  This is the PUBLIC find that calls the private one
+    *  This is the PUBLIC get that calls the private one
     */
-    TreeNode<T>* find(T value){
+    TreeNode<T>* get(T value){
         TreeNode<T> *toReturn = find(value, this->root);
-
-        if(toReturn == nullptr){
-            toReturn = new TreeNode<T>(value);
-        } else;
 
         return toReturn;
     }
@@ -338,6 +332,18 @@ void DSTree<T>::remove(T value) {
         remove(value, this->root);
         this->numNode--;
     } else;
+}
+/**
+ * Find function that returns a bool
+ */
+template<typename T>
+bool DSTree<T>::find(T value) {
+    TreeNode<T>* comp = find(value, this->root);
+    if(comp == NULL){
+       return false;
+    } else {
+        return true;
+    }
 }
 /**
 *   Returns the total number of nodes inside of the AVL Tree
