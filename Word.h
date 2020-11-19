@@ -9,11 +9,12 @@ using namespace std;
 #ifndef SEARCH_ENGINE_WORD_H
 #define SEARCH_ENGINE_WORD_H
 
+#include <map>
 
 class Word {
 private:
     string word;
-    DSHashTable<int, string> titleList;
+    map<int, string> titleList;
 public:
     Word() = default;
     Word(string word);
@@ -25,7 +26,7 @@ public:
     bool operator== (const Word&) const;
 
     string getWord();
-    DSHashTable<int, string> getWordList();
+    map<int, string>& getWordList();
 };
 
 
