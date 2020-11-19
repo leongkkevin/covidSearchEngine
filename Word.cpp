@@ -25,11 +25,12 @@ bool Word::operator==(const Word &comp) const {
     return this->word == comp.word;
 }
 
-
 string Word::getWord(){
     return this->word;
 }
 
-map<int, string>& Word::getWordList(){
-    return this->titleList;
+void Word::addPaperID(string paperID) {
+    this->titleList[paperID];
+    this->titleList.at(paperID) = 0;
 }
+

@@ -278,10 +278,10 @@ public:
     /**
     *  This is the PUBLIC get that calls the private one
     */
-    TreeNode<T>* get(T value){
+    T& get(T value){
         TreeNode<T> *toReturn = find(value, this->root);
 
-        return toReturn;
+        return toReturn->payload;
     }
 
 };

@@ -10,11 +10,12 @@ using namespace std;
 #define SEARCH_ENGINE_WORD_H
 
 #include <map>
+#include <vector>
 
 class Word {
 private:
     string word;
-    map<int, string> titleList;
+    map<string, int> titleList;
 public:
     Word() = default;
     Word(string word);
@@ -26,7 +27,8 @@ public:
     bool operator== (const Word&) const;
 
     string getWord();
-    map<int, string>& getWordList();
+    map<string, int> getTitleList();
+    void addPaperID(string paperID);
 };
 
 
