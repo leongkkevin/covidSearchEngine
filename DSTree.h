@@ -61,10 +61,7 @@ private:
         /**
         *   Destructor
         */
-        ~TreeNode(){
-            delete this->left;
-            delete this->right;
-        }
+        ~TreeNode() = default;
 
         /**
         *   Equals Operator

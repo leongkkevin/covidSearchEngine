@@ -9,6 +9,9 @@
 #include <iostream>
 #include <fstream>
 #include <dirent.h>
+#include <sstream>
+#include <set>
+
 #include "rapidjson/document.h"
 #include "DSHashTable.h"
 #include "DSTree.h"
@@ -16,6 +19,7 @@
 #include "Title.h"
 
 void runSearchEngine();
+void makeFillerSet(set<string> &fillerSet);
 void buildIndexes(DSHashTable<std::string, Title> &authorIndex, DSTree<Word> &wordIndex);
 std::string getFile(std::string &filePath);
 

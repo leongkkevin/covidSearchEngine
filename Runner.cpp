@@ -19,6 +19,17 @@ void runSearchEngine()
     buildIndexes(authorIndex, wordIndex);
 }
 
+void makeFillerSet(set<string> &fillerSet)
+{
+    string fillerWord;
+    ifstream fin;
+    fin.open("../stopwords.txt");
+
+    while(getline(fin, fillerWord)){
+        fillerSet.insert(fillerWord);
+    }
+}
+
 /**
  * loops through the document directory
  * parses each JSON file as it loops
@@ -75,12 +86,32 @@ void buildIndexes(DSHashTable<string, Title> &authorIndex, DSTree<Word> &wordInd
                 }
             }
 
-            if(doc["metadata"].HasMember("abstract"))
+            /**
+             * Creates a set of filler words
+             */
+            set<string> fillerSet;
+            makeFillerSet(fillerSet);
+
+            /**
+             * Adding words from abstract
+             */
+            if(doc.HasMember("abstract"))
             {
-                for(int i = 0; i < doc["metadata"]["abstract"].Size(); i++)
+                stringstream ss;
+                for(int i = 0; i < doc["abstract"].Size(); i++)
                 {
-                    string abstract = doc["metadata"]["abstract"][i].GetString();
-                    std::cout << abstract << std::endl;
+                    string abstract = doc["abstract"][i]["text"].GetString();
+                    ss << abstract;
+
+                    string singleWord;
+                    getline(ss, singleWord, ' ');
+
+                    if((fillerSet.count(singleWord) == 0)){
+
+                        wordIndex.insert(singleWord);
+                    }
+
+                    wordIndex.insert(singleWord);
                 }
             }
         }
