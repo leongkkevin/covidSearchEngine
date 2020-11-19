@@ -107,10 +107,9 @@ void buildIndexes(DSHashTable<string, Title> &authorIndex, DSTree<Word> &wordInd
                     getline(ss, singleWord, ' ');
 
                     if((fillerSet.count(singleWord) == 0)){
-
+                        Porter2Stemmer::stem(singleWord); //stemmer from: https://bitbucket.org/smassung/porter2_stemmer/src/master/
                         wordIndex.insert(singleWord);
                     }
-
                     wordIndex.insert(singleWord);
                 }
             }

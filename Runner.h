@@ -12,6 +12,7 @@
 #include <sstream>
 #include <set>
 
+#include "porter2_stemmer.h"
 #include "rapidjson/document.h"
 #include "DSHashTable.h"
 #include "DSTree.h"
