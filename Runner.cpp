@@ -9,13 +9,13 @@ using namespace rapidjson;
 
 void runSearchEngine()
 {
-    DSHashTable<Author, vector<string>> authorIndex;
+    DSHashTable<string, Title> authorIndex;
     DSTree<Word> wordIndex;
 
     buildIndexes(authorIndex, wordIndex);
 }
 
-void buildIndexes(DSHashTable<Author, vector<string>> &authorIndex, DSTree<Word> &wordIndex)
+void buildIndexes(DSHashTable<string, Title> &authorIndex, DSTree<Word> &wordIndex)
 {
     string filePath, paperID, directory = "/Users/stimmins/Documents/cs2341_data";
     DIR *directoryPath;
@@ -49,27 +49,30 @@ void buildIndexes(DSHashTable<Author, vector<string>> &authorIndex, DSTree<Word>
             {
                 for(int i = 0; i < doc["metadata"]["authors"].Size(); i++)
                 {
-                    Author author;
-                    author.setFirstName(doc["metadata"]["authors"][i]["first"].GetString());
+                    string author;
+                    author = author + doc["metadata"]["authors"][i]["first"].GetString() + " ";
+
                     if(doc["metadata"]["authors"][i]["middle"].Size() > 0)
                     {
                         for(int j = 0; j < doc["metadata"]["authors"][i]["middle"].Size(); j++)
                         {
-                            author.addMiddleInitial(doc["metadata"]["authors"][i]["middle"][j].GetString());
+                            author = author + doc["metadata"]["authors"][i]["middle"][j].GetString() + ". ";
                         }
+                    }
+
+                    author = author + doc["metadata"]["authors"][i]["last"].GetString();
+                    author = author + doc["metadata"]["authors"][i]["suffix"].GetString();
+
+                    if(!authorIndex.find(author))
+                    {
+                        Title title;
+                        title.addTitle(paperID);
+                        pair<string , Title> pair(author, title);
                     }
                     else
                     {
-                        author.addMiddleInitial("");
+                        authorIndex[author].addTitle(paperID);
                     }
-                    author.setLastName(doc["metadata"]["authors"][i]["last"].GetString());
-                    author.setSuffix(doc["metadata"]["authors"][i]["suffix"].GetString());
-                    cout << author.getFirstName() << " ";
-                    for(int i = 0; i < author.getMiddleInitials().size(); i++)
-                    {
-                        cout << author.getMiddleInitials().at(i) << ". ";
-                    }
-                    //authorIndex
                 }
             }
         }

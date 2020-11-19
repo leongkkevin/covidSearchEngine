@@ -2,6 +2,7 @@
 // Created by Sammy Timmins on 11/15/20.
 //
 
+#include <string>
 #include "catch.hpp"
 #include "DSHashTable.h"
 
@@ -47,7 +48,7 @@ TEST_CASE("DSHashTable Tests with primitive data types")
         charAndInt.insert(insert);
         x++;
     }
-
+    integers.insert(20, 25);
     SECTION("insert() and get() with primitives")
     {
         REQUIRE((integers.get(1).second == 1));
@@ -70,6 +71,7 @@ TEST_CASE("DSHashTable Tests with primitive data types")
         REQUIRE((integers.get(100008).second == 18));
         REQUIRE((integers.get(100009).second == 19));
         REQUIRE((integers.get(100010).second == 20));
+        REQUIRE((integers.get(20).second == 25));
 
         REQUIRE((intAndChar.get(1).second == 'a'));
         REQUIRE((intAndChar.get(2).second == 'b'));
@@ -196,7 +198,7 @@ TEST_CASE("DSHashTable Tests with primitive data types")
         std::pair<int, int> removeIntegers(1,1);
         integers.remove(removeIntegers);
         REQUIRE(!(integers.find(1,1)));
-        REQUIRE((integers.getCount() == 19));
+        REQUIRE((integers.getCount() == 20));
 
         std::pair<int, char> removeIntAndChar(1, 'a');
         intAndChar.remove(removeIntAndChar);
@@ -218,7 +220,7 @@ TEST_CASE("DSHashTable Tests with primitive data types")
 
     SECTION("getCount() with primitives")
     {
-        REQUIRE((integers.getCount() == 20));
+        REQUIRE((integers.getCount() == 21));
         REQUIRE((intAndChar.getCount() == 20));
         REQUIRE((charAndInt.getCount() == 10));
     }
@@ -275,6 +277,21 @@ TEST_CASE("DSHashTable Tests with primitive data types")
         }
         REQUIRE((integers.getSize() == 200000));
         REQUIRE((integers.getHash(100001) == 100001));
-        REQUIRE((integers.getCount() == 100009));
+        REQUIRE((integers.getCount() == 100010));
+    }
+}
+
+TEST_CASE("DSHashTable with objects")
+{
+    DSHashTable<std::string, std::string> strings;
+    std::pair<std::string, std::string> insert("hello", "there");
+
+    strings.insert("hello", "there");
+    strings.insert("hey", "there");
+    strings.insert("please", "work");
+
+    SECTION("please work")
+    {
+        REQUIRE((strings["hello"] == "there"));
     }
 }

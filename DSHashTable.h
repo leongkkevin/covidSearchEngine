@@ -24,12 +24,13 @@ public:
     ~DSHashTable();
     DSHashTable(const DSHashTable &copy);
     DSHashTable& operator=(const DSHashTable &copy);
-    Value& operator[](const Key &keyToGet);
+    Value& operator[](Key keyToGet);
     void insert(const std::pair<Key, Value> pair);
     void insert(const Key &key, const Value value);
     void remove(const std::pair<Key, Value> pair);
     std::pair<Key, Value>& get(const Key &keyToGet);
-    bool find (const Key &keyToFind, const Value &valueToFind);
+    bool find(const Key &keyToFind, const Value &valueToFind);
+    bool find (const Key &keyToFind);
     int getSize();
     int getCount();
     int getHash(const Key &keyToGet);
@@ -41,8 +42,10 @@ public:
 template <typename Key, typename Value>
 int DSHashTable<Key, Value>::hashFunction(Key key)
 {
-    int toReturn = key % size;
-    return toReturn;
+    std::hash<Key> hasher;
+    size_t hashValue = hasher(key);
+    int x = hashValue % size;
+    return x;
 }
 
 /**
@@ -134,7 +137,7 @@ DSHashTable<Key, Value> &DSHashTable<Key, Value>::operator=(const DSHashTable &c
 }
 
 template<typename Key, typename Value>
-Value &DSHashTable<Key, Value>::operator[](const Key &keyToGet)
+Value &DSHashTable<Key, Value>::operator[](Key keyToGet)
 {
     int index = hashFunction(keyToGet);
 
@@ -208,7 +211,6 @@ std::pair<Key, Value>& DSHashTable<Key, Value>::get(const Key &keyToGet)
 template<typename Key, typename Value>
 bool DSHashTable<Key, Value>::find(const Key &keyToFind, const Value &valueToFind) {
     int index = hashFunction(keyToFind);
-    std::pair<Key, Value> toFind(keyToFind, valueToFind);
 
     typename std::list<std::pair<Key, Value>>::iterator it;
 
@@ -220,6 +222,22 @@ bool DSHashTable<Key, Value>::find(const Key &keyToFind, const Value &valueToFin
             {
                 return true;
             }
+        }
+    }
+    return false;
+}
+
+template<typename Key, typename Value>
+bool DSHashTable<Key, Value>::find(const Key &keyToFind) {
+    int index = hashFunction(keyToFind);
+
+    typename std::list<std::pair<Key, Value>>::iterator it;
+
+    for(it = table[index].begin(); it != table[index].end(); it++)
+    {
+        if(keyToFind == it->first)
+        {
+            return true;
         }
     }
     return false;
