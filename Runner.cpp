@@ -27,7 +27,7 @@ void runSearchEngine()
 
 void buildIndexes(DSHashTable<string, Title> &authorIndex, DSTree<Word> &wordIndex)
 {
-    string filePath, paperID, directory = "/Users/stimmins/Documents/cs2341_data";
+    string filePath, paperID, directory = "/Users/kevinleong/Documents/cs2341_data";
     DIR *directoryPath;
     struct dirent *dirp;
 
@@ -72,6 +72,15 @@ void buildIndexes(DSHashTable<string, Title> &authorIndex, DSTree<Word> &wordInd
                     {
                         authorIndex[author].addTitle(paperID);
                     }
+                }
+            }
+
+            if(doc["metadata"].HasMember("abstract"))
+            {
+                for(int i = 0; i < doc["metadata"]["abstract"].Size(); i++)
+                {
+                    string abstract = doc["metadata"]["abstract"][i].GetString();
+                    std::cout << abstract << std::endl;
                 }
             }
         }
