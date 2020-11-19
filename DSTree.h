@@ -10,6 +10,9 @@ template<typename T>
 class DSTree {
 private:
 
+    /**
+     * Tree Node for AVL Tree
+     */
     template<typename Type>
     struct TreeNode {
         T payload;
@@ -18,8 +21,11 @@ private:
         TreeNode* right;
 
         int height;
-
         bool active;
+
+        /**
+        * Constructors
+        */
 
         TreeNode(){
             this->payload = NULL;
@@ -41,6 +47,9 @@ private:
             this->active = true;
         }
 
+        /**
+        * Copy Constructor
+        */
         TreeNode(const TreeNode &copy){
             this->payload = copy.payload;
             this->left = copy.left;
@@ -49,11 +58,17 @@ private:
             this->active = copy.active;
         }
 
+        /**
+        *   Destructor
+        */
         ~TreeNode(){
             delete this->left;
             delete this->right;
         }
 
+        /**
+        *   Equals Operator
+        */
         TreeNode &operator= (const TreeNode *&copy)
         {
             this->payload = copy->payload;
@@ -63,11 +78,13 @@ private:
             this->active = copy->active;
         }
 
+        /**
+        * Returns Payload and Height
+        */
         T getPayload()
         {
             return this->payload;
         }
-
         int getHeight()
         {
             return this->height;
@@ -76,26 +93,22 @@ private:
 
     /*===================================================================================================*/
 
+    /**
+     *  Private Data members for AVL Tree
+     */
     TreeNode<T> *root;
     int depth;
     int numNode;
 
-    int getBalance(TreeNode<T>* node)
-    {
-        if(node->left && node->right != nullptr){
-            return node->left->height - node->right->height;
-        } else
-        {
-            return 0;
-        }
-    }
-
+    /**
+      * PRIVATE: Recursive insert function
+      */
     void insert(T value, TreeNode<T> *&newVal)
     {
         if(newVal == nullptr)
         {
             newVal = new TreeNode<T>(value, nullptr, nullptr);
-        } else if(newVal->active == false)
+        } else if(!newVal->active)
         {
             if(newVal->left != nullptr && newVal->right != nullptr){
                 newVal->payload = value;
@@ -145,17 +158,10 @@ private:
         newVal->height = max(height(newVal->left),height(newVal->right)) + 1;
     }
 
-    TreeNode<T>* minNode(TreeNode<T>* node)
-    {
-        TreeNode<T>* curr = node;
-        while(curr->left != nullptr)
-        {
-            curr = curr->left;
-        }
 
-        return curr;
-    }
-
+    /**
+    *   PRIVATE: Recursive remove function
+    */
     void remove(T value, TreeNode<T> *node)
     {
         if(value < node->payload)
@@ -169,13 +175,22 @@ private:
         } else;
     }
 
+    /**
+    *  Returns the height of the node
+    */
     int height(TreeNode<T> *t) const{
         return t == NULL ? -1 : t->height;
     }
+    /**
+    *   Returns the max between two heights
+    */
     int max (int left, int right) const{
         return left > right ? left : right;
     }
 
+    /**
+    *   PRIVATE: Recursive delete for deconstructor
+    */
     void del(TreeNode<T> *&deleteNode)
     {
         if(deleteNode->left != nullptr)
@@ -190,6 +205,9 @@ private:
         delete deleteNode;
     }
 
+    /**
+    *   The next 4 are the rotates for the insert function
+    */
     void rotateWithLeftChild(TreeNode<T> *&k2)
     {
         TreeNode<T> *k1 = k2->left;
@@ -204,7 +222,6 @@ private:
         rotateWithRightChild(k3->left);
         rotateWithLeftChild(k3);
     }
-
     void rotateWithRightChild(TreeNode<T> *&k1)
     {
         TreeNode<T> *k2 = k1->right;
@@ -221,24 +238,33 @@ private:
 
     }
 
+    /**
+    *   Goes through the tree and returns a node if found
+    *   If not found, it creates a new node and returns it
+    *   Also couts an error
+    */
     TreeNode<T>* find(T value, TreeNode<T> *node) const{
         TreeNode<T>* returnNode;
-        if(value < node->payload)
+        if(value < node->payload && node->active)
         {
-            if(node->left != nullptr){
+            if(node->left != nullptr)
+            {
                 returnNode = find(value, node->left);
             }
 
-        } else if(value > node->payload)
+        } else if(value > node->payload && node->active)
         {
-            if(node->right != nullptr){
+            if(node->right != nullptr)
+            {
                 returnNode = find(value, node->right);
             }
 
-        } else if(value == node->payload){
+        } else if(value == node->payload && node->active)
+        {
             returnNode = node;
         } else {
             returnNode = new TreeNode<T>(value);
+            std::cout << "Not found!" << std::endl;
         }
 
         return returnNode;
@@ -254,7 +280,10 @@ public:
 
     int getNumNodes();
 
-    TreeNode<T>* get(T value){
+    /**
+    *  This is the PUBLIC find that calls the private one
+    */
+    TreeNode<T>* find(T value){
         TreeNode<T> *toReturn = find(value, this->root);
 
         if(toReturn == nullptr){
@@ -266,6 +295,9 @@ public:
 
 };
 
+/**
+*   Constructor
+*/
 template<typename T>
 DSTree<T>::DSTree()
 {
@@ -273,6 +305,10 @@ DSTree<T>::DSTree()
     this->depth = 0;
     this->numNode = 0;
 }
+/**
+*   Destructor
+*   Uses the private del function
+*/
 template<typename T>
 DSTree<T>::~DSTree<T>()
 {
@@ -281,7 +317,9 @@ DSTree<T>::~DSTree<T>()
         del(this->root);
     } else;
 }
-
+/**
+*  PUBLIC insert calls the private one
+*/
 template<typename T>
 void DSTree<T>::insert(T value)
 {
@@ -294,6 +332,9 @@ void DSTree<T>::insert(T value)
     }
     this->numNode++;
 }
+/**
+*   PUBLIC remove that calls the private remove
+*/
 template<typename T>
 void DSTree<T>::remove(T value) {
     if(this->numNode != 0){
@@ -301,7 +342,9 @@ void DSTree<T>::remove(T value) {
         this->numNode--;
     } else;
 }
-
+/**
+*   Returns the total number of nodes inside of the AVL Tree
+*/
 template<typename T>
 int DSTree<T>::getNumNodes() {
     return this->numNode;
