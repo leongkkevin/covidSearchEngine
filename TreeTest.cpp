@@ -22,7 +22,10 @@ TEST_CASE("Insert"){
     //REQUIRE(intTree.get(5)->getHeight() == 1);
     intTree.get(2);
 
-    intTree.remove(7);
+    intTree.remove(4);
+    intTree.insert(3);
+    intTree.remove(20);
+    intTree.insert(21);
 
 
     DSTree<Word> wordTree;

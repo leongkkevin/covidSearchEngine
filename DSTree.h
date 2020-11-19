@@ -19,21 +19,26 @@ private:
 
         int height;
 
+        bool active;
+
         TreeNode(){
             this->payload = NULL;
             this->left = this->right = nullptr;
             this->height = NULL;
+            this->active = true;
         }
         TreeNode(T value){
             this->payload = value;
             this->left = nullptr;
             this->right = nullptr;
             this->height = 0;
+            this->active = true;
         }
         TreeNode(T value, TreeNode* left, TreeNode* right){
             this->payload = value;
             this->left = left;
             this->right = right;
+            this->active = true;
         }
 
         TreeNode(const TreeNode &copy){
@@ -41,6 +46,7 @@ private:
             this->left = copy.left;
             this->right = copy.right;
             this->height = copy.height;
+            this->active = copy.active;
         }
 
         ~TreeNode(){
@@ -54,6 +60,7 @@ private:
             this->left = copy->left;
             this->right = copy->right;
             this->height = copy->height;
+            this->active = copy->active;
         }
 
         T getPayload()
@@ -88,8 +95,24 @@ private:
         if(newVal == nullptr)
         {
             newVal = new TreeNode<T>(value, nullptr, nullptr);
-        } else if(value < newVal->payload)
+        } else if(newVal->active == false)
         {
+            if(newVal->left != nullptr && newVal->right != nullptr){
+                newVal->payload = value;
+                newVal->active = true;
+            } else {
+                if(newVal->left != nullptr && newVal->left->payload < value){
+                    newVal->payload = value;
+                    newVal->active = true;
+                } else if(newVal->right != nullptr && newVal->right->payload > value){
+                    newVal->payload = value;
+                    newVal->active = true;
+                }
+            }
+
+        }else if(value < newVal->payload)
+        {
+            //FOR THE ACTIVE
             insert(value, newVal->left);
 
             if(height(newVal->left) - height(newVal->right) == 2)
@@ -105,7 +128,7 @@ private:
             }
         } else if(value > newVal->payload)
         {
-            insert(value,  newVal->right);
+            insert(value, newVal->right);
 
             if(height(newVal->right) - height(newVal->left) == 2)
             {
@@ -133,96 +156,17 @@ private:
         return curr;
     }
 
-    TreeNode<T>* remove(T value, TreeNode<T> *node)
+    void remove(T value, TreeNode<T> *node)
     {
-        TreeNode<T>* temp;
-
-        if (node == NULL)
+        if(value < node->payload)
         {
-            return node;
-        } else if(value < node->payload)
-        {
-            node->left = remove(value, node->left);
+            remove(value, node->left);
         } else if(value > node->payload)
         {
-            node->right = remove (value, node->right);
-        } else if(value == node->payload)
-        {
-            // node with only one child or no child
-            if( (node->left == NULL) || (node->right == NULL) )
-            {
-                temp = node->left ? node->left :node->right;
-
-                // No child case
-                if (temp == NULL)
-                {
-                    temp = node;
-                    node = NULL;
-                }
-                else
-                {
-                    *node = *temp;
-                } // One child case
-
-                delete temp;
-            }
-            else
-            {
-                // node with two children: Get the inorder
-                // successor (smallest in the right subtree)
-                temp = minNode(node->right);
-
-                // Copy the inorder successor's
-                // data to this node
-                node->payload = temp->payload;
-                node->height = temp->height;
-
-                // Delete the inorder successor
-                node->right = remove(temp->payload, node->right);
-            }
-        }
-
-        // If the tree had only one node
-        // then return
-        if (node == NULL)
-            return node;
-
-        // STEP 2: UPDATE HEIGHT OF THE CURRENT NODE
-        node->height = 1 + max(height(node->left),height(node->right));
-
-        // STEP 3: GET THE BALANCE FACTOR OF
-        // THIS NODE (to check whether this
-        // node became unbalanced)
-        int balance = getBalance(node);
-
-        // If this node becomes unbalanced,
-        // then there are 4 cases
-
-        // Left Left Case
-        if (balance > 1 && getBalance(node->left) >= 0)
-            rotateWithRightChild(node);
-
-        // Left Right Case
-        if (balance > 1 && getBalance(node->left) < 0)
-        {
-            doubleWithRightChild(node);
-//            node->left = rotateWithLeftChild(node->left);
-//            return rotateWithRightChild(node);
-        }
-
-        // Right Right Case
-        if (balance < -1 && getBalance(node->right) <= 0)
-            rotateWithLeftChild(node);
-
-        // Right Left Case
-        if (balance < -1 && getBalance(node->right) > 0)
-        {
-            doubleWithLeftChild(node);
-//            node->right = rightRotate(node->right);
-//            return leftRotate(node);
-        }
-
-        return node;
+            remove (value, node->right);
+        } else if(value == node->payload) {
+            node->active = false;
+        } else;
     }
 
     int height(TreeNode<T> *t) const{
@@ -353,7 +297,7 @@ void DSTree<T>::insert(T value)
 template<typename T>
 void DSTree<T>::remove(T value) {
     if(this->numNode != 0){
-        this->root = remove(value, this->root);
+        remove(value, this->root);
         this->numNode--;
     } else;
 }
