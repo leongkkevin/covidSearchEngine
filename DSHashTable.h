@@ -136,6 +136,9 @@ DSHashTable<Key, Value> &DSHashTable<Key, Value>::operator=(const DSHashTable &c
     }
 }
 
+/**
+ * returns the value at the given key
+ */
 template<typename Key, typename Value>
 Value &DSHashTable<Key, Value>::operator[](Key keyToGet)
 {
@@ -157,6 +160,9 @@ Value &DSHashTable<Key, Value>::operator[](Key keyToGet)
     return newPair.second;
 }
 
+/**
+ * inserts the key value pair into the table
+ */
 template<typename Key, typename Value>
 void DSHashTable<Key, Value>::insert(const std::pair<Key, Value> pair)
 {
@@ -171,6 +177,9 @@ void DSHashTable<Key, Value>::insert(const std::pair<Key, Value> pair)
     }
 }
 
+/**
+ * inserts key value pair to table
+ */
 template<typename Key, typename Value>
 void DSHashTable<Key, Value>::insert(const Key &key, const Value value)
 {
@@ -178,6 +187,9 @@ void DSHashTable<Key, Value>::insert(const Key &key, const Value value)
     this->insert(insert);
 }
 
+/**
+ * removes key value pair from the table
+ */
 template<typename Key, typename Value>
 void DSHashTable<Key, Value>::remove(const std::pair<Key, Value> pair)
 {
@@ -187,6 +199,9 @@ void DSHashTable<Key, Value>::remove(const std::pair<Key, Value> pair)
     count--;
 }
 
+/**
+ * returns the key value pair object from the table
+ */
 template<typename Key, typename Value>
 std::pair<Key, Value>& DSHashTable<Key, Value>::get(const Key &keyToGet)
 {
@@ -208,6 +223,9 @@ std::pair<Key, Value>& DSHashTable<Key, Value>::get(const Key &keyToGet)
     return newPair;
 }
 
+/**
+ * returns a bool for if the key value pair exists
+ */
 template<typename Key, typename Value>
 bool DSHashTable<Key, Value>::find(const Key &keyToFind, const Value &valueToFind) {
     int index = hashFunction(keyToFind);
@@ -226,7 +244,9 @@ bool DSHashTable<Key, Value>::find(const Key &keyToFind, const Value &valueToFin
     }
     return false;
 }
-
+/**
+ * returns a bool for if the key exists
+ */
 template<typename Key, typename Value>
 bool DSHashTable<Key, Value>::find(const Key &keyToFind) {
     int index = hashFunction(keyToFind);
@@ -243,17 +263,27 @@ bool DSHashTable<Key, Value>::find(const Key &keyToFind) {
     return false;
 }
 
+/**
+ * returns table size
+ */
 template<typename Key, typename Value>
 int DSHashTable<Key, Value>::getSize()
 {
     return size;
 }
 
+/**
+ * returns number of items in the table
+ */
 template<typename Key, typename Value>
-int DSHashTable<Key, Value>::getCount() {
+int DSHashTable<Key, Value>::getCount()
+{
     return count;
 }
 
+/**
+ * returns the hash value of the given key
+ */
 template<typename Key, typename Value>
 int DSHashTable<Key, Value>::getHash(const Key &keyToGet)
 {

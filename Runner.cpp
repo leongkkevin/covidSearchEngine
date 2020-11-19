@@ -50,24 +50,15 @@ void buildIndexes(DSHashTable<string, Title> &authorIndex, DSTree<Word> &wordInd
                 for(int i = 0; i < doc["metadata"]["authors"].Size(); i++)
                 {
                     string author;
-                    author = author + doc["metadata"]["authors"][i]["first"].GetString() + " ";
-
-                    if(doc["metadata"]["authors"][i]["middle"].Size() > 0)
-                    {
-                        for(int j = 0; j < doc["metadata"]["authors"][i]["middle"].Size(); j++)
-                        {
-                            author = author + doc["metadata"]["authors"][i]["middle"][j].GetString() + ". ";
-                        }
-                    }
 
                     author = author + doc["metadata"]["authors"][i]["last"].GetString();
-                    author = author + doc["metadata"]["authors"][i]["suffix"].GetString();
 
                     if(!authorIndex.find(author))
                     {
                         Title title;
                         title.addTitle(paperID);
                         pair<string , Title> pair(author, title);
+                        authorIndex.insert(pair);
                     }
                     else
                     {
@@ -91,4 +82,9 @@ string getFile(string &filePath)
     }
     file.close();
     return json;
+}
+
+void printAuthorIndex(DSHashTable<string, Title> &authorIndex)
+{
+
 }

@@ -7,6 +7,7 @@
 
 #include <vector>
 #include <string>
+#include <iostream>
 
 class Title
 {
@@ -18,9 +19,11 @@ public:
     ~Title() = default;
     Title(const Title &title);
     Title& operator=(const Title &title);
+    friend std::ostream& operator<<(std::ostream&, const Title& title);
     std::string getTitleAt(int index);
     std::vector<std::string>& getTitles();
     void addTitle(std::string title);
+    void printTitles();
 };
 
 #endif //SEARCH_ENGINE_TITLE_H

@@ -18,5 +18,6 @@
 void runSearchEngine();
 void buildIndexes(DSHashTable<std::string, Title> &authorIndex, DSTree<Word> &wordIndex);
 std::string getFile(std::string &filePath);
+void printAuthorIndex(DSHashTable<std::string, Title> &authorIndex);
 
 #endif //SEARCH_ENGINE_RUNNER_H

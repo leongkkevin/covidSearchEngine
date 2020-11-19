@@ -29,3 +29,19 @@ void Title::addTitle(std::string title)
 {
     titles.push_back(title);
 }
+
+void Title::printTitles()
+{
+    for(int i = 0; i < titles.size(); i++)
+    {
+        std::cout << titles[i] << std::endl;
+    }
+}
+
+std::ostream &operator<<(std::ostream &, const Title &title) {
+    for(int i = 0; i < title.titles.size(); i++)
+    {
+        std::cout << title.titles[i] << std::endl;
+    }
+
+}
