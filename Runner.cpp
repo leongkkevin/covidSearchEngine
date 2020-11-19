@@ -7,6 +7,10 @@
 using namespace std;
 using namespace rapidjson;
 
+/**
+ * main function to run the search engine
+ */
+
 void runSearchEngine()
 {
     DSHashTable<string, Title> authorIndex;
@@ -14,6 +18,12 @@ void runSearchEngine()
 
     buildIndexes(authorIndex, wordIndex);
 }
+
+/**
+ * loops through the document directory
+ * parses each JSON file as it loops
+ * populates both author and word indexes
+ */
 
 void buildIndexes(DSHashTable<string, Title> &authorIndex, DSTree<Word> &wordIndex)
 {
@@ -32,35 +42,33 @@ void buildIndexes(DSHashTable<string, Title> &authorIndex, DSTree<Word> &wordInd
     dirp = readdir(directoryPath);
     dirp = readdir(directoryPath);
 
-    while((dirp = readdir(directoryPath)))
+    while((dirp = readdir(directoryPath))) //loops through the directory of files
     {
         filePath = directory + "/" + dirp->d_name;
 
         Document doc;
-        doc.Parse(getFile(filePath).c_str());
+        doc.Parse(getFile(filePath).c_str()); //parses json file into tree
 
-        if(doc.IsObject())
+        if(doc.IsObject()) //checks that the document begins with an object
         {
-            if(doc.HasMember("paper_id"))
+            if(doc.HasMember("paper_id")) //checks that the file has an ID
             {
                 paperID = doc["paper_id"].GetString();
             }
-            if(doc["metadata"].HasMember("authors"))
+            if(doc["metadata"].HasMember("authors")) //checks that the file has metadata member
             {
-                for(int i = 0; i < doc["metadata"]["authors"].Size(); i++)
+                for(int i = 0; i < doc["metadata"]["authors"].Size(); i++) //loops through the authors json array
                 {
-                    string author;
+                    string author = doc["metadata"]["authors"][i]["last"].GetString(); //sets author name to last name from json
 
-                    author = author + doc["metadata"]["authors"][i]["last"].GetString();
-
-                    if(!authorIndex.find(author))
+                    if(!authorIndex.find(author)) //if the author is not already in the table, adds author to table and adds id to title vector
                     {
                         Title title;
                         title.addTitle(paperID);
                         pair<string , Title> pair(author, title);
                         authorIndex.insert(pair);
                     }
-                    else
+                    else //if the author is already in the table then add the paper ID to the ID vector
                     {
                         authorIndex[author].addTitle(paperID);
                     }
@@ -69,6 +77,10 @@ void buildIndexes(DSHashTable<string, Title> &authorIndex, DSTree<Word> &wordInd
         }
     }
 }
+
+/**
+ * gets and returns the file path for each file in the directory
+ */
 
 string getFile(string &filePath)
 {
@@ -82,9 +94,4 @@ string getFile(string &filePath)
     }
     file.close();
     return json;
-}
-
-void printAuthorIndex(DSHashTable<string, Title> &authorIndex)
-{
-
 }
