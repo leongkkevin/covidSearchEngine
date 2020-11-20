@@ -4,9 +4,13 @@
 
 #include "Index.h"
 
+void removeTrainingPunct();
+
 using namespace std;
 using namespace rapidjson;
-
+/**
+ * Creates the filler words set
+ */
 void makeFillerSet(set<string> &fillerSet)
 {
     string fillerWord;
@@ -15,6 +19,19 @@ void makeFillerSet(set<string> &fillerSet)
 
     while(getline(fin, fillerWord)){
         fillerSet.insert(fillerWord);
+    }
+}
+
+/**
+ * Removes the trailing Punctuation
+ */
+void removeTrainingPunct(string& word) {
+    for(int i = word.length() - 1; i > 0; i--){
+        if(ispunct(word[i])){
+            word.erase(i, 1);
+        } else {
+            break;
+        }
     }
 }
 
@@ -94,6 +111,9 @@ void buildIndexes(DSHashTable<string, Title> &authorIndex, DSTree<Word> &wordInd
                     string singleWord;
                     while(getline(ss, singleWord, ' ')){
                         if((fillerSet.count(singleWord) == 0)){
+                            
+                            removeTrainingPunct(singleWord);
+
                             Porter2Stemmer::stem(singleWord); //stemmer from: https://bitbucket.org/smassung/porter2_stemmer/src/master/
 
                             if(wordIndex.find(singleWord)){
