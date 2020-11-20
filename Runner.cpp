@@ -29,6 +29,10 @@ void runSearchEngine(string &wordToFind, string &directoryPath)
 
     for(int i = 0; i < foundTitles.size(); i++)
     {
-        cout << foundTitles[i] << endl;
+        string pathForTitle = directoryPath + "/" + foundTitles[i] + ".json";
+        rapidjson::Document doc;
+        doc.Parse(getFile(pathForTitle).c_str());
+
+        cout << doc["metadata"]["title"].GetString() << endl;
     }
 }
