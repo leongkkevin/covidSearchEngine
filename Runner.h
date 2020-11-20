@@ -5,23 +5,15 @@
 #ifndef SEARCH_ENGINE_RUNNER_H
 #define SEARCH_ENGINE_RUNNER_H
 
-#include <string>
-#include <iostream>
-#include <fstream>
-#include <dirent.h>
-#include <sstream>
-#include <set>
-
-#include "porter2_stemmer.h"
-#include "rapidjson/document.h"
 #include "DSHashTable.h"
 #include "DSTree.h"
 #include "Word.h"
 #include "Title.h"
+#include "Index.h"
+#include "IndexHandler.h"
 
 void runSearchEngine();
-void makeFillerSet(set<string> &fillerSet);
-void buildIndexes(DSHashTable<std::string, Title> &authorIndex, DSTree<Word> &wordIndex);
-std::string getFile(std::string &filePath);
+void runSearchEngine(std::string& wordToFind, std::string& directoryPath);
+
 
 #endif //SEARCH_ENGINE_RUNNER_H

@@ -15,7 +15,13 @@ int runCatchTests(int argc, char* const argv[])
 int main(int argc, char** argv)
 {
     auto start = std::chrono::high_resolution_clock::now();
-    if(argc == 1)
+    if(argc == 3)
+    {
+        string search = argv[1];
+        string path = argv[2];
+        runSearchEngine(search, path);
+    }
+    else if(argc == 1)
     {
         runSearchEngine();
     }
