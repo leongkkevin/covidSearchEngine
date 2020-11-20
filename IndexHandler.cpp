@@ -8,22 +8,21 @@ void wordSearch(DSTree<Word>& wordIndex, std::string& search, std::vector<std::s
 {
     Porter2Stemmer::stem(search);
     Word found, word(search);
-    map<string, int> titlesMap;
-
-    found = wordIndex.get(word);
 
     if(wordIndex.find(word))
     {
         found = wordIndex.get(word);
-        titlesMap = found.getTitleList();
 
         map<string, int>::iterator it;
-
-        for ( it = titlesMap.begin(); it != titlesMap.end(); it++ )
+        int x = 0;
+        for ( it = found.getTitleList().begin(); it != found.getTitleList().end(); it++)
         {
              //foundTitles.push_back(it->first);
              cout << it->first << endl;
+             x++;
         }
+        cout << x << " files" << endl;
+        cout << found.getTitleList().size() << " map size" << endl;
     }
     else
     {
