@@ -111,7 +111,36 @@ void buildIndexes(DSHashTable<string, Title> &authorIndex, DSTree<Word> &wordInd
                     string singleWord;
                     while(getline(ss, singleWord, ' ')){
                         if((fillerSet.count(singleWord) == 0)){
-                            
+
+                            removeTrainingPunct(singleWord);
+
+                            Porter2Stemmer::stem(singleWord); //stemmer from: https://bitbucket.org/smassung/porter2_stemmer/src/master/
+
+                            if(wordIndex.find(singleWord)){
+                                wordIndex.get(singleWord).getTitleList()[paperID]++;
+                            } else {
+                                wordIndex.insert(singleWord);
+                                wordIndex.get(singleWord).addPaperID(paperID);
+                            }
+                        }
+                    }
+                }
+            }
+            /**
+             * Adding words from body text
+             */
+            if(doc.HasMember("body_text"))
+            {
+                stringstream ss;
+                for(int i = 0; i < doc["body_text"].Size(); i++)
+                {
+                    string body = doc["body_text"][i]["text"].GetString();
+                    ss << body;
+
+                    string singleWord;
+                    while(getline(ss, singleWord, ' ')){
+                        if((fillerSet.count(singleWord) == 0)){
+
                             removeTrainingPunct(singleWord);
 
                             Porter2Stemmer::stem(singleWord); //stemmer from: https://bitbucket.org/smassung/porter2_stemmer/src/master/
