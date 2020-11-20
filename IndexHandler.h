@@ -10,7 +10,8 @@
 #include <map>
 #include "DSTree.h"
 #include "Word.h"
+#include "porter2_stemmer.h"
 
-std::vector<std::string> wordSearch(DSTree<Word>& wordIndex, std::string search);
+void wordSearch(DSTree<Word>& wordIndex, std::string& search, std::vector<std::string>& foundTitles);
 
 #endif //SEARCH_ENGINE_INDEXHANDLER_H

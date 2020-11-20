@@ -4,11 +4,13 @@
 
 #include "IndexHandler.h"
 
-std::vector<std::string> wordSearch(DSTree<Word>& wordIndex, std::string search)
+void wordSearch(DSTree<Word>& wordIndex, std::string& search, std::vector<std::string>& foundTitles)
 {
+    Porter2Stemmer::stem(search);
     Word found, word(search);
     map<string, int> titlesMap;
-    vector<string> titles;
+
+    found = wordIndex.get(word);
 
     if(wordIndex.find(word))
     {
@@ -19,13 +21,12 @@ std::vector<std::string> wordSearch(DSTree<Word>& wordIndex, std::string search)
 
         for ( it = titlesMap.begin(); it != titlesMap.end(); it++ )
         {
-             titles.push_back(it->first);
+             //foundTitles.push_back(it->first);
+             cout << it->first << endl;
         }
     }
     else
     {
         cout << "No titles found for this word" << endl;
     }
-
-    return titles;
 }
