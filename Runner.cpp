@@ -16,6 +16,7 @@ void runSearchEngine()
     DSTree<Word> wordIndex;
     string path = "/Users/stimmins/Documents/cs2341_data";
     buildIndexes(authorIndex, wordIndex, path);
+
 }
 
 void runSearchEngine(string &wordToFind, string &directoryPath)
@@ -26,13 +27,4 @@ void runSearchEngine(string &wordToFind, string &directoryPath)
 
     buildIndexes(authorIndex, wordIndex, directoryPath);
     wordSearch(wordIndex, wordToFind, foundTitles);
-
-//    for(int i = 0; i < foundTitles.size(); i++)
-//    {
-//        string pathForTitle = directoryPath + "/" + foundTitles[i] + ".json";
-//        rapidjson::Document doc;
-//        doc.Parse(getFile(pathForTitle).c_str());
-//
-//        cout << doc["metadata"]["title"].GetString() << endl;
-//    }
 }

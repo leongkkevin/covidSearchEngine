@@ -8,6 +8,7 @@
 #include <vector>
 #include <string>
 #include <map>
+#include "Index.h"
 #include "DSTree.h"
 #include "Word.h"
 #include "porter2_stemmer.h"

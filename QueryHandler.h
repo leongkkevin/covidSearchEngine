@@ -1,0 +1,10 @@
+//
+// Created by Sammy Timmins on 11/22/20.
+//
+
+#ifndef SEARCH_ENGINE_QUERYHANDLER_H
+#define SEARCH_ENGINE_QUERYHANDLER_H
+
+
+
+#endif //SEARCH_ENGINE_QUERYHANDLER_H

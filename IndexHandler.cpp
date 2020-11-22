@@ -7,6 +7,7 @@
 void wordSearch(DSTree<Word>& wordIndex, std::string& search, std::vector<std::string>& foundTitles)
 {
     Porter2Stemmer::stem(search);
+    toLower(search);
     Word found, word(search);
 
     if(wordIndex.find(word))
@@ -22,7 +23,6 @@ void wordSearch(DSTree<Word>& wordIndex, std::string& search, std::vector<std::s
              x++;
         }
         cout << x << " files" << endl;
-        cout << found.getTitleList().size() << " map size" << endl;
     }
     else
     {

@@ -25,14 +25,23 @@ void makeFillerSet(set<string> &fillerSet)
 /**
  * Removes the trailing Punctuation
  */
-void removeTrainingPunct(string& word) {
-    for(int i = word.length() - 1; i > 0; i--){
-        if(ispunct(word[i]) || word[i] == ' '){
+void removeTrailingPunct(string& word) {
+    for(int i = word.length() - 1; i > 0; i--)
+    {
+        if(ispunct(word[i]) || word[i] == ' ')
+        {
             word.erase(i, 1);
-        } else {
+        }
+        else
+        {
             break;
         }
     }
+}
+
+void toLower(string& word)
+{
+    transform(word.begin(), word.end(), word.begin(), ::tolower);
 }
 
 /**
@@ -98,6 +107,40 @@ void buildIndexes(DSHashTable<string, Title> &authorIndex, DSTree<Word> &wordInd
             makeFillerSet(fillerSet);
 
             /**
+             * adding words from title
+             */
+            if(doc["metadata"].HasMember("title"))
+            {
+                stringstream ss;
+
+                string title = doc["metadata"]["title"].GetString();
+                ss << title;
+                string singleWord;
+                while(getline(ss, singleWord, ' '))
+                {
+                    if((fillerSet.count(singleWord) == 0))
+                    {
+                        removeTrailingPunct(singleWord);
+
+                        Porter2Stemmer::stem(singleWord); //stemmer from: https://bitbucket.org/smassung/porter2_stemmer/src/master/
+
+                        toLower(singleWord);
+
+                        if(wordIndex.find(singleWord))
+                        {
+                            wordIndex.get(singleWord).getTitleList()[paperID]++;
+                        }
+                        else
+                        {
+                            wordIndex.insert(singleWord);
+                            wordIndex.get(singleWord).addPaperID(paperID);
+                            wordIndex.get(singleWord).getTitleList()[paperID]++;
+                        }
+                    }
+                }
+            }
+
+            /**
              * Adding words from abstract
              */
             if(doc.HasMember("abstract"))
@@ -110,15 +153,20 @@ void buildIndexes(DSHashTable<string, Title> &authorIndex, DSTree<Word> &wordInd
 
                     string singleWord;
                     while(getline(ss, singleWord, ' ')){
-                        if((fillerSet.count(singleWord) == 0)){
-
-                            removeTrainingPunct(singleWord);
+                        if((fillerSet.count(singleWord) == 0))
+                        {
+                            removeTrailingPunct(singleWord);
 
                             Porter2Stemmer::stem(singleWord); //stemmer from: https://bitbucket.org/smassung/porter2_stemmer/src/master/
 
-                            if(wordIndex.find(singleWord)){
+                            toLower(singleWord);
+
+                            if(wordIndex.find(singleWord))
+                            {
                                 wordIndex.get(singleWord).getTitleList()[paperID]++;
-                            } else {
+                            }
+                            else
+                            {
                                 wordIndex.insert(singleWord);
                                 wordIndex.get(singleWord).addPaperID(paperID);
                                 wordIndex.get(singleWord).getTitleList()[paperID]++;
@@ -141,9 +189,11 @@ void buildIndexes(DSHashTable<string, Title> &authorIndex, DSTree<Word> &wordInd
                     string singleWord;
                     while(getline(ss, singleWord, ' ')){
                         if((fillerSet.count(singleWord) == 0)){
-                            removeTrainingPunct(singleWord);
+                            removeTrailingPunct(singleWord);
 
                             Porter2Stemmer::stem(singleWord); //stemmer from: https://bitbucket.org/smassung/porter2_stemmer/src/master/
+
+                            toLower(singleWord);
 
                             if(wordIndex.find(singleWord)){
                                 wordIndex.get(singleWord).getTitleList()[paperID]++;
