@@ -27,7 +27,7 @@ void makeFillerSet(set<string> &fillerSet)
  */
 void removeTrainingPunct(string& word) {
     for(int i = word.length() - 1; i > 0; i--){
-        if(ispunct(word[i])){
+        if(ispunct(word[i]) || word[i] == ' '){
             word.erase(i, 1);
         } else {
             break;
@@ -121,6 +121,7 @@ void buildIndexes(DSHashTable<string, Title> &authorIndex, DSTree<Word> &wordInd
                             } else {
                                 wordIndex.insert(singleWord);
                                 wordIndex.get(singleWord).addPaperID(paperID);
+                                wordIndex.get(singleWord).getTitleList()[paperID]++;
                             }
                         }
                     }
@@ -140,7 +141,6 @@ void buildIndexes(DSHashTable<string, Title> &authorIndex, DSTree<Word> &wordInd
                     string singleWord;
                     while(getline(ss, singleWord, ' ')){
                         if((fillerSet.count(singleWord) == 0)){
-
                             removeTrainingPunct(singleWord);
 
                             Porter2Stemmer::stem(singleWord); //stemmer from: https://bitbucket.org/smassung/porter2_stemmer/src/master/
@@ -150,6 +150,7 @@ void buildIndexes(DSHashTable<string, Title> &authorIndex, DSTree<Word> &wordInd
                             } else {
                                 wordIndex.insert(singleWord);
                                 wordIndex.get(singleWord).addPaperID(paperID);
+                                wordIndex.get(singleWord).getTitleList()[paperID]++;
                             }
                         }
                     }
@@ -162,7 +163,6 @@ void buildIndexes(DSHashTable<string, Title> &authorIndex, DSTree<Word> &wordInd
 /**
  * gets and returns the file path for each file in the directory
  */
-
 string getFile(string &filePath)
 {
     ifstream file;

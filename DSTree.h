@@ -161,7 +161,10 @@ private:
     */
     void remove(T value, TreeNode<T> *node)
     {
-        if(value < node->payload)
+        if(node == NULL)
+        {
+            return;
+        } else if(value < node->payload)
         {
             remove(value, node->left);
         } else if(value > node->payload)
@@ -169,6 +172,7 @@ private:
             remove (value, node->right);
         } else if(value == node->payload) {
             node->active = false;
+            this->numNode--;
         } else;
     }
 
@@ -330,7 +334,6 @@ template<typename T>
 void DSTree<T>::remove(T value) {
     if(this->numNode != 0){
         remove(value, this->root);
-        this->numNode--;
     } else;
 }
 /**
