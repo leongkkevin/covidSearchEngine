@@ -4,7 +4,7 @@
 
 #include "IndexHandler.h"
 
-void wordSearch(DSTree<Word>& wordIndex, std::string& search, std::vector<std::string>& foundTitles)
+void wordSearch(DSTree<Word>& wordIndex, string& search, DSTree<string>& foundTitles)
 {
     Porter2Stemmer::stem(search);
     toLower(search);
@@ -18,7 +18,7 @@ void wordSearch(DSTree<Word>& wordIndex, std::string& search, std::vector<std::s
         int x = 0;
         for ( it = found.getTitleList().begin(); it != found.getTitleList().end(); it++)
         {
-             //foundTitles.push_back(it->first);
+             //change this to insert into avl tree after demo
              cout << it->first << endl;
              x++;
         }
@@ -27,5 +27,24 @@ void wordSearch(DSTree<Word>& wordIndex, std::string& search, std::vector<std::s
     else
     {
         cout << "No titles found for this word" << endl;
+    }
+}
+
+void authorSearch(DSHashTable<string, Title>& authorIndex, string& search, DSTree<string>& foundTitles)
+{
+    toLower(search);
+    Title found;
+
+    if(authorIndex.find(search))
+    {
+        found = authorIndex.get(search);
+        for(int i = 0; i < found.getTitles().size(); i++)
+        {
+            foundTitles.insert(found.getTitleAt(i));
+        }
+    }
+    else
+    {
+        cout << "No titles found for this author" << endl;
     }
 }

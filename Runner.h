@@ -11,6 +11,7 @@
 #include "Title.h"
 #include "Index.h"
 #include "IndexHandler.h"
+#include "QueryHandler.h"
 
 void runSearchEngine();
 void runSearchEngine(std::string& wordToFind, std::string& directoryPath);

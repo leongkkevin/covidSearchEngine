@@ -14,16 +14,17 @@ void runSearchEngine()
 {
     DSHashTable<string, Title> authorIndex;
     DSTree<Word> wordIndex;
+    DSTree<string> searchResults;
     string path = "/Users/stimmins/Documents/cs2341_data";
-    buildIndexes(authorIndex, wordIndex, path);
-
+    int numArticles = buildIndexes(authorIndex, wordIndex, path);
+    query(wordIndex, authorIndex, searchResults, numArticles);
 }
 
 void runSearchEngine(string &wordToFind, string &directoryPath)
 {
     DSHashTable<string, Title> authorIndex;
     DSTree<Word> wordIndex;
-    vector<string> foundTitles;
+    DSTree<string> foundTitles;
 
     buildIndexes(authorIndex, wordIndex, directoryPath);
     wordSearch(wordIndex, wordToFind, foundTitles);

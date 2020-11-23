@@ -51,67 +51,67 @@ TEST_CASE("DSHashTable Tests with primitive data types")
     integers.insert(20, 25);
     SECTION("insert() and get() with primitives")
     {
-        REQUIRE((integers.get(1).second == 1));
-        REQUIRE((integers.get(2).second == 2));
-        REQUIRE((integers.get(3).second == 3));
-        REQUIRE((integers.get(4).second == 4));
-        REQUIRE((integers.get(5).second == 5));
-        REQUIRE((integers.get(6).second == 6));
-        REQUIRE((integers.get(7).second == 7));
-        REQUIRE((integers.get(8).second == 8));
-        REQUIRE((integers.get(9).second == 9));
-        REQUIRE((integers.get(10).second == 10));
-        REQUIRE((integers.get(100001).second == 11));
-        REQUIRE((integers.get(100002).second == 12));
-        REQUIRE((integers.get(100003).second == 13));
-        REQUIRE((integers.get(100004).second == 14));
-        REQUIRE((integers.get(100005).second == 15));
-        REQUIRE((integers.get(100006).second == 16));
-        REQUIRE((integers.get(100007).second == 17));
-        REQUIRE((integers.get(100008).second == 18));
-        REQUIRE((integers.get(100009).second == 19));
-        REQUIRE((integers.get(100010).second == 20));
-        REQUIRE((integers.get(20).second == 25));
+        REQUIRE((integers.get(1) == 1));
+        REQUIRE((integers.get(2) == 2));
+        REQUIRE((integers.get(3) == 3));
+        REQUIRE((integers.get(4) == 4));
+        REQUIRE((integers.get(5) == 5));
+        REQUIRE((integers.get(6) == 6));
+        REQUIRE((integers.get(7) == 7));
+        REQUIRE((integers.get(8) == 8));
+        REQUIRE((integers.get(9) == 9));
+        REQUIRE((integers.get(10) == 10));
+        REQUIRE((integers.get(100001) == 11));
+        REQUIRE((integers.get(100002) == 12));
+        REQUIRE((integers.get(100003) == 13));
+        REQUIRE((integers.get(100004) == 14));
+        REQUIRE((integers.get(100005) == 15));
+        REQUIRE((integers.get(100006) == 16));
+        REQUIRE((integers.get(100007) == 17));
+        REQUIRE((integers.get(100008) == 18));
+        REQUIRE((integers.get(100009) == 19));
+        REQUIRE((integers.get(100010) == 20));
+        REQUIRE((integers.get(20) == 25));
 
-        REQUIRE((intAndChar.get(1).second == 'a'));
-        REQUIRE((intAndChar.get(2).second == 'b'));
-        REQUIRE((intAndChar.get(3).second == 'c'));
-        REQUIRE((intAndChar.get(4).second == 'd'));
-        REQUIRE((intAndChar.get(5).second == 'e'));
-        REQUIRE((intAndChar.get(6).second == 'f'));
-        REQUIRE((intAndChar.get(7).second == 'g'));
-        REQUIRE((intAndChar.get(8).second == 'h'));
-        REQUIRE((intAndChar.get(9).second == 'i'));
-        REQUIRE((intAndChar.get(10).second == 'j'));
-        REQUIRE((intAndChar.get(100001).second == 'k'));
-        REQUIRE((intAndChar.get(100002).second == 'l'));
-        REQUIRE((intAndChar.get(100003).second == 'm'));
-        REQUIRE((intAndChar.get(100004).second == 'n'));
-        REQUIRE((intAndChar.get(100005).second == 'o'));
-        REQUIRE((intAndChar.get(100006).second == 'p'));
-        REQUIRE((intAndChar.get(100007).second == 'q'));
-        REQUIRE((intAndChar.get(100008).second == 'r'));
-        REQUIRE((intAndChar.get(100009).second == 's'));
-        REQUIRE((intAndChar.get(100010).second == 't'));
+        REQUIRE((intAndChar.get(1) == 'a'));
+        REQUIRE((intAndChar.get(2) == 'b'));
+        REQUIRE((intAndChar.get(3) == 'c'));
+        REQUIRE((intAndChar.get(4) == 'd'));
+        REQUIRE((intAndChar.get(5) == 'e'));
+        REQUIRE((intAndChar.get(6) == 'f'));
+        REQUIRE((intAndChar.get(7) == 'g'));
+        REQUIRE((intAndChar.get(8) == 'h'));
+        REQUIRE((intAndChar.get(9) == 'i'));
+        REQUIRE((intAndChar.get(10) == 'j'));
+        REQUIRE((intAndChar.get(100001) == 'k'));
+        REQUIRE((intAndChar.get(100002) == 'l'));
+        REQUIRE((intAndChar.get(100003) == 'm'));
+        REQUIRE((intAndChar.get(100004) == 'n'));
+        REQUIRE((intAndChar.get(100005) == 'o'));
+        REQUIRE((intAndChar.get(100006) == 'p'));
+        REQUIRE((intAndChar.get(100007) == 'q'));
+        REQUIRE((intAndChar.get(100008) == 'r'));
+        REQUIRE((intAndChar.get(100009) == 's'));
+        REQUIRE((intAndChar.get(100010) == 't'));
 
-        REQUIRE((charAndInt.get('a').second == 1));
-        REQUIRE((charAndInt.get('b').second == 2));
-        REQUIRE((charAndInt.get('c').second == 3));
-        REQUIRE((charAndInt.get('d').second == 4));
-        REQUIRE((charAndInt.get('e').second == 5));
-        REQUIRE((charAndInt.get('f').second == 6));
-        REQUIRE((charAndInt.get('g').second == 7));
-        REQUIRE((charAndInt.get('h').second == 8));
-        REQUIRE((charAndInt.get('i').second == 9));
-        REQUIRE((charAndInt.get('j').second == 10));
+        REQUIRE((charAndInt.get('a') == 1));
+        REQUIRE((charAndInt.get('b') == 2));
+        REQUIRE((charAndInt.get('c') == 3));
+        REQUIRE((charAndInt.get('d') == 4));
+        REQUIRE((charAndInt.get('e') == 5));
+        REQUIRE((charAndInt.get('f') == 6));
+        REQUIRE((charAndInt.get('g') == 7));
+        REQUIRE((charAndInt.get('h') == 8));
+        REQUIRE((charAndInt.get('i') == 9));
+        REQUIRE((charAndInt.get('j') == 10));
 
-        integers.get(1).second = 2;
-        intAndChar.get(1).second = 'b';
-        charAndInt.get('a').second = 2;
+        integers.get(1) = 2;
+        intAndChar.get(1) = 'b';
+        charAndInt.get('a') = 2;
 
-        REQUIRE((integers.get(1).second == 2));
-        REQUIRE((intAndChar.get(1).second == 'b'));
-        REQUIRE((charAndInt.get('a').second == 2));
+        REQUIRE((integers.get(1) == 2));
+        REQUIRE((intAndChar.get(1) == 'b'));
+        REQUIRE((charAndInt.get('a') == 2));
     }
 
     SECTION("Overloaded [] operator")
@@ -294,11 +294,11 @@ TEST_CASE("DSHashTable with objects")
 
     SECTION("insert() and get() with objects")
     {
-        REQUIRE((strings.get("hello").second == "there"));
-        REQUIRE((strings.get("hey").second == "there"));
-        REQUIRE((strings.get("please").second == "work"));
-        REQUIRE((strings.get("what is").second == "up"));
-        REQUIRE((strings.get("").second == ""));
+        REQUIRE((strings.get("hello") == "there"));
+        REQUIRE((strings.get("hey") == "there"));
+        REQUIRE((strings.get("please") == "work"));
+        REQUIRE((strings.get("what is") == "up"));
+        REQUIRE((strings.get("") == ""));
     }
 
     SECTION("Overloaded [] operator with objects")

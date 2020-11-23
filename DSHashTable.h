@@ -12,7 +12,7 @@ template <typename Key, typename Value>
 class DSHashTable
 {
 private:
-    int size = 100000;
+    int size = 50000;
     int count = 0;
     std::list<std::pair<Key, Value>> *table = nullptr;
 
@@ -28,7 +28,7 @@ public:
     void insert(const std::pair<Key, Value> pair);
     void insert(const Key &key, const Value value);
     void remove(const std::pair<Key, Value> pair);
-    std::pair<Key, Value>& get(const Key &keyToGet);
+    Value& get(const Key &keyToGet);
     bool find(const Key &keyToFind, const Value &valueToFind);
     bool find (const Key &keyToFind);
     int getSize();
@@ -81,7 +81,7 @@ void DSHashTable<Key, Value>::resize()
 
 /**
  * default constructor
- * initializes hash table size to 100,000
+ * initializes hash table size to 50,000
  */
 template <typename Key, typename Value>
 DSHashTable<Key, Value>::DSHashTable()
@@ -203,7 +203,7 @@ void DSHashTable<Key, Value>::remove(const std::pair<Key, Value> pair)
  * returns the key value pair object from the table
  */
 template<typename Key, typename Value>
-std::pair<Key, Value>& DSHashTable<Key, Value>::get(const Key &keyToGet)
+Value& DSHashTable<Key, Value>::get(const Key &keyToGet)
 {
     int index = hashFunction(keyToGet);
     typename std::list<std::pair<Key, Value>>::iterator it;
@@ -212,7 +212,7 @@ std::pair<Key, Value>& DSHashTable<Key, Value>::get(const Key &keyToGet)
     {
         if(keyToGet == it->first)
         {
-            return *it;
+            return it->second;
         }
     }
 
@@ -220,7 +220,7 @@ std::pair<Key, Value>& DSHashTable<Key, Value>::get(const Key &keyToGet)
     newPair.first = keyToGet;
 
     this->insert(newPair);
-    return newPair;
+    return newPair.second;
 }
 
 /**

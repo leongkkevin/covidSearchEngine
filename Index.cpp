@@ -50,7 +50,7 @@ void toLower(string& word)
  * populates both author and word indexes
  */
 
-void buildIndexes(DSHashTable<string, Title> &authorIndex, DSTree<Word> &wordIndex, string &path)
+int buildIndexes(DSHashTable<string, Title> &authorIndex, DSTree<Word> &wordIndex, string &path)
 {
     string filePath, paperID;
     DIR *directoryPath;
@@ -67,8 +67,11 @@ void buildIndexes(DSHashTable<string, Title> &authorIndex, DSTree<Word> &wordInd
     dirp = readdir(directoryPath);
     dirp = readdir(directoryPath);
 
+    int numArticles = 0;
+
     while((dirp = readdir(directoryPath))) //loops through the directory of files
     {
+        numArticles++;
         filePath = path + "/" + dirp->d_name;
 
         Document doc;
@@ -85,7 +88,7 @@ void buildIndexes(DSHashTable<string, Title> &authorIndex, DSTree<Word> &wordInd
                 for(int i = 0; i < doc["metadata"]["authors"].Size(); i++) //loops through the authors json array
                 {
                     string author = doc["metadata"]["authors"][i]["last"].GetString(); //sets author name to last name from json
-
+                    toLower(author);
                     if(!authorIndex.find(author)) //if the author is not already in the table, adds author to table and adds id to title vector
                     {
                         Title title;
@@ -208,6 +211,7 @@ void buildIndexes(DSHashTable<string, Title> &authorIndex, DSTree<Word> &wordInd
             }
         }
     }
+    return numArticles;
 }
 
 /**

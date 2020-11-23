@@ -20,7 +20,7 @@
 #include "DSTree.h"
 #include "DSHashTable.h"
 
-void buildIndexes(DSHashTable<std::string, Title> &authorIndex, DSTree<Word> &wordIndex, std::string &path);
+int buildIndexes(DSHashTable<std::string, Title> &authorIndex, DSTree<Word> &wordIndex, std::string &path);
 void makeFillerSet(set<string> &fillerSet);
 void removeTrailingPunct(string& word);
 void toLower(string& word);
