@@ -64,9 +64,6 @@ int buildIndexes(DSHashTable<string, Title> &authorIndex, DSTree<Word> &wordInde
         exit(0);
     }
 
-    dirp = readdir(directoryPath);
-    dirp = readdir(directoryPath);
-
     int numArticles = 0;
 
     while((dirp = readdir(directoryPath))) //loops through the directory of files
