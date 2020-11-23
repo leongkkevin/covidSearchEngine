@@ -145,9 +145,10 @@ int buildIndexes(DSHashTable<string, Title> &authorIndex, DSTree<Word> &wordInde
              */
             if(doc.HasMember("abstract"))
             {
-                stringstream ss;
+
                 for(int i = 0; i < doc["abstract"].Size(); i++)
                 {
+                    stringstream ss;
                     string abstract = doc["abstract"][i]["text"].GetString();
                     ss << abstract;
 
@@ -180,9 +181,10 @@ int buildIndexes(DSHashTable<string, Title> &authorIndex, DSTree<Word> &wordInde
              */
             if(doc.HasMember("body_text"))
             {
-                stringstream ss;
+
                 for(int i = 0; i < doc["body_text"].Size(); i++)
                 {
+                    stringstream ss;
                     string body = doc["body_text"][i]["text"].GetString();
                     ss << body;
 
