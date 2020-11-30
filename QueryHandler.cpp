@@ -13,6 +13,7 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
 {
     bool queryRun = true;
     int numArticles = 0;
+    int averageWords = 0;
     cout << "Welcome to the COVID-19 Research Database Search Engine" << endl;
     while(queryRun)
     {
@@ -213,9 +214,7 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
 
             case 3:
             {
-                /**
-                 * get average words per articles
-                 */
+                cout << "There are an average of " << averageWords << " words per article." << endl;
                 break;
             }
 
@@ -284,7 +283,7 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
                         cout << "Please give the absolute path to the directory you would like to parse:" << endl;
                         getline(cin, path);
                         cout << "Building your index..." << endl;
-                        numArticles = buildIndexes(authorIndex, wordIndex, path);
+                        numArticles = buildIndexes(authorIndex, wordIndex, path, averageWords);
                         break;
                     }
                     case 2:

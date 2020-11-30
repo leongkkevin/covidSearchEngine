@@ -50,11 +50,12 @@ void toLower(string& word)
  * populates both author and word indexes
  */
 
-int buildIndexes(DSHashTable<string, Title> &authorIndex, DSTree<Word> &wordIndex, string &path)
+int buildIndexes(DSHashTable<string, Title> &authorIndex, DSTree<Word> &wordIndex, string &path, int &average)
 {
     string filePath, paperID;
     DIR *directoryPath;
     struct dirent *dirp;
+    int totalWords = 0;
 
     directoryPath = opendir(path.c_str());
 
@@ -146,7 +147,6 @@ int buildIndexes(DSHashTable<string, Title> &authorIndex, DSTree<Word> &wordInde
              */
             if(doc.HasMember("abstract"))
             {
-
                 for(int i = 0; i < doc["abstract"].Size(); i++)
                 {
                     stringstream ss;
@@ -155,6 +155,7 @@ int buildIndexes(DSHashTable<string, Title> &authorIndex, DSTree<Word> &wordInde
 
                     string singleWord;
                     while(getline(ss, singleWord, ' ')){
+                        totalWords++;
                         if((fillerSet.count(singleWord) == 0))
                         {
                             removeTrailingPunct(singleWord);
@@ -183,7 +184,6 @@ int buildIndexes(DSHashTable<string, Title> &authorIndex, DSTree<Word> &wordInde
              */
             if(doc.HasMember("body_text"))
             {
-
                 for(int i = 0; i < doc["body_text"].Size(); i++)
                 {
                     stringstream ss;
@@ -192,6 +192,7 @@ int buildIndexes(DSHashTable<string, Title> &authorIndex, DSTree<Word> &wordInde
 
                     string singleWord;
                     while(getline(ss, singleWord, ' ')){
+                        totalWords++;
                         if((fillerSet.count(singleWord) == 0)){
                             removeTrailingPunct(singleWord);
 
@@ -213,6 +214,7 @@ int buildIndexes(DSHashTable<string, Title> &authorIndex, DSTree<Word> &wordInde
         }
     }
     cout << "Indexes built!" << endl;
+    average = totalWords / numArticles;
     return numArticles;
 }
 
