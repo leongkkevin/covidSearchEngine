@@ -18,4 +18,7 @@
 void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<string, int>& searchResults);
 int checkInput(int &input, int low, int high);
 
+void printSearchResults(map<string, int> &map);
+void sortSearchResults(map<string, int> &searchResults, map<int, string> &sortedSearchResults);
+
 #endif //SEARCH_ENGINE_QUERYHANDLER_H

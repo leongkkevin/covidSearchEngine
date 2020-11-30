@@ -7,8 +7,6 @@
 
 #include "QueryHandler.h"
 
-void printSearchResults(map<string, int> &map);
-
 using namespace std;
 
 void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<string,int> & searchResults)
@@ -255,6 +253,10 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
                         break;
                     }
                 }
+
+                map<int,string> sortedSearchResults;
+                sortSearchResults(searchResults, sortedSearchResults);
+
                 /** prints search results */
                 printSearchResults(searchResults);
                 searchResults.clear();
@@ -356,6 +358,15 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
                 break;
             }
         }
+    }
+}
+
+void sortSearchResults(map<string, int> &searchResults, map<int,string> &sortedSearchResults){
+    auto it = searchResults.begin();
+
+    while(it != searchResults.end()){
+        sortedSearchResults.insert(pair<int, string>(it->second, it->first));
+        it++;
     }
 }
 
