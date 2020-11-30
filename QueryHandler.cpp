@@ -86,7 +86,7 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
                                     if(foundTitles.count(it->first) != 0)
                                     {
                                         //searchResults.erase(it);
-                                        tempMap.insert(pair<string, int>(it->first, it->second));
+                                        tempMap.insert(pair<string, int>(it->first, it->second + foundTitles[it->first]));
                                     }
                                     it++;
                                 }
@@ -109,19 +109,7 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
                              * remove all elements in foundTitles from searchResults map
                              */
 
-                            map<string, int> tempMap;
-                            auto it = searchResults.begin();
-
-                            while(it != searchResults.end()){
-                                if(foundTitles.count(it->first) == 0){
-                                    tempMap.insert(pair<string, int>(it->first, it->second));
-                                    //searchResults.erase(it);
-                                }
-                                it++;
-                            }
-                            searchResults.clear();
-                            searchResults = tempMap;
-
+                            authorNotCompare(searchResults, foundTitles);
                         }
                         else if(query == "author")
                         {
@@ -131,19 +119,7 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
                             /**
                              * compare two MAPS remove items not in both
                              */
-                            map<string, int> tempMap;
-
-                            auto it = searchResults.begin();
-
-                            while(it != searchResults.end()){
-                                if(foundTitles.count(it->first) != 0){
-                                    tempMap.insert(pair<string, int>(it->first, it->second));
-                                    //searchResults.erase(it);
-                                }
-                                it++;
-                            }
-                            searchResults.clear();
-                            searchResults = tempMap;
+                            authorNotCompare(searchResults, foundTitles);
                         }
                         break;
                     }
@@ -175,18 +151,7 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
                              * remove all elements in foundTitles from searchResults map
                              */
 
-                            map<string, int> tempMap;
-                            auto it = searchResults.begin();
-
-                            while(it != searchResults.end()){
-                                if(foundTitles.count(it->first) == 0){
-                                    tempMap.insert(pair<string, int>(it->first, it->second));
-                                    //searchResults.erase(it);
-                                }
-                                it++;
-                            }
-                            searchResults.clear();
-                            searchResults = tempMap;
+                            authorNotCompare(searchResults, foundTitles);
                         }
                         else if(query == "author")
                         {
@@ -197,18 +162,7 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
                              * compare two MAPPY MAPS and remove items not in both
                              */
 
-                            map<string, int> tempMap;
-                            auto it = searchResults.begin();
-
-                            while(it != searchResults.end()){
-                                if(foundTitles.count(it->first) != 0){
-                                    //searchResults.erase(it);
-                                    tempMap.insert(pair<string, int>(it->first, it->second));
-                                }
-                                it++;
-                            }
-                            searchResults.clear();
-                            searchResults = tempMap;
+                            authorNotCompare(searchResults, foundTitles);
                         }
                         break;
                     }
@@ -225,20 +179,7 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
                             /**
                              * compare two MAPS remove items not in both
                              */
-
-                            map<string, int> tempMap;
-                            auto it = searchResults.begin();
-
-                            while(it != searchResults.end()){
-                                if(foundTitles.count(it->first) != 0){
-                                    //searchResults.erase(it);
-                                    tempMap.insert(pair<string, int>(it->first, it->second));
-                                }
-                                it++;
-                            }
-                            searchResults.clear();
-                            searchResults = tempMap;
-
+                            authorNotCompare(searchResults, foundTitles);
                         }
                         else
                         {
@@ -254,12 +195,13 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
                     }
                 }
 
-                map<int,string> sortedSearchResults;
+                vector<pair<int,string>> sortedSearchResults;
                 sortSearchResults(searchResults, sortedSearchResults);
 
                 /** prints search results */
-                printSearchResults(searchResults);
+                printSearchResults(sortedSearchResults);
                 searchResults.clear();
+                sortedSearchResults.clear();
                 break;
             }
 
@@ -361,21 +303,31 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
     }
 }
 
-void sortSearchResults(map<string, int> &searchResults, map<int,string> &sortedSearchResults){
+void sortSearchResults(map<string, int> &searchResults, vector<pair<int,string>> &sortedSearchResults){
     auto it = searchResults.begin();
 
-    while(it != searchResults.end()){
-        sortedSearchResults.insert(pair<int, string>(it->second, it->first));
+    while(it != searchResults.end())
+    {
+        sortedSearchResults.push_back(pair<int, string>(it->second, it->first));
         it++;
     }
+
+    sort(sortedSearchResults.rbegin(), sortedSearchResults.rend());
 }
 
-void printSearchResults(map<string, int> &searchResults) {
-    auto it = searchResults.begin();
-
-    while(it != searchResults.end()){
-        cout << it->first << endl;
-        it++;
+void printSearchResults(vector<pair<int, string>> &searchResults) {
+    int lessThanFifteen = 0;
+    for(int i = 0; i < searchResults.size(); i++)
+    {
+        if(lessThanFifteen == 15)
+        {
+            break;
+        }
+        else
+        {
+            cout << searchResults.at(i).first << "\t" << searchResults.at(i).second << endl;
+            lessThanFifteen++;
+        }
     }
 
     cout << "Found " << searchResults.size() << " files!" << endl;
@@ -411,4 +363,20 @@ int checkInput(int &input, int low, int high)
     {
         return input;
     }
+}
+
+void authorNotCompare(map<string, int> &searchResults, map<string, int> &foundTitles)
+{
+    map<string, int> tempMap;
+    auto it = searchResults.begin();
+
+    while(it != searchResults.end()){
+        if(foundTitles.count(it->first) != 0){
+            //searchResults.erase(it);
+            tempMap.insert(pair<string, int>(it->first, it->second));
+        }
+        it++;
+    }
+    searchResults.clear();
+    searchResults = tempMap;
 }
