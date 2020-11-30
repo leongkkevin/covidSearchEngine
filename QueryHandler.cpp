@@ -6,9 +6,10 @@
 
 using namespace std;
 
-void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, DSTree<string>& searchResults, int numArticles)
+void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, DSTree<string>& searchResults)
 {
     bool queryRun = true;
+    int numArticles = 0;
     cout << "Welcome to the COVID-19 Research Database Search Engine" << endl;
     while(queryRun)
     {
@@ -37,43 +38,27 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, DSTre
             catch(invalid_argument)
             {
                 cin.clear();
-                cout << "\nInvalid selection please try again.\nSelect a number 0 - 8: ";
+                cout << "Invalid selection please try again.\nSelect a number 0 - 8: ";
             }
         }
 
-        if(selection < 0 || selection > 8) //makes sure input is in the correct range
-        {
-            cin.clear();
-            cout << "\nInvalid selection please try again.\nSelect a number 0 - 8: ";
-
-            while(selection < 0 || selection > 8)
-            {
-                try
-                {
-                    getline(cin, selectionString);
-                    selection = stoi(selectionString);
-                    break;
-                }
-                catch(invalid_argument)
-                {
-                    cin.clear();
-                    cout << "\nInvalid selection please try again.\nSelect a number 0 - 8: ";
-                }
-            }
-        }
+        checkInput(selection, 0, 8);
 
         switch(selection) //calls correct function based on input
         {
             case 1:
             {
                 string searchQuery, query; //gets boolean search query input
+                stringstream ss;
                 cout << "Please enter your boolean search query. Options are AND, OR, AUTHOR, NOT, and a single word" << endl;
-                while(getline(cin, searchQuery, ' ')) //loops through the entire input
+                getline(cin, searchQuery);
+                toLower(searchQuery);
+                ss << searchQuery;
+                while(getline(ss, searchQuery, ' ')) //loops through the entire input
                 {
-                    toLower(searchQuery);
                     if(searchQuery == "and") //if its an AND request
                     {
-                        getline(cin, query, ' '); //gets the next word
+                        getline(ss, query, ' '); //gets the next word
                         while(query != "not" || query != "author") //loops in and until another boolean request is received
                         {
                             DSTree<string> foundTitles;
@@ -88,13 +73,13 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, DSTre
                             {
                                 searchResults = foundTitles;
                             }
-                            getline(cin, query, ' ');
+                            getline(ss, query, ' ');
                             toLower(query);
                         }
                         if(query == "not")
                         {
                             DSTree<string> foundTitles;
-                            getline(cin, query, ' ');
+                            getline(ss, query, ' ');
                             wordSearch(wordIndex, query, foundTitles);
                             /**
                              * remove all nodes in foundTitles from searchResults tree
@@ -103,26 +88,35 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, DSTre
                         else if(query == "author")
                         {
                             DSTree<string> foundTitles;
-                            getline(cin, query, ' ');
+                            getline(ss, query, ' ');
                             authorSearch(authorIndex, query, foundTitles);
                             /**
                              * compare two avl trees remove items not in both
                              */
                         }
+                        break;
                     }
                     else if(searchQuery == "or") //if OR query
                     {
+                        string breakCheck;
                         while(query != "not" || query != "author") //loops until a NOT or AUTHOR query
                         {
-                            getline(cin, query, ' ');
-                            wordSearch(wordIndex, query, searchResults);
-                            getline(cin, query, ' ');
-                            toLower(query);
+                            getline(ss, query, ' ');
+                            if(breakCheck != query)
+                            {
+                                toLower(query);
+                                wordSearch(wordIndex, query, searchResults);
+                                breakCheck = query;
+                            }
+                            else
+                            {
+                                break;
+                            }
                         }
                         if(query == "not")
                         {
                             DSTree<string> foundTitles;
-                            getline(cin, query, ' ');
+                            getline(ss, query, ' ');
                             wordSearch(wordIndex, query, foundTitles);
                             /**
                              * remove all nodes in foundTitles from searchResults tree
@@ -131,17 +125,18 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, DSTre
                         else if(query == "author")
                         {
                             DSTree<string> foundTitles;
-                            getline(cin, query, ' ');
+                            getline(ss, query, ' ');
                             authorSearch(authorIndex, query, foundTitles);
                             /**
                              * compare two avl trees remove items not in both
                              */
                         }
+                        break;
                     }
                     else if(searchQuery == "author")
                     {
                         DSTree<string> foundTitles;
-                        getline(cin, query, ' ');
+                        getline(ss, query, ' ');
                         authorSearch(authorIndex, query, foundTitles);
 
                         if(!(searchResults.getNumNodes() == 0))
@@ -154,11 +149,13 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, DSTre
                         {
                             searchResults = foundTitles;
                         }
+                        break;
                     }
                     else
                     {
                         DSTree<string> foundTitles;
-                        wordSearch(wordIndex, query, searchResults);
+                        wordSearch(wordIndex, searchQuery, searchResults);
+                        break;
                     }
                 }
                 break;
@@ -200,17 +197,54 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, DSTre
 
             case 7:
             {
-                /**
-                 * empty indexes
-                 */
+                authorIndex.clear();
                 break;
             }
 
             case 8:
             {
-                /**
-                 * do whatever parse corpus and populate index means
-                 */
+                int eightSelection = 0;
+                cout << "Would you like to parse a directory or open a persistence file?\n"
+                     << "1. Parse\n2. Persistence File\n"
+                     << "Selection: ";
+
+                while(true) //handles incorrect inputs
+                {
+                    try
+                    {
+                        getline(cin, selectionString);
+                        eightSelection = stoi(selectionString);
+                        break;
+                    }
+                    catch(invalid_argument)
+                    {
+                        cin.clear();
+                        cout << "Invalid selection please try again.\nSelect a number 1 - 2: ";
+                    }
+                }
+
+                checkInput(eightSelection, 1, 2);
+
+                switch(eightSelection)
+                {
+                    case 1:
+                    {
+                        string path;
+                        cout << "Please give the absolute path to the directory you would like to parse:" << endl;
+                        getline(cin, path);
+                        numArticles = buildIndexes(authorIndex, wordIndex, path);
+                        break;
+                    }
+                    case 2:
+                    {
+                        /**
+                         * uh
+                         * persistence file?
+                         * ¯\_(ツ)_/¯
+                         */
+                        break;
+                    }
+                }
                 break;
             }
 
@@ -221,5 +255,37 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, DSTre
                 break;
             }
         }
+    }
+}
+
+int checkInput(int &input, int low, int high)
+{
+    if(input < low || input > high) //makes sure input is in the correct range
+    {
+        cin.clear();
+        cout << "Invalid selection please try again.\nSelect a number " << low
+             << " - " << high << ": ";
+
+        string selectionString;
+        while(true)
+        {
+            try
+            {
+                getline(cin, selectionString);
+                input = stoi(selectionString);
+                break;
+            }
+            catch(invalid_argument)
+            {
+                cin.clear();
+                cout << "Invalid selection please try again.\nSelect a number " << low
+                     << " - " << high << " : ";
+            }
+        }
+        checkInput(input, low, high);
+    }
+    else if(input >= low && input <= high)
+    {
+        return input;
     }
 }

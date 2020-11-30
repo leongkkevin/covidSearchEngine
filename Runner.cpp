@@ -15,9 +15,7 @@ void runSearchEngine()
     DSHashTable<string, Title> authorIndex;
     DSTree<Word> wordIndex;
     DSTree<string> searchResults;
-    string path = "/Users/stimmins/Documents/cs2341_data";
-    int numArticles = buildIndexes(authorIndex, wordIndex, path);
-    query(wordIndex, authorIndex, searchResults, numArticles);
+    query(wordIndex, authorIndex, searchResults);
 }
 
 void runSearchEngine(string &wordToFind, string &directoryPath)

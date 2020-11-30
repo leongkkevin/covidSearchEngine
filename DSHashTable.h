@@ -34,6 +34,7 @@ public:
     int getSize();
     int getCount();
     int getHash(const Key &keyToGet);
+    void clear();
 };
 
 /**
@@ -288,6 +289,15 @@ template<typename Key, typename Value>
 int DSHashTable<Key, Value>::getHash(const Key &keyToGet)
 {
     return hashFunction(keyToGet);
+}
+
+template<typename Key, typename Value>
+void DSHashTable<Key, Value>::clear()
+{
+    count = 0;
+    size = 50000;
+    delete [] table;
+    table = new std::list<std::pair<Key, Value>>[size];
 }
 
 #endif //SEARCH_ENGINE_DSHASHTABLE_H

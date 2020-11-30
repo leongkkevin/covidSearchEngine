@@ -210,6 +210,7 @@ int buildIndexes(DSHashTable<string, Title> &authorIndex, DSTree<Word> &wordInde
             }
         }
     }
+    cout << "Indexes built!" << endl;
     return numArticles;
 }
 
