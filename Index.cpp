@@ -136,6 +136,7 @@ int buildIndexes(DSHashTable<string, Title> &authorIndex, DSTree<Word> &wordInde
                             wordIndex.get(singleWord).addPaperID(paperID);
                             wordIndex.get(singleWord).getTitleList()[paperID]++;
                         }
+
                     }
                 }
             }
@@ -172,6 +173,7 @@ int buildIndexes(DSHashTable<string, Title> &authorIndex, DSTree<Word> &wordInde
                                 wordIndex.get(singleWord).addPaperID(paperID);
                                 wordIndex.get(singleWord).getTitleList()[paperID]++;
                             }
+
                         }
                     }
                 }

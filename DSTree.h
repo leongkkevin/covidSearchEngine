@@ -204,6 +204,7 @@ private:
         }
 
         delete deleteNode;
+        this->numNode--;
     }
 
     /**
@@ -276,6 +277,7 @@ public:
     void insert(T value);
     void remove(T value);
     bool find(T value);
+    void clear();
 
     int getNumNodes();
 
@@ -360,6 +362,13 @@ int DSTree<T>::getNumNodes() {
     return this->numNode;
 }
 
+template<typename T>
+void DSTree<T>::clear() {
+    if(this->numNode > 0)
+    {
+        del(this->root);
+    } else;
+}
 
 
 #endif //SEARCH_ENGINE_DSTREE_H

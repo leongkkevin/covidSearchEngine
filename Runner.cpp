@@ -15,6 +15,7 @@ void runSearchEngine()
     DSHashTable<string, Title> authorIndex;
     DSTree<Word> wordIndex;
     map<string, int> searchResults;
+
     query(wordIndex, authorIndex, searchResults);
 }
 

@@ -199,7 +199,7 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
                 sortSearchResults(searchResults, sortedSearchResults);
 
                 /** prints search results */
-                printSearchResults(sortedSearchResults);
+                printSearchResults(sortedSearchResults, 15);
                 searchResults.clear();
                 sortedSearchResults.clear();
                 break;
@@ -236,12 +236,19 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
                 /**
                  * return 50 most common words
                  */
+                vector<pair<int,string>> sortedCommonWords;
+
                 break;
             }
 
             case 7:
             {
+                cout << "Clearing indexes..." << endl;
+
+                wordIndex.clear();
                 authorIndex.clear();
+
+                cout << "Indexes have been cleared!" << endl;
                 break;
             }
 
@@ -315,18 +322,18 @@ void sortSearchResults(map<string, int> &searchResults, vector<pair<int,string>>
     sort(sortedSearchResults.rbegin(), sortedSearchResults.rend());
 }
 
-void printSearchResults(vector<pair<int, string>> &searchResults) {
-    int lessThanFifteen = 0;
+void printSearchResults(vector<pair<int, string>> &searchResults, int number) {
+    int lessThanNumber = 0;
     for(int i = 0; i < searchResults.size(); i++)
     {
-        if(lessThanFifteen == 15)
+        if(lessThanNumber == number)
         {
             break;
         }
         else
         {
             cout << searchResults.at(i).first << "\t" << searchResults.at(i).second << endl;
-            lessThanFifteen++;
+            lessThanNumber++;
         }
     }
 
