@@ -13,8 +13,8 @@
 #include "Word.h"
 #include "porter2_stemmer.h"
 
-void wordSearch(DSTree<Word>& wordIndex, std::string& search, DSTree<std::string>& foundTitles);
-void authorSearch(DSHashTable<std::string, Title>& authorIndex, std::string& search, DSTree<std::string>& foundTitles);
+void wordSearch(DSTree<Word>& wordIndex, std::string& search, map<string, int>& foundTitles);
+void authorSearch(DSHashTable<std::string, Title>& authorIndex, std::string& search, map<string, int>& foundTitles);
 
 
 #endif //SEARCH_ENGINE_INDEXHANDLER_H

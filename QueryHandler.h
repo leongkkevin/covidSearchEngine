@@ -15,7 +15,7 @@
 #include "Title.h"
 #include "IndexHandler.h"
 
-void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, DSTree<std::string>& searchResults);
+void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<string, int>& searchResults);
 int checkInput(int &input, int low, int high);
 
 #endif //SEARCH_ENGINE_QUERYHANDLER_H

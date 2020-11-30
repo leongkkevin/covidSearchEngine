@@ -14,7 +14,7 @@ void runSearchEngine()
 {
     DSHashTable<string, Title> authorIndex;
     DSTree<Word> wordIndex;
-    DSTree<string> searchResults;
+    map<string, int> searchResults;
     query(wordIndex, authorIndex, searchResults);
 }
 
@@ -22,7 +22,7 @@ void runSearchEngine(string &wordToFind, string &directoryPath)
 {
     DSHashTable<string, Title> authorIndex;
     DSTree<Word> wordIndex;
-    DSTree<string> foundTitles;
+    map<string, int> foundTitles;
 
     buildIndexes(authorIndex, wordIndex, directoryPath);
     wordSearch(wordIndex, wordToFind, foundTitles);

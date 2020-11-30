@@ -2,11 +2,16 @@
 // Created by Sammy Timmins on 11/22/20.
 //
 
+//The thingy: /Users/kevinleong/Documents/cs2341_data/
+//The thingy but practice: /Users/kevinleong/Documents/ds_03/
+
 #include "QueryHandler.h"
+
+void printSearchResults(map<string, int> &map);
 
 using namespace std;
 
-void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, DSTree<string>& searchResults)
+void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<string,int> & searchResults)
 {
     bool queryRun = true;
     int numArticles = 0;
@@ -53,21 +58,42 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, DSTre
                 cout << "Please enter your boolean search query. Options are AND, OR, AUTHOR, NOT, and a single word" << endl;
                 getline(cin, searchQuery);
                 toLower(searchQuery);
+
+                searchQuery += " /0";
+
                 ss << searchQuery;
                 while(getline(ss, searchQuery, ' ')) //loops through the entire input
                 {
+                    /** AND */
                     if(searchQuery == "and") //if its an AND request
                     {
                         getline(ss, query, ' '); //gets the next word
-                        while(query != "not" || query != "author") //loops in and until another boolean request is received
+                        while(query != "not" && query != "author") //loops in and until another boolean request is received
                         {
-                            DSTree<string> foundTitles;
+                            if(query == "/0"){
+                                break;
+                            }
+
+                            map<string, int> foundTitles;
                             wordSearch(wordIndex, query, foundTitles);
-                            if(!(searchResults.getNumNodes() == 0)) //if the search results already has results in it
+                            if(!searchResults.empty()) //if the search results already has results in it
                             {
                                 /**
-                                 * compare two avl trees remove items not in both
+                                 * compare two maps and remove items not in both
                                  */
+                                map<string, int> tempMap;
+                                auto it = searchResults.begin();
+
+                                while(it != searchResults.end()){
+                                    if(foundTitles.count(it->first) != 0)
+                                    {
+                                        //searchResults.erase(it);
+                                        tempMap.insert(pair<string, int>(it->first, it->second));
+                                    }
+                                    it++;
+                                }
+                                searchResults.clear();
+                                searchResults = tempMap;
                             }
                             else
                             {
@@ -78,72 +104,143 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, DSTre
                         }
                         if(query == "not")
                         {
-                            DSTree<string> foundTitles;
+                            map<string, int> foundTitles;
                             getline(ss, query, ' ');
                             wordSearch(wordIndex, query, foundTitles);
                             /**
-                             * remove all nodes in foundTitles from searchResults tree
+                             * remove all elements in foundTitles from searchResults map
                              */
+
+                            map<string, int> tempMap;
+                            auto it = searchResults.begin();
+
+                            while(it != searchResults.end()){
+                                if(foundTitles.count(it->first) == 0){
+                                    tempMap.insert(pair<string, int>(it->first, it->second));
+                                    //searchResults.erase(it);
+                                }
+                                it++;
+                            }
+                            searchResults.clear();
+                            searchResults = tempMap;
+
                         }
                         else if(query == "author")
                         {
-                            DSTree<string> foundTitles;
+                            map<string, int> foundTitles;
                             getline(ss, query, ' ');
                             authorSearch(authorIndex, query, foundTitles);
                             /**
-                             * compare two avl trees remove items not in both
+                             * compare two MAPS remove items not in both
                              */
+                            map<string, int> tempMap;
+
+                            auto it = searchResults.begin();
+
+                            while(it != searchResults.end()){
+                                if(foundTitles.count(it->first) != 0){
+                                    tempMap.insert(pair<string, int>(it->first, it->second));
+                                    //searchResults.erase(it);
+                                }
+                                it++;
+                            }
+                            searchResults.clear();
+                            searchResults = tempMap;
                         }
                         break;
                     }
+
+                    /** OR */
                     else if(searchQuery == "or") //if OR query
                     {
-                        string breakCheck;
-                        while(query != "not" || query != "author") //loops until a NOT or AUTHOR query
+                        getline(ss, query, ' ');
+
+                        while(query != "not" && query != "author") //loops until a NOT or AUTHOR query
                         {
-                            getline(ss, query, ' ');
-                            if(breakCheck != query)
-                            {
-                                toLower(query);
-                                wordSearch(wordIndex, query, searchResults);
-                                breakCheck = query;
-                            }
-                            else
-                            {
+                            if(query == "/0"){
                                 break;
                             }
+
+                            /** Inserts it all into searchResults */
+                            toLower(query);
+                            wordSearch(wordIndex, query, searchResults);
+
+                            getline(ss, query, ' ');
+                            toLower(query);
                         }
                         if(query == "not")
                         {
-                            DSTree<string> foundTitles;
+                            map<string, int> foundTitles;
                             getline(ss, query, ' ');
                             wordSearch(wordIndex, query, foundTitles);
                             /**
-                             * remove all nodes in foundTitles from searchResults tree
+                             * remove all elements in foundTitles from searchResults map
                              */
+
+                            map<string, int> tempMap;
+                            auto it = searchResults.begin();
+
+                            while(it != searchResults.end()){
+                                if(foundTitles.count(it->first) == 0){
+                                    tempMap.insert(pair<string, int>(it->first, it->second));
+                                    //searchResults.erase(it);
+                                }
+                                it++;
+                            }
+                            searchResults.clear();
+                            searchResults = tempMap;
                         }
                         else if(query == "author")
                         {
-                            DSTree<string> foundTitles;
+                            map<string, int> foundTitles;
                             getline(ss, query, ' ');
                             authorSearch(authorIndex, query, foundTitles);
                             /**
-                             * compare two avl trees remove items not in both
+                             * compare two MAPPY MAPS and remove items not in both
                              */
+
+                            map<string, int> tempMap;
+                            auto it = searchResults.begin();
+
+                            while(it != searchResults.end()){
+                                if(foundTitles.count(it->first) != 0){
+                                    //searchResults.erase(it);
+                                    tempMap.insert(pair<string, int>(it->first, it->second));
+                                }
+                                it++;
+                            }
+                            searchResults.clear();
+                            searchResults = tempMap;
                         }
                         break;
                     }
+
+                    /** AUTHOR */
                     else if(searchQuery == "author")
                     {
-                        DSTree<string> foundTitles;
+                        map<string, int> foundTitles;
                         getline(ss, query, ' ');
                         authorSearch(authorIndex, query, foundTitles);
 
-                        if(!(searchResults.getNumNodes() == 0))
+                        if(!searchResults.empty())
                         {
                             /**
-                             * compare two avl trees remove items not in both
+                             * compare two MAPS remove items not in both
                              */
+
+                            map<string, int> tempMap;
+                            auto it = searchResults.begin();
+
+                            while(it != searchResults.end()){
+                                if(foundTitles.count(it->first) != 0){
+                                    //searchResults.erase(it);
+                                    tempMap.insert(pair<string, int>(it->first, it->second));
+                                }
+                                it++;
+                            }
+                            searchResults.clear();
+                            searchResults = tempMap;
+
                         }
                         else
                         {
@@ -153,11 +250,14 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, DSTre
                     }
                     else
                     {
-                        DSTree<string> foundTitles;
+                        //DSTree<string> foundTitles;
                         wordSearch(wordIndex, searchQuery, searchResults);
                         break;
                     }
                 }
+                /** prints search results */
+                printSearchResults(searchResults);
+                searchResults.clear();
                 break;
             }
 
@@ -232,6 +332,7 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, DSTre
                         string path;
                         cout << "Please give the absolute path to the directory you would like to parse:" << endl;
                         getline(cin, path);
+                        cout << "Building your index..." << endl;
                         numArticles = buildIndexes(authorIndex, wordIndex, path);
                         break;
                     }
@@ -256,6 +357,17 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, DSTre
             }
         }
     }
+}
+
+void printSearchResults(map<string, int> &searchResults) {
+    auto it = searchResults.begin();
+
+    while(it != searchResults.end()){
+        cout << it->first << endl;
+        it++;
+    }
+
+    cout << "Found " << searchResults.size() << " files!" << endl;
 }
 
 int checkInput(int &input, int low, int high)
