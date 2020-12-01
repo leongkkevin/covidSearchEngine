@@ -161,6 +161,13 @@ TEST_CASE("DSTree Test") {
         REQUIRE(wordTree.get("Cap").getTitleList()["111"] == 1);
         REQUIRE(wordTree.get("Bap").getTitleList()["222"] == 10);
         REQUIRE(wordTree.get("Aap").getTitleList()["333"] == 100);
+    }
+
+    SECTION("To Vector"){
+        vector<int> intVector;
+        intTree.toVector(intVector);
+
+        REQUIRE(intVector.size() == wordTree.getNumNodes());
 
     }
 }

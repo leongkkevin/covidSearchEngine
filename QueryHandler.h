@@ -22,4 +22,6 @@ void printSearchResults(vector<pair<int, string>> &map, int number);
 void sortSearchResults(map<string, int> &searchResults, vector<pair<int, string>> &sortedSearchResults);
 void authorNotCompare(map<string, int> &searchResults, map<string, int> &foundTitles);
 
+void getFiftyCommon(DSTree<Word> &wordIndex, vector<pair<int, string>> &vector);
+
 #endif //SEARCH_ENGINE_QUERYHANDLER_H

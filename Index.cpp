@@ -138,6 +138,8 @@ int buildIndexes(DSHashTable<string, Title> &authorIndex, DSTree<Word> &wordInde
                             wordIndex.get(singleWord).getTitleList()[paperID]++;
                         }
 
+                        /** adds one to totalFreq of Word */
+                        wordIndex.get(singleWord).iterTotalFreq();
                     }
                 }
             }
@@ -175,6 +177,9 @@ int buildIndexes(DSHashTable<string, Title> &authorIndex, DSTree<Word> &wordInde
                                 wordIndex.get(singleWord).getTitleList()[paperID]++;
                             }
 
+                            /** adds one to totalFreq of Word */
+                            wordIndex.get(singleWord).iterTotalFreq();
+
                         }
                     }
                 }
@@ -207,6 +212,9 @@ int buildIndexes(DSHashTable<string, Title> &authorIndex, DSTree<Word> &wordInde
                                 wordIndex.get(singleWord).addPaperID(paperID);
                                 wordIndex.get(singleWord).getTitleList()[paperID]++;
                             }
+
+                            /** adds one to totalFreq of Word */
+                            wordIndex.get(singleWord).iterTotalFreq();
                         }
                     }
                 }

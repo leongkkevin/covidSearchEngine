@@ -16,6 +16,7 @@ class Word {
 private:
     string word;
     map<string, int> titleList;
+    int totalFreq;
 public:
     Word() = default;
     Word(string word);
@@ -29,6 +30,9 @@ public:
     string getWord();
     map<string, int>& getTitleList();
     void addPaperID(string paperID);
+
+    int getTotalFreq();
+    void iterTotalFreq();
 };
 
 

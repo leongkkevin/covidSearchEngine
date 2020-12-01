@@ -236,6 +236,7 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
                  * return 50 most common words
                  */
                 vector<pair<int,string>> sortedCommonWords;
+                getFiftyCommon(wordIndex, sortedCommonWords);
 
                 break;
             }
@@ -306,6 +307,22 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
                 break;
             }
         }
+    }
+}
+
+void getFiftyCommon(DSTree<Word> &wordIndex,vector<pair<int, string>> &sortedCommonWords){
+    vector<Word> wordVector;
+    wordIndex.toVector(wordVector);
+
+    for(int i = 0; i < wordVector.size(); ++i){
+        pair<int,string> newPair(wordVector.at(i).getTotalFreq(), wordVector.at(i).getWord());
+        sortedCommonWords.push_back(newPair);
+    }
+
+    sort(sortedCommonWords.rbegin(), sortedCommonWords.rend());
+
+    for(int i = 0; i < 50; ++i){
+        cout << i + 1 << ") \"" << sortedCommonWords.at(i).second << "\" appears " << sortedCommonWords.at(i).first << " times." << endl;
     }
 }
 

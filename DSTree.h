@@ -269,6 +269,20 @@ private:
         return returnNode;
     }
 
+    /**
+     * Pushes each node into a vector
+     */
+    void pushVect(TreeNode<T> *node, std::vector<T> &treeVect){
+        if(node->left != nullptr){
+            pushVect(node->left, treeVect);
+        }
+        if(node->right != nullptr){
+            pushVect(node->right, treeVect);
+        }
+
+        treeVect.push_back(node->payload);
+    }
+
 public:
 
     DSTree<T>();
@@ -281,6 +295,8 @@ public:
 
     int getNumNodes();
 
+    void toVector(std::vector<T> &treeVector);
+
     /**
     *  This is the PUBLIC get that calls the private one
     */
@@ -289,7 +305,6 @@ public:
 
         return toReturn->payload;
     }
-
 };
 
 /**
@@ -362,6 +377,10 @@ int DSTree<T>::getNumNodes() {
     return this->numNode;
 }
 
+/**
+ *
+ * Clears the tree
+ */
 template<typename T>
 void DSTree<T>::clear() {
     if(this->numNode > 0)
@@ -370,6 +389,12 @@ void DSTree<T>::clear() {
     } else;
 }
 
+template<typename T>
+void DSTree<T>::toVector(std::vector<T> &treeVector){
+    if(this->numNode > 0){
+        pushVect(this->root, treeVector);
+    } else;
+}
 
 #endif //SEARCH_ENGINE_DSTREE_H
 

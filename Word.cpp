@@ -6,13 +6,16 @@
 
 Word::Word(string word) {
     this->word = word;
+    this->totalFreq = 0;
 }
 Word::Word(char *word) {
     this->word = word;
+    this->totalFreq = 0;
 }
 Word::Word(const Word &copy) {
     this->word = copy.word;
     this->titleList = copy.titleList;
+    this->totalFreq = copy.totalFreq;
 }
 
 bool Word::operator>(const Word &comp) const {
@@ -36,4 +39,13 @@ void Word::addPaperID(string paperID) {
     this->titleList[paperID];
     this->titleList.at(paperID) = 0;
 }
+
+int Word::getTotalFreq() {
+    return this->totalFreq;
+}
+
+void Word::iterTotalFreq() {
+    this->totalFreq++;
+}
+
 
