@@ -14,14 +14,14 @@ class DSHashTable
 private:
     int size = 50000;
     int count = 0;
-    std::list<std::pair<Key, Value>> *table = nullptr;
+    std::vector<std::list<std::pair<Key, Value>>> table;
 
     int hashFunction(Key key);
     void resize();
 
 public:
     DSHashTable();
-    ~DSHashTable();
+    ~DSHashTable() = default;
     DSHashTable(const DSHashTable &copy);
     DSHashTable& operator=(const DSHashTable &copy);
     Value& operator[](Key keyToGet);
@@ -35,7 +35,7 @@ public:
     int getCount();
     int getHash(const Key &keyToGet);
     void clear();
-    void traverse(std::ostream &os);
+    void outputJSON(std::ostream &os);
 };
 
 /**
@@ -58,7 +58,7 @@ int DSHashTable<Key, Value>::hashFunction(Key key)
 template<typename Key, typename Value>
 void DSHashTable<Key, Value>::resize()
 {
-    std::list<std::pair<Key, Value>> *temp = new std::list<std::pair<Key, Value>>[size];
+    std::vector<std::list<std::pair<Key, Value>>> temp(size);
     for(int i = 0; i < size; i++)
     {
         temp[i] = table[i];
@@ -66,9 +66,9 @@ void DSHashTable<Key, Value>::resize()
 
     int oldSize = size;
     size *= 2;
-    delete [] table;
+    table.clear();
     count = 0;
-    table = new std::list<std::pair<Key, Value>>[size];
+    table = std::vector<std::list<std::pair<Key, Value>>>(size);
 
     for(int i = 0; i < oldSize; i++)
     {
@@ -88,16 +88,7 @@ void DSHashTable<Key, Value>::resize()
 template <typename Key, typename Value>
 DSHashTable<Key, Value>::DSHashTable()
 {
-    table = new std::list<std::pair<Key, Value>>[size];
-}
-
-/**
- * destructor
- */
-template<typename Key, typename Value>
-DSHashTable<Key, Value>::~DSHashTable()
-{
-    delete [] table;
+    table = std::vector<std::list<std::pair<Key, Value>>>(size);
 }
 
 /**
@@ -108,11 +99,7 @@ DSHashTable<Key, Value>::DSHashTable(const DSHashTable &copy)
 {
     size = copy.size;
     count = copy.count;
-    table = new std::list<std::pair<Key, Value>>[size];
-    for(int i = 0; i < size; i++)
-    {
-        table[i] = copy.table[i];
-    }
+    table = copy.table;
 }
 
 /**
@@ -121,21 +108,11 @@ DSHashTable<Key, Value>::DSHashTable(const DSHashTable &copy)
 template<typename Key, typename Value>
 DSHashTable<Key, Value> &DSHashTable<Key, Value>::operator=(const DSHashTable &copy)
 {
-    if(this != &copy)
-    {
-        if(count != 0)
-        {
-            delete this;
-        }
+    size = copy.size;
+    count = copy.count;
+    table = copy.table;
 
-        size = copy.size;
-        count = copy.count;
-        for(int i = 0; i < size; i++)
-        {
-            table[i] = copy.table[i];
-        }
-        return *this;
-    }
+    return *this;
 }
 
 /**
@@ -297,22 +274,26 @@ void DSHashTable<Key, Value>::clear()
 {
     count = 0;
     size = 50000;
-    delete [] table;
-    table = new std::list<std::pair<Key, Value>>[size];
+    table.clear();
 }
 
 template<typename Key, typename Value>
-void DSHashTable<Key, Value>::traverse(std::ostream &os)
+void DSHashTable<Key, Value>::outputJSON(std::ostream &os)
 {
-    for(int i = 0; i < size; i++)
+    typename std::vector<std::list<std::pair<Key, Value>>>::iterator itr;
+    for(itr = table.begin(); itr != table.end(); itr++)
     {
-        auto it = table[i].begin();
-        while(it != table[i].end())
+        if(itr->size() != 0)
         {
-            os << "\t{\n\t\t\"" << it->first << "\": " << it->second;
-            it++;
+            typename std::list<std::pair<Key, Value>>::iterator it;
+            for(it = itr->begin(); it != itr->end(); it++)
+            {
+                std::pair<Key, Value> author = *it;
+                os << "\t{\n\t\t\"name\": \"" << author.first << "\",\n"
+                   << "\t\t\"ids\": [\n" << author.second
+                   << "\t\t]\n\t}," << std::endl;
+            }
         }
-
     }
 }
 

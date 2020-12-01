@@ -38,10 +38,10 @@ void Title::printTitles()
     }
 }
 
-std::ostream &operator<<(std::ostream &, const Title &title) {
+std::ostream &operator<<(std::ostream &os, const Title &title) {
     for(int i = 0; i < title.titles.size(); i++)
     {
-        std::cout << title.titles[i] << std::endl;
+        os << "\t\t\t{\n\t\t\t\t\"id\": \"" << title.titles[i] << "\"\n\t\t\t},\n";
     }
-
+    return os;
 }

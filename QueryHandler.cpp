@@ -314,11 +314,11 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
 
                 persistence << "]," << endl;
 
-//                persistence << "\"authors\": [" << endl;
-//
-//                authorIndex.traverse(cout);
-//
-//                persistence << "]" << endl;
+                persistence << "\"authors\": [" << endl;
+
+                authorIndex.outputJSON(persistence);
+
+                persistence << "]" << endl;
 
                 persistence.close();
 
