@@ -17,6 +17,7 @@ Word::Word(const Word &copy) {
     this->titleList = copy.titleList;
     this->totalFreq = copy.totalFreq;
 }
+Word::~Word() = default;
 
 bool Word::operator>(const Word &comp) const {
     return this->word > comp.word;
@@ -65,5 +66,4 @@ ostream &operator<<(ostream &os, const Word &word)
 
     return os;
 }
-
 

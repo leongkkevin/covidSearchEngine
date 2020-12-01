@@ -23,6 +23,8 @@ public:
     Word(char* word);
     Word(const Word &copy);
 
+    ~Word();
+
     bool operator> (const Word&)  const;
     bool operator< (const Word&)  const;
     bool operator== (const Word&) const;
