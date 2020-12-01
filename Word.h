@@ -34,6 +34,8 @@ public:
 
     int getTotalFreq();
     void iterTotalFreq();
+    void setWord(const string& word);
+    void setTotalFreq(const int &totalFreq);
 };
 
 

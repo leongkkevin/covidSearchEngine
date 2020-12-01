@@ -50,20 +50,30 @@ void Word::iterTotalFreq() {
 
 ostream &operator<<(ostream &os, const Word &word)
 {
-    os << "\t{\n\t\t\"string\": \"" << word.word << "\",\n"
-       << "\t\t\"total frequency\": \"" << word.totalFreq <<"\",\n"
-       << "\t\t\"ids\": [\n";
+    os << "\t\t{\n\t\t\t\"string\": \"" << word.word << "\",\n"
+       << "\t\t\t\"total frequency\": \"" << word.totalFreq <<"\",\n"
+       << "\t\t\t\"ids\": [\n";
 
     auto it = word.titleList.begin();
     while(it != word.titleList.end())
     {
-        os << "\t\t\t{\n\t\t\t\t\"id\": \"" << it->first << "\"\n\t\t\t},\n";
+        os << "\t\t\t\t{\n\t\t\t\t\t\"id\": \"" << it->first << "\"\n\t\t\t\t},\n";
         it++;
     }
 
-    os << "\t\t]\n\t}," << endl;
+    os << "\t\t\t]\n\t\t}," << endl;
 
     return os;
+}
+
+void Word::setWord(const string &word)
+{
+    this->word = word;
+}
+
+void Word::setTotalFreq(const int &totalFreq)
+{
+    this->totalFreq = totalFreq;
 }
 
 

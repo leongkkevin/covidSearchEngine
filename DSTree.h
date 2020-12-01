@@ -190,7 +190,7 @@ private:
     }
 
     /**
-    *   PRIVATE: Recursive delete for deconstructor
+    *   PRIVATE: Recursive delete for destructor
     */
     void del(TreeNode<T> *&deleteNode)
     {

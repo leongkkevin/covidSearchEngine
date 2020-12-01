@@ -291,13 +291,33 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
                     }
                     case 2:
                     {
-                        /**
-                         * uh
-                         * persistence file?
-                         * ¯\_(ツ)_/¯
-                         */
-                        break;
+                        rapidjson::Document doc;
+                        doc.Parse("/Users/stimmins/Desktop/persistence.json");
+
+                        for(int i = 0; i < doc["words"].Size(); i++)
+                        {
+                            Word word;
+                            word.setWord(doc["words"][i]["string"].GetString());
+                            word.setTotalFreq(stoi(doc["words"][i]["total frequency"].GetString()));
+                            for(int j = 0; j < doc["words"][i]["ids"].Size(); j++)
+                            {
+                                word.addPaperID(doc["words"][i]["ids"][j].GetString());
+                            }
+                            wordIndex.insert(word);
+                        }
+
+                        for(int i = 0; i < doc["authors"].Size(); i++)
+                        {
+                            string name = doc["authors"][i]["name"].GetString();
+                            Title titles;
+                            for(int j = 0; j < doc["authors"][i]["ids"].Size(); j++)
+                            {
+                                titles.addTitle(doc["authors"][i]["ids"][j].GetString());
+                            }
+                            authorIndex.insert(name, titles);
+                        }
                     }
+                    break;
                 }
                 buildMetadata(metadata);
                 break;
@@ -308,17 +328,17 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
                 ofstream persistence("../persistence.json");
                 persistence.clear();
 
-                persistence << "\"words\": [" << endl;
+                persistence << "{\n" << "\t\"words\": [" << endl;
 
                 wordIndex.preOrderTraversal(persistence);
 
-                persistence << "]," << endl;
+                persistence << "\t]," << endl;
 
-                persistence << "\"authors\": [" << endl;
+                persistence << "\t\"authors\": [" << endl;
 
                 authorIndex.outputJSON(persistence);
 
-                persistence << "]" << endl;
+                persistence << "\t]\n}" << endl;
 
                 persistence.close();
 

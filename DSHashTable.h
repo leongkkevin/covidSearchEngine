@@ -289,9 +289,9 @@ void DSHashTable<Key, Value>::outputJSON(std::ostream &os)
             for(it = itr->begin(); it != itr->end(); it++)
             {
                 std::pair<Key, Value> author = *it;
-                os << "\t{\n\t\t\"name\": \"" << author.first << "\",\n"
-                   << "\t\t\"ids\": [\n" << author.second
-                   << "\t\t]\n\t}," << std::endl;
+                os << "\t\t{\n\t\t\t\"name\": \"" << author.first << "\",\n"
+                   << "\t\t\t\"ids\": [\n" << author.second
+                   << "\t\t\t]\n\t\t}," << std::endl;
             }
         }
     }
