@@ -15,12 +15,15 @@
 
 #include "porter2_stemmer.h"
 #include "rapidjson/document.h"
+#include "rapidcsv.h"
 #include "Word.h"
 #include "Title.h"
 #include "DSTree.h"
 #include "DSHashTable.h"
+#include "Metadata.h"
 
 int buildIndexes(DSHashTable<std::string, Title> &authorIndex, DSTree<Word> &wordIndex, string &path, int &average);
+void buildMetadata(set<Metadata> &metadata);
 void makeFillerSet(set<string> &fillerSet);
 void removeTrailingPunct(string& word);
 void toLower(string& word);

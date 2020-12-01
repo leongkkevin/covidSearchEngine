@@ -11,6 +11,7 @@ using namespace std;
 
 void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<string,int> & searchResults)
 {
+    set<Metadata> metadata;
     bool queryRun = true;
     int numArticles = 0;
     int averageWords = 0;
@@ -200,7 +201,7 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
                 sortSearchResults(searchResults, sortedSearchResults);
 
                 /** prints search results */
-                printSearchResults(sortedSearchResults, 15);
+                printSearchResults(sortedSearchResults, metadata, 15);
                 searchResults.clear();
                 sortedSearchResults.clear();
                 break;
@@ -297,6 +298,7 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
                         break;
                     }
                 }
+                buildMetadata(metadata);
                 break;
             }
 
@@ -339,7 +341,7 @@ void sortSearchResults(map<string, int> &searchResults, vector<pair<int,string>>
     sort(sortedSearchResults.rbegin(), sortedSearchResults.rend());
 }
 
-void printSearchResults(vector<pair<int, string>> &searchResults, int number) {
+void printSearchResults(vector<pair<int, string>> &searchResults, set<Metadata> &metadata, int number) {
     int lessThanNumber = 0;
     for(int i = 0; i < searchResults.size(); i++)
     {
@@ -349,7 +351,14 @@ void printSearchResults(vector<pair<int, string>> &searchResults, int number) {
         }
         else
         {
-            cout << searchResults.at(i).first << "\t" << searchResults.at(i).second << endl;
+            Metadata toFind(searchResults[i].second);
+            auto it = metadata.find(toFind);
+
+            cout << "\n" << i + 1 << setw(4) << ". Title: " << it->getTitle() << "\n\t"
+                 << "Authors: " << it->getAuthors() << "\n\t"
+                 << "Publication Date: " << it->getPublishDate() << "\n\t"
+                 << "Journal: " << it->getJournal()  << endl;
+
             lessThanNumber++;
         }
     }

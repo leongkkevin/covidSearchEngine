@@ -226,6 +226,24 @@ int buildIndexes(DSHashTable<string, Title> &authorIndex, DSTree<Word> &wordInde
     return numArticles;
 }
 
+void buildMetadata(set<Metadata> &metadata)
+{
+    rapidcsv::Document doc("../metadata-cs2341.csv");
+
+    vector<string> ids = doc.GetColumn<string>("sha");
+    vector<string> titles = doc.GetColumn<string>("title");
+    vector<string> abstracts = doc.GetColumn<string>("abstract");
+    vector<string> publishDates = doc.GetColumn<string>("publish_time");
+    vector<string> authors = doc.GetColumn<string>("authors");
+    vector<string> journals = doc.GetColumn<string>("journal");
+
+    for(int i = 0; i < ids.size(); i++)
+    {
+        Metadata data(ids[i], titles[i], abstracts[i], publishDates[i], authors[i], journals[i]);
+        metadata.insert(data);
+    }
+}
+
 /**
  * gets and returns the file path for each file in the directory
  */

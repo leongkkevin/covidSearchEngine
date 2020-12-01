@@ -14,11 +14,12 @@
 #include "Word.h"
 #include "Title.h"
 #include "IndexHandler.h"
+#include "Metadata.h"
 
 void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<string, int>& searchResults);
 int checkInput(int &input, int low, int high);
 
-void printSearchResults(vector<pair<int, string>> &map, int number);
+void printSearchResults(vector<pair<int, string>> &map, set<Metadata> &metadata, int number);
 void sortSearchResults(map<string, int> &searchResults, vector<pair<int, string>> &sortedSearchResults);
 void authorNotCompare(map<string, int> &searchResults, map<string, int> &foundTitles);
 
