@@ -311,6 +311,7 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
 }
 
 void getFiftyCommon(DSTree<Word> &wordIndex,vector<pair<int, string>> &sortedCommonWords){
+    cout << "The 50 most frequent words are..." << endl;
     vector<Word> wordVector;
     wordIndex.toVector(wordVector);
 
