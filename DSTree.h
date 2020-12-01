@@ -94,7 +94,6 @@ private:
      *  Private Data members for AVL Tree
      */
     TreeNode<T> *root;
-    int depth;
     int numNode;
 
     /**
@@ -325,7 +324,6 @@ template<typename T>
 DSTree<T>::DSTree()
 {
     this->root = nullptr;
-    this->depth = 0;
     this->numNode = 0;
 }
 /**
