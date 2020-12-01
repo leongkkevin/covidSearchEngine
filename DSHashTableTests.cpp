@@ -213,9 +213,9 @@ TEST_CASE("DSHashTable Tests with primitive data types")
 
     SECTION("getSize() with primitives")
     {
-        REQUIRE((integers.getSize() == 100000));
-        REQUIRE((intAndChar.getSize() == 100000));
-        REQUIRE((charAndInt.getSize() == 100000));
+        REQUIRE((integers.getSize() == 50000));
+        REQUIRE((intAndChar.getSize() == 50000));
+        REQUIRE((charAndInt.getSize() == 50000));
     }
 
     SECTION("getCount() with primitives")
@@ -342,7 +342,7 @@ TEST_CASE("DSHashTable with objects")
 
     SECTION("getSize() with objects")
     {
-        REQUIRE((strings.getSize() == 100000));
+        REQUIRE((strings.getSize() == 50000));
     }
 
     SECTION("getCount() with objects")
