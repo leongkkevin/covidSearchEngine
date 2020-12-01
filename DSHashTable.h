@@ -35,6 +35,7 @@ public:
     int getCount();
     int getHash(const Key &keyToGet);
     void clear();
+    void traverse(std::ostream &os);
 };
 
 /**
@@ -298,6 +299,21 @@ void DSHashTable<Key, Value>::clear()
     size = 50000;
     delete [] table;
     table = new std::list<std::pair<Key, Value>>[size];
+}
+
+template<typename Key, typename Value>
+void DSHashTable<Key, Value>::traverse(std::ostream &os)
+{
+    for(int i = 0; i < size; i++)
+    {
+        auto it = table[i].begin();
+        while(it != table[i].end())
+        {
+            os << "\t{\n\t\t\"" << it->first << "\": " << it->second;
+            it++;
+        }
+
+    }
 }
 
 #endif //SEARCH_ENGINE_DSHASHTABLE_H

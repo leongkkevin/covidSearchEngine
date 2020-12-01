@@ -283,6 +283,16 @@ private:
         treeVect.push_back(node->payload);
     }
 
+    void preOrderTraversal(std::ostream &os, TreeNode<T> *node)
+    {
+        if(node != nullptr)
+        {
+            os << node->payload;
+            preOrderTraversal(os, node->left);
+            preOrderTraversal(os, node->right);
+        }
+    }
+
 public:
 
     DSTree<T>();
@@ -292,6 +302,7 @@ public:
     void remove(T value);
     bool find(T value);
     void clear();
+    void preOrderTraversal(std::ostream& os);
 
     int getNumNodes();
 
@@ -394,6 +405,12 @@ void DSTree<T>::toVector(std::vector<T> &treeVector){
     if(this->numNode > 0){
         pushVect(this->root, treeVector);
     } else;
+}
+
+template<typename T>
+void DSTree<T>::preOrderTraversal(std::ostream &os)
+{
+    preOrderTraversal(os, root);
 }
 
 #endif //SEARCH_ENGINE_DSTREE_H

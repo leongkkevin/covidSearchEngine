@@ -29,6 +29,7 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
              << "6. 50 most frequent words in indexed articles\n"
              << "7. Clear index\n"
              << "8. Parse corpus and populate index OR open a persistence file\n"
+             << "9. Save the currently open index to a persistence file.\n"
              << "0. Exit\n"
              << "Selection: ";
 
@@ -43,11 +44,11 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
             catch(invalid_argument)
             {
                 cin.clear();
-                cout << "Invalid selection please try again.\nSelect a number 0 - 8: ";
+                cout << "Invalid selection please try again.\nSelect a number 0 - 9: ";
             }
         }
 
-        checkInput(selection, 0, 8);
+        checkInput(selection, 0, 9);
 
         switch(selection) //calls correct function based on input
         {
@@ -299,6 +300,28 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
                     }
                 }
                 buildMetadata(metadata);
+                break;
+            }
+
+            case 9:
+            {
+                ofstream persistence("../persistence.json");
+                persistence.clear();
+
+                persistence << "\"words\": [" << endl;
+
+                wordIndex.preOrderTraversal(persistence);
+
+                persistence << "]," << endl;
+
+//                persistence << "\"authors\": [" << endl;
+//
+//                authorIndex.traverse(cout);
+//
+//                persistence << "]" << endl;
+
+                persistence.close();
+
                 break;
             }
 
