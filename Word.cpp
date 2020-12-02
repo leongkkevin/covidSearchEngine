@@ -57,13 +57,15 @@ ostream &operator<<(ostream &os, const Word &word)
        << "\t\t\t\"ids\": [\n";
 
     auto it = word.titleList.begin();
-    while(it != word.titleList.end())
+    while(it != prev(word.titleList.end()))
     {
         os << "\t\t\t\t{\n\t\t\t\t\t\"id\": \"" << it->first << "\"\n\t\t\t\t},\n";
         it++;
     }
 
-    os << "\t\t\t]\n\t\t}," << endl;
+    os << "\t\t\t\t{\n\t\t\t\t\t\"id\": \"" << it->first << "\"\n\t\t\t\t}\n";
+
+    os << "\t\t\t]\n\t\t}";
 
     return os;
 }

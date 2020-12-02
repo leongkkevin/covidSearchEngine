@@ -292,7 +292,8 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
                     case 2:
                     {
                         rapidjson::Document doc;
-                        doc.Parse("/Users/stimmins/Desktop/persistence.json");
+                        string path = "../persistence.json";
+                        doc.Parse(getFile(path).c_str());
 
                         for(int i = 0; i < doc["words"].Size(); i++)
                         {

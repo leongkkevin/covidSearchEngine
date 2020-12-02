@@ -283,13 +283,21 @@ private:
         treeVect.push_back(node->payload);
     }
 
-    void preOrderTraversal(std::ostream &os, TreeNode<T> *node)
+    void preOrderTraversal(std::ostream &os, TreeNode<T> *node, int &count)
     {
         if(node != nullptr)
         {
-            os << node->payload;
-            preOrderTraversal(os, node->left);
-            preOrderTraversal(os, node->right);
+            count++;
+            if(count != numNode)
+            {
+                os << node->payload << "," << std::endl;
+            }
+            else
+            {
+                os << node->payload << std::endl;
+            }
+            preOrderTraversal(os, node->left, count);
+            preOrderTraversal(os, node->right, count);
         }
     }
 
@@ -409,7 +417,8 @@ void DSTree<T>::toVector(std::vector<T> &treeVector){
 template<typename T>
 void DSTree<T>::preOrderTraversal(std::ostream &os)
 {
-    preOrderTraversal(os, root);
+    int count = 0;
+    preOrderTraversal(os, root, count);
 }
 
 #endif //SEARCH_ENGINE_DSTREE_H

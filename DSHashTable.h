@@ -280,8 +280,17 @@ void DSHashTable<Key, Value>::clear()
 template<typename Key, typename Value>
 void DSHashTable<Key, Value>::outputJSON(std::ostream &os)
 {
-    typename std::vector<std::list<std::pair<Key, Value>>>::iterator itr;
-    for(itr = table.begin(); itr != table.end(); itr++)
+    int lastIndex;
+    for(lastIndex = table.size() - 1; lastIndex > 0; lastIndex--)
+    {
+        if(table[lastIndex].size() != 0)
+        {
+            break;
+        }
+    }
+
+    typename std::vector<std::list<std::pair<Key, Value>>>::iterator itr = table.begin();
+    for(int i = 0; i < lastIndex; i++)
     {
         if(itr->size() != 0)
         {
@@ -294,6 +303,15 @@ void DSHashTable<Key, Value>::outputJSON(std::ostream &os)
                    << "\t\t\t]\n\t\t}," << std::endl;
             }
         }
+        itr++;
+    }
+    typename std::list<std::pair<Key, Value>>::iterator it = table[lastIndex].begin();
+    for(it = itr->begin(); it != itr->end(); it++)
+    {
+        std::pair<Key, Value> author = *it;
+        os << "\t\t{\n\t\t\t\"name\": \"" << author.first << "\",\n"
+           << "\t\t\t\"ids\": [\n" << author.second
+           << "\t\t\t]\n\t\t}" << std::endl;
     }
 }
 
