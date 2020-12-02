@@ -210,25 +210,25 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
 
             case 2:
             {
-                cout << "There are " << numArticles << " articles indexed." << endl;
+                cout << "\nThere are " << numArticles << " articles indexed.\n" << endl;
                 break;
             }
 
             case 3:
             {
-                cout << "There are an average of " << averageWords << " words per article." << endl;
+                cout << "\nThere are an average of " << averageWords << " words per article.\n" << endl;
                 break;
             }
 
             case 4:
             {
-                cout << "There are a total of " << wordIndex.getNumNodes() << " unique words in the index." << endl;
+                cout << "\nThere are a total of " << wordIndex.getNumNodes() << " unique words in the index.\n" << endl;
                 break;
             }
 
             case 5:
             {
-                cout << "There are a total of " << authorIndex.getCount() << " unique authors in the index." << endl;
+                cout << "\nThere are a total of " << authorIndex.getCount() << " unique authors in the index.\n" << endl;
                 break;
             }
 
@@ -245,25 +245,19 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
 
             case 7:
             {
-//                string wtf = "(5\\u2032-FAM-CGTAGCAGGCTTGCTTCGGACCCA-BHQ-3\\u2032)";
-//                toLower(wtf);
-//                if(wordIndex.find(wtf))
-//                {
-//                    cout << "Yes" << endl;
-//                }
-                cout << "Clearing indexes..." << endl;
+                cout << "\nClearing indexes...\n" << endl;
 
                 wordIndex.clear();
                 authorIndex.clear();
 
-                cout << "Indexes have been cleared!" << endl;
+                cout << "\nIndexes have been cleared!\n" << endl;
                 break;
             }
 
             case 8:
             {
                 int eightSelection = 0;
-                cout << "Would you like to parse a directory or open a persistence file?\n"
+                cout << "\nWould you like to parse a directory or open a persistence file?\n"
                      << "1. Parse\n2. Persistence File\n"
                      << "Selection: ";
 
@@ -278,7 +272,7 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
                     catch(invalid_argument)
                     {
                         cin.clear();
-                        cout << "Invalid selection please try again.\nSelect a number 1 - 2: ";
+                        cout << "\nInvalid selection please try again.\nSelect a number 1 - 2: ";
                     }
                 }
 
@@ -291,13 +285,13 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
                         string path;
                         cout << "Please give the absolute path to the directory you would like to parse:" << endl;
                         getline(cin, path);
-                        cout << "Building your index..." << endl;
+                        cout << "\nBuilding your index...\n" << endl;
                         numArticles = buildIndexes(authorIndex, wordIndex, path, averageWords);
                         break;
                     }
                     case 2:
                     {
-                        cout << "Opening the index..." << endl;
+                        cout << "\nOpening the index..." << endl;
                         rapidjson::Document doc;
                         string path = "../persistence.json";
                         doc.Parse(getFile(path).c_str());
@@ -327,7 +321,7 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
                             }
                             authorIndex.insert(name, titles);
                         }
-                        cout << "Index opened!" << endl;
+                        cout << "\nIndex opened!\n" << endl;
                     }
                     break;
                 }
@@ -337,7 +331,7 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
 
             case 9:
             {
-                cout << "Saving your index..." << endl;
+                cout << "\nSaving your index..." << endl;
                 ofstream persistence("../persistence.json");
                 persistence.clear();
 
@@ -357,7 +351,7 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
 
                 persistence.close();
 
-                cout << "Index saved!" << endl;
+                cout << "\nIndex saved!\n" << endl;
 
                 break;
             }
@@ -373,7 +367,7 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
 }
 
 void getFiftyCommon(DSTree<Word> &wordIndex,vector<pair<int, string>> &sortedCommonWords){
-    cout << "The 50 most frequent words are..." << endl;
+    cout << "\nThe 50 most frequent words are..." << endl;
     vector<Word> wordVector;
     wordIndex.toVector(wordVector);
 
@@ -384,9 +378,10 @@ void getFiftyCommon(DSTree<Word> &wordIndex,vector<pair<int, string>> &sortedCom
 
     sort(sortedCommonWords.rbegin(), sortedCommonWords.rend());
 
-    for(int i = 0; i < 50; ++i){
+    for(int i = 0; i < 49; ++i){
         cout << i + 1 << ") \"" << sortedCommonWords.at(i).second << "\" appears " << sortedCommonWords.at(i).first << " times." << endl;
     }
+    cout << 50 << ") \"" << sortedCommonWords.at(49).second << "\" appears " << sortedCommonWords.at(49).first << " times.\n" << endl;
 }
 
 void sortSearchResults(map<string, int> &searchResults, vector<pair<int,string>> &sortedSearchResults){
@@ -431,7 +426,7 @@ int checkInput(int &input, int low, int high)
     if(input < low || input > high) //makes sure input is in the correct range
     {
         cin.clear();
-        cout << "Invalid selection please try again.\nSelect a number " << low
+        cout << "\nInvalid selection please try again.\nSelect a number " << low
              << " - " << high << ": ";
 
         string selectionString;
@@ -446,7 +441,7 @@ int checkInput(int &input, int low, int high)
             catch(invalid_argument)
             {
                 cin.clear();
-                cout << "Invalid selection please try again.\nSelect a number " << low
+                cout << "\nInvalid selection please try again.\nSelect a number " << low
                      << " - " << high << " : ";
             }
         }

@@ -14,7 +14,6 @@ int runCatchTests(int argc, char* const argv[])
 
 int main(int argc, char** argv)
 {
-    auto start = std::chrono::high_resolution_clock::now();
     if(argc == 3)
     {
         string search = argv[1];
@@ -30,9 +29,6 @@ int main(int argc, char** argv)
         return runCatchTests(1, argv);
     }
 
-    auto stop = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
-    cout << duration.count() << " microseconds" << endl;
     return 0;
 }
 

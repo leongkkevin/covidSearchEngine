@@ -273,7 +273,7 @@ int buildIndexes(DSHashTable<string, Title> &authorIndex, DSTree<Word> &wordInde
             }
         }
     }
-    cout << "Indexes built!" << endl;
+    cout << "\nIndexes built!\n" << endl;
     average = totalWords / numArticles;
     return numArticles;
 }

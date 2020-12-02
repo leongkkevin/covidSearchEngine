@@ -2,3 +2,4 @@ CMakeLists.txt
 cmake-build-debug/
 persistence.json
 persistence.json
+persistence.json
