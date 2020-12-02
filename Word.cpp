@@ -18,6 +18,8 @@ Word::Word(const Word &copy) {
     this->totalFreq = copy.totalFreq;
 }
 
+Word::~Word() = default;
+
 bool Word::operator>(const Word &comp) const {
     return this->word > comp.word;
 }

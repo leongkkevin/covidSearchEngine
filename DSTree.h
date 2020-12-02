@@ -203,6 +203,7 @@ private:
         }
 
         delete deleteNode;
+        deleteNode = nullptr;
         this->numNode--;
     }
 
