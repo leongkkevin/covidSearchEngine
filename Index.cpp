@@ -61,7 +61,7 @@ void punctDestroyer(string& word) {
             word.erase(i, 1);
             i--;
         }
-        if(word[i] == '?'){
+        if(word[i] == '\?'){
             word.erase(i, 1);
             i--;
         }
