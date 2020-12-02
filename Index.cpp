@@ -134,7 +134,6 @@ int buildIndexes(DSHashTable<string, Title> &authorIndex, DSTree<Word> &wordInde
                 {
                     if((fillerSet.count(singleWord) == 0))
                     {
-                        singleWord = ",??,is?";
                         removeLeadingPunct(singleWord);
                         removeTrailingPunct(singleWord);
 
@@ -175,6 +174,7 @@ int buildIndexes(DSHashTable<string, Title> &authorIndex, DSTree<Word> &wordInde
                         totalWords++;
                         if((fillerSet.count(singleWord) == 0))
                         {
+                            removeLeadingPunct(singleWord);
                             removeTrailingPunct(singleWord);
 
                             Porter2Stemmer::stem(singleWord); //stemmer from: https://bitbucket.org/smassung/porter2_stemmer/src/master/
@@ -214,6 +214,8 @@ int buildIndexes(DSHashTable<string, Title> &authorIndex, DSTree<Word> &wordInde
                     while(getline(ss, singleWord, ' ')){
                         totalWords++;
                         if((fillerSet.count(singleWord) == 0)){
+
+                            removeLeadingPunct(singleWord);
                             removeTrailingPunct(singleWord);
 
                             Porter2Stemmer::stem(singleWord); //stemmer from: https://bitbucket.org/smassung/porter2_stemmer/src/master/
