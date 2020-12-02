@@ -28,12 +28,9 @@ void makeFillerSet(set<string> &fillerSet)
 void removeTrailingPunct(string& word) {
     for(int i = word.length() - 1; i > 0; i--)
     {
-        if(ispunct(word[i]) || word[i] == ' ')
-        {
+        if(!isalpha(word[i]) && !isdigit(word[i])){
             word.erase(i, 1);
-        }
-        else
-        {
+        } else {
             break;
         }
     }
