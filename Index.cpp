@@ -43,12 +43,12 @@ void removeTrailingPunct(string& word) {
  * Removes the leading Punctuation
  */
 void removeLeadingPunct(string& word) {
-    for(int i = 0; i < word.length() - 1; i++)
-    {
-        if(!ispunct(word[i])){
-            word = word.substr(i, word.length());
+
+    while(!isalpha(word[0])){
+        if(word.length() == 0){
             break;
         }
+        word.erase(0,1);
     }
 }
 
@@ -136,6 +136,9 @@ int buildIndexes(DSHashTable<string, Title> &authorIndex, DSTree<Word> &wordInde
                     {
                         removeLeadingPunct(singleWord);
                         removeTrailingPunct(singleWord);
+                        if(singleWord.length() == 0){
+                            break;
+                        }
 
                         Porter2Stemmer::stem(singleWord); //stemmer from: https://bitbucket.org/smassung/porter2_stemmer/src/master/
 
@@ -176,6 +179,10 @@ int buildIndexes(DSHashTable<string, Title> &authorIndex, DSTree<Word> &wordInde
                         {
                             removeLeadingPunct(singleWord);
                             removeTrailingPunct(singleWord);
+                            if(singleWord.length() == 0){
+                                break;
+                            }
+
 
                             Porter2Stemmer::stem(singleWord); //stemmer from: https://bitbucket.org/smassung/porter2_stemmer/src/master/
 
@@ -217,6 +224,9 @@ int buildIndexes(DSHashTable<string, Title> &authorIndex, DSTree<Word> &wordInde
 
                             removeLeadingPunct(singleWord);
                             removeTrailingPunct(singleWord);
+                            if(singleWord.length() == 0){
+                                break;
+                            }
 
                             Porter2Stemmer::stem(singleWord); //stemmer from: https://bitbucket.org/smassung/porter2_stemmer/src/master/
 
