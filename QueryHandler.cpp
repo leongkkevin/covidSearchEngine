@@ -245,6 +245,12 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
 
             case 7:
             {
+//                string wtf = "(5\\u2032-FAM-CGTAGCAGGCTTGCTTCGGACCCA-BHQ-3\\u2032)";
+//                toLower(wtf);
+//                if(wordIndex.find(wtf))
+//                {
+//                    cout << "Yes" << endl;
+//                }
                 cout << "Clearing indexes..." << endl;
 
                 wordIndex.clear();
@@ -291,9 +297,13 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
                     }
                     case 2:
                     {
+                        cout << "Opening the index..." << endl;
                         rapidjson::Document doc;
                         string path = "../persistence.json";
                         doc.Parse(getFile(path).c_str());
+
+                        numArticles = stoi(doc["numArticles"].GetString());
+                        averageWords = stoi(doc["averageWords"].GetString());
 
                         for(int i = 0; i < doc["words"].Size(); i++)
                         {
@@ -302,7 +312,7 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
                             word.setTotalFreq(stoi(doc["words"][i]["total frequency"].GetString()));
                             for(int j = 0; j < doc["words"][i]["ids"].Size(); j++)
                             {
-                                word.addPaperID(doc["words"][i]["ids"][j].GetString());
+                                word.addPaperID(doc["words"][i]["ids"][j]["id"].GetString());
                             }
                             wordIndex.insert(word);
                         }
@@ -313,10 +323,11 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
                             Title titles;
                             for(int j = 0; j < doc["authors"][i]["ids"].Size(); j++)
                             {
-                                titles.addTitle(doc["authors"][i]["ids"][j].GetString());
+                                titles.addTitle(doc["authors"][i]["ids"][j]["id"].GetString());
                             }
                             authorIndex.insert(name, titles);
                         }
+                        cout << "Index opened!" << endl;
                     }
                     break;
                 }
@@ -326,10 +337,13 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
 
             case 9:
             {
+                cout << "Saving your index..." << endl;
                 ofstream persistence("../persistence.json");
                 persistence.clear();
 
-                persistence << "{\n" << "\t\"words\": [" << endl;
+                persistence << "{\n" << "\t\"numArticles\": \"" << numArticles << "\",\n"
+                            << "\t\"averageWords\": \"" << averageWords << "\",\n";
+                persistence << "\t\"words\": [" << endl;
 
                 wordIndex.preOrderTraversal(persistence);
 
@@ -342,6 +356,8 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
                 persistence << "\t]\n}" << endl;
 
                 persistence.close();
+
+                cout << "Index saved!" << endl;
 
                 break;
             }

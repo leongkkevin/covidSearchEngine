@@ -15,7 +15,7 @@ set (EXE_NAME search_engine)
 #set (input02 "RequestedFlightPlans.txt")
 #set (input03 "FlightPlans.txt")
 
-#set(CMAKE_CXX_FLAGS "-O3")
+set(CMAKE_CXX_FLAGS "-O3")
 
 #
 ##########################################

@@ -53,7 +53,7 @@ void Word::iterTotalFreq() {
 ostream &operator<<(ostream &os, const Word &word)
 {
     os << "\t\t{\n\t\t\t\"string\": \"" << word.word << "\",\n"
-       << "\t\t\t\"total frequency\": \"" << word.totalFreq <<"\",\n"
+       << "\t\t\t\"total frequency\": \"" << word.totalFreq <<"\",\n" //add comma after total frequency
        << "\t\t\t\"ids\": [\n";
 
     auto it = word.titleList.begin();
