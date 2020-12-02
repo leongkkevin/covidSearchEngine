@@ -3,6 +3,7 @@
 //
 
 #include "Index.h"
+#include <ctype.h>
 
 void removeTrainingPunct();
 
@@ -50,10 +51,14 @@ void removeLeadingPunct(string& word) {
 }
 
 /**
- * Removes the leading Punctuation
+ * Removes the in-between Punctuation
  */
 void punctDestroyer(string& word) {
     for(int i = 0; i < word.length(); ++i){
+        if(!isascii(word[i])){
+            word.erase(i,1);
+            i--;
+        }
         if(word[i] == '"'){
             word.erase(i, 1);
             i--;
