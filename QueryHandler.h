@@ -19,8 +19,8 @@
 void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<string, int>& searchResults);
 int checkInput(int &input, int low, int high);
 
-void printSearchResults(vector<pair<int, string>> &map, set<Metadata> &metadata, int number);
-void printArticleExcerpt(const string& excerpt);
+void printSearchResults(vector<pair<int, string>> &map, set<Metadata> &metadata, int number, string path);
+void printArticleExcerpt(const string& genPath, const string& specPath);
 
 void sortSearchResults(map<string, int> &searchResults, vector<pair<int, string>> &sortedSearchResults);
 void authorNotCompare(map<string, int> &searchResults, map<string, int> &foundTitles);

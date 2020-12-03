@@ -203,7 +203,7 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
                 sortSearchResults(searchResults, sortedSearchResults);
 
                 /** prints search results */
-                printSearchResults(sortedSearchResults, metadata, 15);
+                printSearchResults(sortedSearchResults, metadata, 15, path);
                 searchResults.clear();
                 sortedSearchResults.clear();
                 break;
@@ -399,7 +399,7 @@ void sortSearchResults(map<string, int> &searchResults, vector<pair<int,string>>
     sort(sortedSearchResults.rbegin(), sortedSearchResults.rend());
 }
 
-void printSearchResults(vector<pair<int, string>> &searchResults, set<Metadata> &metadata, int number) {
+void printSearchResults(vector<pair<int, string>> &searchResults, set<Metadata> &metadata, int number, string path) {
     int lessThanNumber = 0;
     for(int i = 0; i < searchResults.size(); i++)
     {
@@ -415,7 +415,10 @@ void printSearchResults(vector<pair<int, string>> &searchResults, set<Metadata> 
             cout << "\n" << i + 1 << setw(4) << ". Title: " << it->getTitle() << "\n\t"
                  << "Authors: " << it->getAuthors() << "\n\t"
                  << "Publication Date: " << it->getPublishDate() << "\n\t"
-                 << "Journal: " << it->getJournal()  << endl;
+                 << "Journal: " << it->getJournal()  << "\n\t"
+                 << "Excerpt (500 words): " << endl;
+
+            printArticleExcerpt(path, it->getId());
 
             lessThanNumber++;
         }
@@ -424,29 +427,84 @@ void printSearchResults(vector<pair<int, string>> &searchResults, set<Metadata> 
     cout << "Found " << searchResults.size() << " files!" << endl;
 }
 
-void printArticleExcerpt(const string& excerpt) {
-    stringstream ss;
-    ss << excerpt;
+void printArticleExcerpt(const string& path, const string& specPath) {
+    string filePath;
+    filePath = path + "/" + specPath + ".json";
 
+    rapidjson::Document doc;
+    doc.Parse(getFile(filePath).c_str());
+
+    int totalWords = 0;
     int charWrapCount = 0;
-
-    string excerptWord;
+    int charWrapAmt = 150;
 
     cout << "\"";
-    for(int i = 0; i < 500; ++i){
+    if(doc.IsObject()) //checks that the document begins with an object
+    {
+        if (doc.HasMember("abstract"))
+        {
+            cout << "[Abstract]: ";
+            for (int i = 0; i < doc["abstract"].Size(); i++) {
+                if (totalWords >= 500) {
+                    break;
+                }
 
-        getline(ss, excerptWord, ' ');
+                stringstream ss;
+                string body = doc["abstract"][i]["text"].GetString();
+                ss << body;
 
-        charWrapCount += excerptWord.length();
-        if(charWrapCount >= 100){
+                string excerptWord;
+
+                while (getline(ss, excerptWord, ' ')) {
+                    if (totalWords >= 500) {
+                        break;
+                    }
+                    charWrapCount += excerptWord.length();
+
+                    if (charWrapCount >= charWrapAmt) {
+                        cout << "\n";
+                        charWrapCount = 0;
+                    }
+                    cout << excerptWord << " ";
+                    totalWords++;
+                }
+                ss.clear();
+            }
             cout << "\n";
             charWrapCount = 0;
         }
-        cout << excerptWord << " ";
-    }
+        if (doc.HasMember("body_text") && totalWords < 500)
+        {
+            cout << "[Body]: ";
+            for (int i = 0; i < doc["body_text"].Size(); i++) {
+                if (totalWords >= 500) {
+                    break;
+                }
 
+                stringstream ss;
+                string body = doc["body_text"][i]["text"].GetString();
+                ss << body;
+
+                string excerptWord;
+
+                while (getline(ss, excerptWord, ' ')) {
+                    if (totalWords >= 500) {
+                        break;
+                    }
+                    charWrapCount += excerptWord.length();
+
+                    if (charWrapCount >= charWrapAmt) {
+                        cout << "\n";
+                        charWrapCount = 0;
+                    }
+                    cout << excerptWord << " ";
+                    totalWords++;
+                }
+                ss.clear();
+            }
+        }
+    }
     cout << "... \"" << endl;
-    ss.clear();
 }
 
 int checkInput(int &input, int low, int high)
