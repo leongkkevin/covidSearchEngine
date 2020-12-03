@@ -204,7 +204,7 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
                 sortSearchResults(searchResults, sortedSearchResults);
 
                 /** prints search results */
-                cout << "\n Here are 15 articles in which contain the query \"" << toPrintQuery << "\" appear the most: \n";
+                cout << "\nHere are " << searchResults.size() << " articles in which contain the query \"" << toPrintQuery << "\" appear the most: \n";
                 printSearchResults(sortedSearchResults, metadata, 15, path);
                 searchResults.clear();
                 sortedSearchResults.clear();
@@ -295,8 +295,8 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
                     {
                         cout << "\nOpening the index..." << endl;
                         rapidjson::Document doc;
-                        string path = "../persistence.json";
-                        doc.Parse(getFile(path).c_str());
+                        string persistencePath = "../persistence.json";
+                        doc.Parse(getFile(persistencePath).c_str());
 
                         path = doc["path"].GetString();
                         numArticles = stoi(doc["numArticles"].GetString());
@@ -422,9 +422,9 @@ void printSearchResults(vector<pair<int, string>> &searchResults, set<Metadata> 
         }
     }
 
-    cout << "Found " << searchResults.size() << " files!" << endl;
+    cout << "\nFound " << searchResults.size() << " files!\n" << endl;
 
-    string articlePrev;
+    string articlePrev, selectionString;
     int choiceNum;
     int amtChoice = searchResults.size();
     if(searchResults.size() > 15){
@@ -439,14 +439,27 @@ void printSearchResults(vector<pair<int, string>> &searchResults, set<Metadata> 
         cout << "Select 0 to EXIT" << endl;
         cout << "Selection: ";
 
-        getline(cin, articlePrev);
-        choiceNum = stoi(articlePrev);
+        while(true) //handles incorrect inputs
+        {
+            try
+            {
+                getline(cin, selectionString);
+                choiceNum = stoi(selectionString);
+                break;
+            }
+            catch(invalid_argument)
+            {
+                cin.clear();
+                cout << "Invalid selection please try again.\nSelect a number 0 - " << amtChoice << ": ";
+            }
+        }
+
+        checkInput(choiceNum, 0, amtChoice);
 
         if(choiceNum == 0){
             break;
-        } else if(choiceNum < 0 || choiceNum > amtChoice){
-            cout << "Invalid Option." << endl;
-        } else {
+        }
+        else {
             Metadata toFind(searchResults[choiceNum - 1].second);
             auto it = metadata.find(toFind);
             cout << it->getTitle()
@@ -456,17 +469,6 @@ void printSearchResults(vector<pair<int, string>> &searchResults, set<Metadata> 
             printArticleExcerpt(path, it->getId());
         }
 
-        while(true){
-            cout << "Select 0 to EXIT: ";
-            getline(cin, articlePrev);
-            choiceNum = stoi(articlePrev);
-
-            if(choiceNum == 0){
-                break;
-            } else {
-                cout << "Invalid Option." << endl;
-            }
-        }
         break;
     }
     cout << endl;
@@ -481,7 +483,7 @@ void printArticleExcerpt(const string& path, const string& specPath) {
 
     int totalWords = 0;
     int charWrapCount = 0;
-    int charWrapAmt = 150;
+    int charWrapAmt = 120;
 
     if(doc.IsObject()) //checks that the document begins with an object
     {
