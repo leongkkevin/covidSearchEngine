@@ -296,6 +296,7 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
                         string path = "../persistence.json";
                         doc.Parse(getFile(path).c_str());
 
+                        path = doc["path"].GetString();
                         numArticles = stoi(doc["numArticles"].GetString());
                         averageWords = stoi(doc["averageWords"].GetString());
 
