@@ -114,7 +114,7 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
                              * remove all elements in foundTitles from searchResults map
                              */
 
-                            authorNotCompare(searchResults, foundTitles);
+                            notCompare(searchResults, foundTitles);
                         }
                         else if(query == "author")
                         {
@@ -124,7 +124,7 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
                             /**
                              * compare two MAPS remove items not in both
                              */
-                            authorNotCompare(searchResults, foundTitles);
+                            authorCompare(searchResults, foundTitles);
                         }
                         break;
                     }
@@ -156,7 +156,7 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
                              * remove all elements in foundTitles from searchResults map
                              */
 
-                            authorNotCompare(searchResults, foundTitles);
+                            notCompare(searchResults, foundTitles);
                         }
                         else if(query == "author")
                         {
@@ -167,7 +167,7 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
                              * compare two MAPPY MAPS and remove items not in both
                              */
 
-                            authorNotCompare(searchResults, foundTitles);
+                            authorCompare(searchResults, foundTitles);
                         }
                         break;
                     }
@@ -184,7 +184,7 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
                             /**
                              * compare two MAPS remove items not in both
                              */
-                            authorNotCompare(searchResults, foundTitles);
+                            authorCompare(searchResults, foundTitles);
                         }
                         else
                         {
@@ -194,10 +194,44 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
                     }
                     else
                     {
-                        //DSTree<string> foundTitles;
-                        wordSearch(wordIndex, searchQuery, searchResults);
-                        break;
+                        map<string, int> foundTitles;
+                        query = searchQuery;
+                        wordSearch(wordIndex, query, foundTitles);
+                        while(query != "not" && query != "author")
+                        {
+                            if(query == "/0")
+                            {
+                                break;
+                            }
+
+                            searchResults = foundTitles;
+
+                            getline(ss, query, ' ');
+                            toLower(query);
+                        }
+                        if(query == "not")
+                        {
+                            foundTitles.clear();
+                            getline(ss, query, ' ');
+                            wordSearch(wordIndex, query, foundTitles);
+                            /**
+                             * remove all elements in foundTitles from searchResults map
+                             */
+
+                            notCompare(searchResults, foundTitles);
+                        }
+                        else if(query == "author")
+                        {
+                            foundTitles.clear();
+                            getline(ss, query, ' ');
+                            authorSearch(authorIndex, query, foundTitles);
+                            /**
+                             * compare two MAPS remove items not in both
+                             */
+                            authorCompare(searchResults, foundTitles);
+                        }
                     }
+                    break;
                 }
 
                 vector<pair<int,string>> sortedSearchResults;
@@ -589,7 +623,7 @@ int checkInput(int &input, int low, int high)
     }
 }
 
-void authorNotCompare(map<string, int> &searchResults, map<string, int> &foundTitles)
+void authorCompare(map<string, int> &searchResults, map<string, int> &foundTitles)
 {
     map<string, int> tempMap;
     auto it = searchResults.begin();
@@ -603,4 +637,18 @@ void authorNotCompare(map<string, int> &searchResults, map<string, int> &foundTi
     }
     searchResults.clear();
     searchResults = tempMap;
+}
+
+void notCompare(map<string, int> &searchResults, map<string, int> &foundTitles)
+{
+    map<string, int> tempMap;
+    auto it = foundTitles.begin();
+
+    while(it != foundTitles.end()){
+        if(searchResults.count(it->first) != 0){
+            //searchResults.erase(it);
+            searchResults.erase(it->first);
+        }
+        it++;
+    }
 }

@@ -23,7 +23,8 @@ void printSearchResults(vector<pair<int, string>> &map, set<Metadata> &metadata,
 void printArticleExcerpt(const string& genPath, const string& specPath);
 
 void sortSearchResults(map<string, int> &searchResults, vector<pair<int, string>> &sortedSearchResults);
-void authorNotCompare(map<string, int> &searchResults, map<string, int> &foundTitles);
+void authorCompare(map<string, int> &searchResults, map<string, int> &foundTitles);
+void notCompare(map<string, int> &searchResults, map<string, int> &foundTitles);
 
 void getFiftyCommon(DSTree<Word> &wordIndex, vector<pair<int, string>> &vector);
 
