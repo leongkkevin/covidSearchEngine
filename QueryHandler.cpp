@@ -166,7 +166,7 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
                             /**
                              * compare two MAPPY MAPS and remove items not in both
                              */
-                            
+
                             authorCompare(searchResults, foundTitles);
                         }
                         break;
