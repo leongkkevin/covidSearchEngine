@@ -59,6 +59,7 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
                 stringstream ss;
                 cout << "Please enter your boolean search query. Options are AND, OR, AUTHOR, NOT, and a single word" << endl;
                 getline(cin, searchQuery);
+                string toPrintQuery = searchQuery;
                 toLower(searchQuery);
 
                 searchQuery += " /0";
@@ -203,6 +204,7 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
                 sortSearchResults(searchResults, sortedSearchResults);
 
                 /** prints search results */
+                cout << "\n Here are 15 articles in which contain the query \"" << toPrintQuery << "\" appear the most: \n";
                 printSearchResults(sortedSearchResults, metadata, 15, path);
                 searchResults.clear();
                 sortedSearchResults.clear();
@@ -415,16 +417,59 @@ void printSearchResults(vector<pair<int, string>> &searchResults, set<Metadata> 
             cout << "\n" << i + 1 << setw(4) << ". Title: " << it->getTitle() << "\n\t"
                  << "Authors: " << it->getAuthors() << "\n\t"
                  << "Publication Date: " << it->getPublishDate() << "\n\t"
-                 << "Journal: " << it->getJournal()  << "\n\t"
-                 << "Excerpt (500 words): " << endl;
-
-            printArticleExcerpt(path, it->getId());
-
+                 << "Journal: " << it->getJournal()  <<  endl;
             lessThanNumber++;
         }
     }
 
     cout << "Found " << searchResults.size() << " files!" << endl;
+
+    string articlePrev;
+    int choiceNum;
+    int amtChoice = searchResults.size();
+    if(searchResults.size() > 15){
+        amtChoice = 15;
+    }else;
+
+    while(true){
+        if(searchResults.size() == 0){
+            break;
+        }
+        cout << "Please select a file to preview (1 - " << amtChoice << ") \n";
+        cout << "Select 0 to EXIT" << endl;
+        cout << "Selection: ";
+
+        getline(cin, articlePrev);
+        choiceNum = stoi(articlePrev);
+
+        if(choiceNum == 0){
+            break;
+        } else if(choiceNum < 0 || choiceNum > amtChoice){
+            cout << "Invalid Option." << endl;
+        } else {
+            Metadata toFind(searchResults[choiceNum - 1].second);
+            auto it = metadata.find(toFind);
+            cout << it->getTitle()
+                << "\n\tby: " << it->getAuthors() << ". \n";
+            cout << "\tPublished in " << it->getJournal() << " on " << it->getPublishDate() << ". \n";
+            cout << "Here is a 500 word excerpt: " << endl;
+            printArticleExcerpt(path, it->getId());
+        }
+
+        while(true){
+            cout << "Select 0 to EXIT: ";
+            getline(cin, articlePrev);
+            choiceNum = stoi(articlePrev);
+
+            if(choiceNum == 0){
+                break;
+            } else {
+                cout << "Invalid Option." << endl;
+            }
+        }
+        break;
+    }
+    cout << endl;
 }
 
 void printArticleExcerpt(const string& path, const string& specPath) {
@@ -438,12 +483,12 @@ void printArticleExcerpt(const string& path, const string& specPath) {
     int charWrapCount = 0;
     int charWrapAmt = 150;
 
-    cout << "\"";
     if(doc.IsObject()) //checks that the document begins with an object
     {
         if (doc.HasMember("abstract"))
         {
-            cout << "[Abstract]: ";
+            cout << "[ABSTRACT]: \n";
+            cout << "\"";
             for (int i = 0; i < doc["abstract"].Size(); i++) {
                 if (totalWords >= 500) {
                     break;
@@ -470,12 +515,15 @@ void printArticleExcerpt(const string& path, const string& specPath) {
                 }
                 ss.clear();
             }
-            cout << "\n";
-            charWrapCount = 0;
+            if(totalWords < 500){
+                cout << "\" \n";
+                charWrapCount = 0;
+            }
         }
         if (doc.HasMember("body_text") && totalWords < 500)
         {
-            cout << "[Body]: ";
+            cout << "[BODY]: \n";
+            cout << "\"";
             for (int i = 0; i < doc["body_text"].Size(); i++) {
                 if (totalWords >= 500) {
                     break;
