@@ -448,7 +448,7 @@ void printSearchResults(vector<pair<int, string>> &searchResults, set<Metadata> 
             Metadata toFind(searchResults[i].second);
             auto it = metadata.find(toFind);
 
-            cout << "\n" << i + 1 << setw(4) << ". Title: " << it->getTitle() << "\n\t"
+            cout << "\n" << i + 1 << ". Title: " << it->getTitle() << "\n\t"
                  << "Authors: " << it->getAuthors() << "\n\t"
                  << "Publication Date: " << it->getPublishDate() << "\n\t"
                  << "Journal: " << it->getJournal()  <<  endl;

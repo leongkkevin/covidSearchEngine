@@ -6,6 +6,7 @@
 #define SEARCH_ENGINE_DSHASHTABLE_H
 
 #include <list>
+#include <vector>
 #include <iostream>
 
 template <typename Key, typename Value>

@@ -5,6 +5,8 @@
 #ifndef SEARCH_ENGINE_DSTREE_H
 #define SEARCH_ENGINE_DSTREE_H
 
+#include <vector>
+
 template<typename T>
 
 class DSTree {
