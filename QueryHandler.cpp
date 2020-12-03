@@ -12,6 +12,7 @@ using namespace std;
 void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<string,int> & searchResults)
 {
     set<Metadata> metadata;
+
     bool queryRun = true;
     int numArticles = 0;
     int averageWords = 0;
@@ -321,6 +322,7 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
                             }
                             authorIndex.insert(name, titles);
                         }
+
                         cout << "\nIndex opened!\n" << endl;
                     }
                     break;
@@ -414,11 +416,38 @@ void printSearchResults(vector<pair<int, string>> &searchResults, set<Metadata> 
                  << "Publication Date: " << it->getPublishDate() << "\n\t"
                  << "Journal: " << it->getJournal()  << endl;
 
+            printArticleExcerpt(it->getAbstract());
+
             lessThanNumber++;
         }
     }
 
     cout << "Found " << searchResults.size() << " files!" << endl;
+}
+
+void printArticleExcerpt(const string& excerpt) {
+    stringstream ss;
+    ss << excerpt;
+
+    int charWrapCount = 0;
+
+    string excerptWord;
+
+    cout << "\"";
+    for(int i = 0; i < 500; ++i){
+
+        getline(ss, excerptWord, ' ');
+
+        charWrapCount += excerptWord.length();
+        if(charWrapCount >= 100){
+            cout << "\n";
+            charWrapCount = 0;
+        }
+        cout << excerptWord << " ";
+    }
+
+    cout << "... \"" << endl;
+    ss.clear();
 }
 
 int checkInput(int &input, int low, int high)

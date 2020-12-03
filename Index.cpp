@@ -244,6 +244,16 @@ int buildIndexes(DSHashTable<string, Title> &authorIndex, DSTree<Word> &wordInde
                     string singleWord;
                     while(getline(ss, singleWord, ' ')){
                         totalWords++;
+
+                        /**
+                         * for body text excerpt
+                         */
+                        int btWordCount = 0;
+                        string excerptBody;
+                        if(btWordCount < 300){
+                            excerptBody += singleWord;
+                        }
+
                         if((fillerSet.count(singleWord) == 0)){
 
                             removeLeadingPunct(singleWord);
@@ -292,6 +302,7 @@ void buildMetadata(set<Metadata> &metadata)
     for(int i = 0; i < ids.size(); i++)
     {
         Metadata data(ids[i], titles[i], abstracts[i], publishDates[i], authors[i], journals[i]);
+
         metadata.insert(data);
     }
 }

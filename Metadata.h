@@ -40,6 +40,7 @@ public:
     string getPublishDate() const;
     string getAuthors() const;
     string getJournal() const;
+
 };
 
 #endif //SEARCH_ENGINE_METADATA_H
