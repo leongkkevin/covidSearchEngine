@@ -14,7 +14,6 @@ class Metadata
 private:
     string id;
     string title;
-    string abstract;
     string publishDate;
     string authors;
     string journal;
@@ -22,7 +21,7 @@ private:
 public:
     Metadata() = default;
     Metadata(string &id);
-    Metadata(string &id, string &title, string &abstract, string &publishDate, string &authors, string &journal);
+    Metadata(string &id, string &title, string &publishDate, string &authors, string &journal);
     ~Metadata() = default;
     Metadata(const Metadata &copy);
     Metadata& operator=(const Metadata &copy);
@@ -30,13 +29,11 @@ public:
     bool operator<(const Metadata &compare) const;
     void setId(string &id);
     void setTitle(string &title);
-    void setAbstract(string &abstract);
     void setPublishDate(string &publishDate);
     void setAuthors(string &authors);
     void setJournal(string &journal);
     string getId() const;
     string getTitle() const;
-    string getAbstract() const;
     string getPublishDate() const;
     string getAuthors() const;
     string getJournal() const;

@@ -12,7 +12,7 @@ using namespace std;
 void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<string,int> & searchResults)
 {
     set<Metadata> metadata;
-
+    string path;
     bool queryRun = true;
     int numArticles = 0;
     int averageWords = 0;
@@ -283,7 +283,6 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
                 {
                     case 1:
                     {
-                        string path;
                         cout << "Please give the absolute path to the directory you would like to parse:" << endl;
                         getline(cin, path);
                         cout << "\nBuilding your index...\n" << endl;
@@ -337,7 +336,8 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
                 ofstream persistence("../persistence.json");
                 persistence.clear();
 
-                persistence << "{\n" << "\t\"numArticles\": \"" << numArticles << "\",\n"
+                persistence << "{\n" << "\t\"path\": \"" << path << "\",\n"
+                            << "\t\"numArticles\": \"" << numArticles << "\",\n"
                             << "\t\"averageWords\": \"" << averageWords << "\",\n";
                 persistence << "\t\"words\": [" << endl;
 
@@ -415,8 +415,6 @@ void printSearchResults(vector<pair<int, string>> &searchResults, set<Metadata> 
                  << "Authors: " << it->getAuthors() << "\n\t"
                  << "Publication Date: " << it->getPublishDate() << "\n\t"
                  << "Journal: " << it->getJournal()  << endl;
-
-            printArticleExcerpt(it->getAbstract());
 
             lessThanNumber++;
         }

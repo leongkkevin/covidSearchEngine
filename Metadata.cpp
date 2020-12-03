@@ -4,11 +4,10 @@
 
 #include "Metadata.h"
 
-Metadata::Metadata(string &id, string &title, string &abstract, string &publishDate, string &authors, string &journal)
+Metadata::Metadata(string &id, string &title, string &publishDate, string &authors, string &journal)
 {
     this->id = id;
     this->title = title;
-    this->abstract = abstract;
     this->publishDate = publishDate;
     this->authors = authors;
     this->journal = journal;
@@ -23,7 +22,6 @@ Metadata::Metadata(const Metadata &copy)
 {
     id = copy.id;
     title = copy.title;
-    abstract = copy.abstract;
     publishDate = copy.publishDate;
     authors = copy.authors;
     journal = copy.journal;
@@ -33,7 +31,6 @@ Metadata &Metadata::operator=(const Metadata &copy)
 {
     id = copy.id;
     title = copy.title;
-    abstract = copy.abstract;
     publishDate = copy.publishDate;
     authors = copy.authors;
     journal = copy.journal;
@@ -61,11 +58,6 @@ void Metadata::setTitle(string &title)
     this->title = title;
 }
 
-void Metadata::setAbstract(string &abstract)
-{
-    this->abstract = abstract;
-}
-
 void Metadata::setPublishDate(string &publishDate)
 {
     this->publishDate = publishDate;
@@ -89,11 +81,6 @@ string Metadata::getId() const
 string Metadata::getTitle() const
 {
     return title;
-}
-
-string Metadata::getAbstract() const
-{
-    return abstract;
 }
 
 string Metadata::getPublishDate() const
