@@ -212,16 +212,15 @@ private:
     /**
      * PRIVATE For copy constructor and equals operator
      */
-    void copyNode(TreeNode<T> *&node, const TreeNode<T> *&copyNode){
-        if(copyNode->left != nullptr){
-            node->left = new TreeNode<T>();
-            copyNode(node->left, copyNode->left);
+    static TreeNode<T> * copyNode(TreeNode<T> *node){
+        if(node != nullptr){
+            TreeNode<T>* left = copyNode(node->left);
+            TreeNode<T>* right = copyNode(node->right);
+
+            return new TreeNode<T>(node->payload, left, right);
+        } else {
+            return NULL;
         }
-        if(copyNode->right != nullptr){
-            node->right = new TreeNode<T>();
-            copyNode(node->right, copyNode->right);
-        }
-        node->payload = copyNode->payload;
     }
 
     /**
@@ -362,8 +361,7 @@ DSTree<T>::DSTree()
 template<typename T>
 DSTree<T>::DSTree(const DSTree<T> &copy) {
     if(copy.numNode !=0){
-        this->root = new TreeNode<T>(copy.root->payload);
-        copyNode(this->root, copy.root);
+        this->root = copyNode(copy.root);
 
         this->numNode = copy.numNode;
     } else {
@@ -390,10 +388,8 @@ DSTree<T>::~DSTree<T>()
 template<typename T>
 DSTree<T> &DSTree<T>::operator=(const DSTree<T> &copy) {
     if(copy.numNode !=0){
-        this->root = new TreeNode<T>(copy.root->payload);
-        copyNode(this->root, copy.root);
-
-        this->numNode = copy->numNode;
+        this->root = copyNode(copy.root);
+        this->numNode = copy.numNode;
     } else {
         this->root = nullptr;
         this->numNode = 0;

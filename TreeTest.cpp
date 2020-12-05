@@ -171,13 +171,19 @@ TEST_CASE("DSTree Test") {
     }
 
     SECTION("Copy Constructor"){
-
         DSTree<int> newInt(intTree);
         REQUIRE(newInt.getNumNodes() == intTree.getNumNodes());
         REQUIRE(newInt.find(5) == true);
         REQUIRE(newInt.find(7) == true);
         REQUIRE(newInt.find(1) == true);
         REQUIRE(newInt.find(50) == false);
+
+        DSTree<Word> newWord(wordTree);
+        REQUIRE(newWord.getNumNodes() == wordTree.getNumNodes());
+        REQUIRE(newWord.find("Cap") == true);
+        REQUIRE(newWord.find("Bap") == true);
+        REQUIRE(newWord.find("Aap") == true);
+        REQUIRE(newWord.find("Jeffe") == false);
     }
     SECTION("Equals Operator"){
 
@@ -187,5 +193,12 @@ TEST_CASE("DSTree Test") {
         REQUIRE(newInt.find(7) == true);
         REQUIRE(newInt.find(1) == true);
         REQUIRE(newInt.find(50) == false);
+
+        DSTree<Word> newWord(wordTree);
+        REQUIRE(newWord.getNumNodes() == wordTree.getNumNodes());
+        REQUIRE(newWord.find("Cap") == true);
+        REQUIRE(newWord.find("Bap") == true);
+        REQUIRE(newWord.find("Aap") == true);
+        REQUIRE(newWord.find("Jeffe") == false);
     }
 }
