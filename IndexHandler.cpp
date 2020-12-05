@@ -27,10 +27,6 @@ void wordSearch(DSTree<Word>& wordIndex, string& search, map<string, int>& found
             }
             //cout << x << " files" << endl;
         }
-        else
-        {
-            cout << "No titles found for this word" << endl;
-        }
     }
     else
     {
@@ -52,9 +48,5 @@ void authorSearch(DSHashTable<string, Title>& authorIndex, string& search, map<s
             //foundTitles.insert(found.getTitleAt(i));
             foundTitles.insert(std::pair<string,int>(found.getTitles().at(i), i));
         }
-    }
-    else
-    {
-        cout << "No titles found for this author" << endl;
     }
 }

@@ -79,6 +79,11 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
 
                             map<string, int> foundTitles;
                             wordSearch(wordIndex, query, foundTitles);
+                            if(foundTitles.size() == 0)
+                            {
+                                searchResults.clear();
+                                break;
+                            }
                             if(!searchResults.empty()) //if the search results already has results in it
                             {
                                 /**
@@ -238,8 +243,16 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
                 sortSearchResults(searchResults, sortedSearchResults);
 
                 /** prints search results */
-                cout << "\nHere are " << searchResults.size() << " articles in which contain the query \"" << toPrintQuery << "\" appear the most: \n";
-                printSearchResults(sortedSearchResults, metadata, 15, path);
+                if(searchResults.size() > 0)
+                {
+                    cout << "\nHere are " << searchResults.size() << " articles in which contain the query \"" << toPrintQuery << "\" appear the most: \n";
+                    printSearchResults(sortedSearchResults, metadata, 15, path);
+                }
+                else
+                {
+                    cout << "\nNo results for this query\n" << endl;
+                }
+
                 searchResults.clear();
                 sortedSearchResults.clear();
                 break;
@@ -627,14 +640,17 @@ void authorCompare(map<string, int> &searchResults, map<string, int> &foundTitle
 {
     map<string, int> tempMap;
     auto it = searchResults.begin();
-
-    while(it != searchResults.end()){
-        if(foundTitles.count(it->first) != 0){
-            //searchResults.erase(it);
-            tempMap.insert(pair<string, int>(it->first, it->second));
+    if(foundTitles.size() != 0)
+    {
+        while(it != searchResults.end()){
+            if(foundTitles.count(it->first) != 0){
+                //searchResults.erase(it);
+                tempMap.insert(pair<string, int>(it->first, it->second));
+            }
+            it++;
         }
-        it++;
     }
+
     searchResults.clear();
     searchResults = tempMap;
 }
