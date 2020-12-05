@@ -168,6 +168,24 @@ TEST_CASE("DSTree Test") {
         intTree.toVector(intVector);
 
         REQUIRE(intVector.size() == wordTree.getNumNodes());
+    }
 
+    SECTION("Copy Constructor"){
+
+        DSTree<int> newInt(intTree);
+        REQUIRE(newInt.getNumNodes() == intTree.getNumNodes());
+        REQUIRE(newInt.find(5) == true);
+        REQUIRE(newInt.find(7) == true);
+        REQUIRE(newInt.find(1) == true);
+        REQUIRE(newInt.find(50) == false);
+    }
+    SECTION("Equals Operator"){
+
+        DSTree<int> newInt = intTree;
+        REQUIRE(newInt.getNumNodes() == intTree.getNumNodes());
+        REQUIRE(newInt.find(5) == true);
+        REQUIRE(newInt.find(7) == true);
+        REQUIRE(newInt.find(1) == true);
+        REQUIRE(newInt.find(50) == false);
     }
 }

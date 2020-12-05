@@ -210,6 +210,21 @@ private:
     }
 
     /**
+     * PRIVATE For copy constructor and equals operator
+     */
+    void copyNode(TreeNode<T> *&node, const TreeNode<T> *&copyNode){
+        if(copyNode->left != nullptr){
+            node->left = new TreeNode<T>();
+            copyNode(node->left, copyNode->left);
+        }
+        if(copyNode->right != nullptr){
+            node->right = new TreeNode<T>();
+            copyNode(node->right, copyNode->right);
+        }
+        node->payload = copyNode->payload;
+    }
+
+    /**
     *   The next 4 are the rotates for the insert function
     */
     void rotateWithLeftChild(TreeNode<T> *&k2)
@@ -306,7 +321,10 @@ private:
 public:
 
     DSTree<T>();
+    DSTree<T>(const DSTree<T>& copy);
     ~DSTree<T>();
+
+    DSTree<T> &operator= (const DSTree<T> &copy);
 
     void insert(T value);
     void remove(T value);
@@ -338,6 +356,22 @@ DSTree<T>::DSTree()
     this->numNode = 0;
 }
 /**
+ *
+ * Copy constructor
+ */
+template<typename T>
+DSTree<T>::DSTree(const DSTree<T> &copy) {
+    if(copy.numNode !=0){
+        this->root = new TreeNode<T>(copy.root->payload);
+        copyNode(this->root, copy.root);
+
+        this->numNode = copy.numNode;
+    } else {
+        this->root = nullptr;
+        this->numNode = 0;
+    }
+}
+/**
 *   Destructor
 *   Uses the private del function
 */
@@ -348,6 +382,23 @@ DSTree<T>::~DSTree<T>()
     {
         del(this->root);
     } else;
+}
+
+/**
+ * Equals Operator
+ */
+template<typename T>
+DSTree<T> &DSTree<T>::operator=(const DSTree<T> &copy) {
+    if(copy.numNode !=0){
+        this->root = new TreeNode<T>(copy.root->payload);
+        copyNode(this->root, copy.root);
+
+        this->numNode = copy->numNode;
+    } else {
+        this->root = nullptr;
+        this->numNode = 0;
+    }
+    return this;
 }
 /**
 *  PUBLIC insert calls the private one
