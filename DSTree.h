@@ -1,6 +1,9 @@
 //
 // Created by Kevin Leong on 11/15/20.
 //
+/**
+ * All made by Kevin Leong
+ */
 
 #ifndef SEARCH_ENGINE_DSTREE_H
 #define SEARCH_ENGINE_DSTREE_H
@@ -456,6 +459,11 @@ void DSTree<T>::clear() {
     } else;
 }
 
+/**
+ * Transforms the AVL tree into vector format (not ordered)
+ * @tparam T
+ * @param treeVector
+ */
 template<typename T>
 void DSTree<T>::toVector(std::vector<T> &treeVector){
     if(this->numNode > 0){

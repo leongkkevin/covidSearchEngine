@@ -9,13 +9,21 @@
 
 using namespace std;
 
+/**
+ * Creates a query that passes in the wordIndex, authorIndex, and searchResults
+ */
 void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<string,int> & searchResults)
 {
+    //creates metaData
     set<Metadata> metadata;
-    string path;
+    string path;            //stores path to the folder
     bool queryRun = true;
-    int numArticles = 0;
+    int numArticles = 0;    //basic statistics used in options
     int averageWords = 0;
+
+    /**
+     * Infinite loop keeps the selection going until 0 is pressed (Created by Sam)
+     */
     cout << "Welcome to the COVID-19 Research Database Search Engine" << endl;
     while(queryRun)
     {
@@ -34,6 +42,9 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
              << "0. Exit\n"
              << "Selection: ";
 
+        /**
+         * Gets the input from the user
+         */
         while(true) //handles incorrect inputs
         {
             try
@@ -62,8 +73,14 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
                 string toPrintQuery = searchQuery;
                 toLower(searchQuery);
 
+                /*
+                 * Appends a null for each search result (used for boolean searches)
+                 */
                 searchQuery += " /0";
 
+                /**
+                 * Logic for AND, OR, NOT, and AUTHOR was created by Kevin
+                 */
                 ss << searchQuery;
                 while(getline(ss, searchQuery, ' ')) //loops through the entire input
                 {
@@ -253,39 +270,55 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
                     cout << "\nNo results for this query\n" << endl;
                 }
 
+                /*
+                 * clears search results in preparation for next query
+                 */
                 searchResults.clear();
                 sortedSearchResults.clear();
                 break;
             }
 
+            /**
+             * Returns the amount of articles indexed (S.T.)
+             */
             case 2:
             {
                 cout << "\nThere are " << numArticles << " articles indexed.\n" << endl;
                 break;
             }
 
+            /**
+             * Returns the average words per article (S.T.)
+             */
             case 3:
             {
                 cout << "\nThere are an average of " << averageWords << " words per article.\n" << endl;
                 break;
             }
 
+            /**
+             * Returns the amount of WORDS in the index (S.T.)
+             */
             case 4:
             {
                 cout << "\nThere are a total of " << wordIndex.getNumNodes() << " unique words in the index.\n" << endl;
                 break;
             }
 
+            /**
+             * Returns the amount of AUTHORS in the index (S.T.)
+             */
             case 5:
             {
                 cout << "\nThere are a total of " << authorIndex.getCount() << " unique authors in the index.\n" << endl;
                 break;
             }
 
+
             case 6:
             {
                 /**
-                 * return 50 most common words
+                 * return 50 most common words (K.L.)
                  */
                 vector<pair<int,string>> sortedCommonWords;
                 getFiftyCommon(wordIndex, sortedCommonWords);
@@ -293,6 +326,10 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
                 break;
             }
 
+            /**
+             * Clears the index (K.L.)
+             * Individual clear functions were made by KL and SL (respectively)
+             */
             case 7:
             {
                 cout << "\nClearing indexes...\n" << endl;
@@ -304,6 +341,9 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
                 break;
             }
 
+            /**
+             * For parsing or opening a persistence file (S.T.)
+             */
             case 8:
             {
                 int eightSelection = 0;
@@ -418,6 +458,10 @@ void query(DSTree<Word> wordIndex, DSHashTable<string, Title> authorIndex, map<s
     }
 }
 
+/**
+ *
+ * Creates by Kevin Leong
+ */
 void getFiftyCommon(DSTree<Word> &wordIndex,vector<pair<int, string>> &sortedCommonWords){
     cout << "\nThe 50 most frequent words are..." << endl;
     vector<Word> wordVector;
@@ -436,6 +480,11 @@ void getFiftyCommon(DSTree<Word> &wordIndex,vector<pair<int, string>> &sortedCom
     cout << 50 << ") \"" << sortedCommonWords.at(49).second << "\" appears " << sortedCommonWords.at(49).first << " times.\n" << endl;
 }
 
+/**
+ * Sorts the search results map into a vector (S.T.)
+ * @param searchResults
+ * @param sortedSearchResults
+ */
 void sortSearchResults(map<string, int> &searchResults, vector<pair<int,string>> &sortedSearchResults){
     auto it = searchResults.begin();
 
@@ -448,6 +497,13 @@ void sortSearchResults(map<string, int> &searchResults, vector<pair<int,string>>
     sort(sortedSearchResults.rbegin(), sortedSearchResults.rend());
 }
 
+/**
+ * Prints the search results vector of pairs and its respective metadatas (S.T.)
+ * @param searchResults
+ * @param metadata
+ * @param number
+ * @param path
+ */
 void printSearchResults(vector<pair<int, string>> &searchResults, set<Metadata> &metadata, int number, string path) {
     int lessThanNumber = 0;
     for(int i = 0; i < searchResults.size(); i++)
@@ -471,6 +527,9 @@ void printSearchResults(vector<pair<int, string>> &searchResults, set<Metadata> 
 
     cout << "\nFound " << searchResults.size() << " files!\n" << endl;
 
+    /**
+     * For the selection of file preview (K.L.)
+     */
     string articlePrev, selectionString;
     int choiceNum;
     int amtChoice = searchResults.size();
@@ -521,6 +580,11 @@ void printSearchResults(vector<pair<int, string>> &searchResults, set<Metadata> 
     cout << endl;
 }
 
+/**
+ * Prints the excerpt of selected article (K.L.)
+ * @param path
+ * @param specPath
+ */
 void printArticleExcerpt(const string& path, const string& specPath) {
     string filePath;
     filePath = path + "/" + specPath + ".json";
@@ -604,6 +668,9 @@ void printArticleExcerpt(const string& path, const string& specPath) {
     cout << "... \"" << endl;
 }
 
+/**
+ * Checks the input (S.T.)
+ */
 int checkInput(int &input, int low, int high)
 {
     if(input < low || input > high) //makes sure input is in the correct range
@@ -636,6 +703,11 @@ int checkInput(int &input, int low, int high)
     }
 }
 
+/**
+ * Used for the author comparison (K.L.)
+ * @param searchResults
+ * @param foundTitles
+ */
 void authorCompare(map<string, int> &searchResults, map<string, int> &foundTitles)
 {
     map<string, int> tempMap;
@@ -644,7 +716,6 @@ void authorCompare(map<string, int> &searchResults, map<string, int> &foundTitle
     {
         while(it != searchResults.end()){
             if(foundTitles.count(it->first) != 0){
-                //searchResults.erase(it);
                 tempMap.insert(pair<string, int>(it->first, it->second));
             }
             it++;
@@ -655,6 +726,11 @@ void authorCompare(map<string, int> &searchResults, map<string, int> &foundTitle
     searchResults = tempMap;
 }
 
+/**
+ * Used for NOT compare (K.L.)
+ * @param searchResults
+ * @param foundTitles
+ */
 void notCompare(map<string, int> &searchResults, map<string, int> &foundTitles)
 {
     map<string, int> tempMap;
@@ -662,7 +738,6 @@ void notCompare(map<string, int> &searchResults, map<string, int> &foundTitles)
 
     while(it != foundTitles.end()){
         if(searchResults.count(it->first) != 0){
-            //searchResults.erase(it);
             searchResults.erase(it->first);
         }
         it++;

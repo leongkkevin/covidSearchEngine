@@ -10,7 +10,7 @@ void removeTrainingPunct();
 using namespace std;
 using namespace rapidjson;
 /**
- * Creates the filler words set
+ * Creates the filler words set (K.L.)
  */
 void makeFillerSet(set<string> &fillerSet)
 {
@@ -24,7 +24,7 @@ void makeFillerSet(set<string> &fillerSet)
 }
 
 /**
- * Removes the trailing Punctuation
+ * Removes the trailing Punctuation (K.L)
  */
 void removeTrailingPunct(string& word) {
     for(int i = word.length() - 1; i > 0; i--)
@@ -38,7 +38,7 @@ void removeTrailingPunct(string& word) {
 }
 
 /**
- * Removes the leading Punctuation
+ * Removes the leading Punctuation (K.L)
  */
 void removeLeadingPunct(string& word) {
 
@@ -51,7 +51,7 @@ void removeLeadingPunct(string& word) {
 }
 
 /**
- * Removes the in-between Punctuation
+ * Removes the in-between Punctuation (K.L)
  */
 void punctDestroyer(string& word) {
     for(int i = 0; i < word.length(); ++i){
@@ -74,6 +74,10 @@ void punctDestroyer(string& word) {
     }
 }
 
+/**
+ * Goes through each word and transform the word to lowercase (S.T.)
+ * @param word
+ */
 void toLower(string& word)
 {
     transform(word.begin(), word.end(), word.begin(), ::tolower);
@@ -137,13 +141,13 @@ int buildIndexes(DSHashTable<string, Title> &authorIndex, DSTree<Word> &wordInde
             }
 
             /**
-             * Creates a set of filler words
+             * Creates a set of filler words (K.L.)
              */
             set<string> fillerSet;
             makeFillerSet(fillerSet);
 
             /**
-             * adding words from title
+             * adding words from title (S.T.)
              */
             if(doc["metadata"].HasMember("title"))
             {
@@ -186,7 +190,7 @@ int buildIndexes(DSHashTable<string, Title> &authorIndex, DSTree<Word> &wordInde
             }
 
             /**
-             * Adding words from abstract
+             * Adding words from abstract (K.L.)
              */
             if(doc.HasMember("abstract"))
             {
@@ -231,7 +235,7 @@ int buildIndexes(DSHashTable<string, Title> &authorIndex, DSTree<Word> &wordInde
                 }
             }
             /**
-             * Adding words from body text
+             * Adding words from body text (K.L.)
              */
             if(doc.HasMember("body_text"))
             {
@@ -288,6 +292,10 @@ int buildIndexes(DSHashTable<string, Title> &authorIndex, DSTree<Word> &wordInde
     return numArticles;
 }
 
+/**
+ * Creates metadata for docs (S.T.)
+ * @param metadata
+ */
 void buildMetadata(set<Metadata> &metadata)
 {
     rapidcsv::Document doc("../metadata-cs2341.csv");
@@ -307,7 +315,7 @@ void buildMetadata(set<Metadata> &metadata)
 }
 
 /**
- * gets and returns the file path for each file in the directory
+ * gets and returns the file path for each file in the directory (S.T.)
  */
 string getFile(string &filePath)
 {

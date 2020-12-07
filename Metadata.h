@@ -2,6 +2,9 @@
 // Created by Sammy Timmins on 11/30/20.
 //
 
+/**
+ * All made by Sam Timmins
+ */
 #ifndef SEARCH_ENGINE_METADATA_H
 #define SEARCH_ENGINE_METADATA_H
 

@@ -19,6 +19,9 @@ void runSearchEngine()
     query(wordIndex, authorIndex, searchResults);
 }
 
+/**
+ * For demo (parsing)
+ */
 void runSearchEngine(string &wordToFind, string &directoryPath)
 {
     DSHashTable<string, Title> authorIndex;

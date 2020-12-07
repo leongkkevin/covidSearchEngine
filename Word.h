@@ -2,6 +2,10 @@
 // Created by Kevin Leong on 11/15/20.
 //
 
+/**
+ * All made by Kevin Leong
+ */
+
 #include "DSHashTable.h"
 
 using namespace std;

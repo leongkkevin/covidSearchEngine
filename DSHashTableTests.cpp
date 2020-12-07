@@ -2,6 +2,9 @@
 // Created by Sammy Timmins on 11/15/20.
 //
 
+/**
+ * All made by Sam Timmins
+ */
 #include <string>
 #include "catch.hpp"
 #include "DSHashTable.h"

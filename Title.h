@@ -2,6 +2,9 @@
 // Created by Sammy Timmins on 11/18/20.
 //
 
+/**
+ * All made by Sam Timmins
+ */
 #ifndef SEARCH_ENGINE_TITLE_H
 #define SEARCH_ENGINE_TITLE_H
 

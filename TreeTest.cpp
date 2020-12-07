@@ -2,6 +2,10 @@
 // Created by Kevin Leong on 11/15/20.
 //
 
+/**
+ * All tests made by Kevin Leong
+ */
+
 #include "catch.hpp"
 #include "DSTree.h"
 #include "Word.h"

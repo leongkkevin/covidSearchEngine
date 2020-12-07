@@ -4,6 +4,12 @@
 
 #include "IndexHandler.h"
 
+/**
+ * Performs a search in the wordIndex AVL Tree (S.T.)
+ * @param wordIndex
+ * @param search
+ * @param foundTitles
+ */
 void wordSearch(DSTree<Word>& wordIndex, string& search, map<string, int>& foundTitles)
 {
     Porter2Stemmer::stem(search);
@@ -20,12 +26,9 @@ void wordSearch(DSTree<Word>& wordIndex, string& search, map<string, int>& found
             int x = 0;
             for ( it = found.getTitleList().begin(); it != found.getTitleList().end(); it++)
             {
-                //change this to insert into avl tree after demo
                 foundTitles.insert (std::pair<string,int>(it->first,it->second));
-                //cout << it->first << endl;
                 x++;
             }
-            //cout << x << " files" << endl;
         }
     }
     else
@@ -35,6 +38,12 @@ void wordSearch(DSTree<Word>& wordIndex, string& search, map<string, int>& found
 
 }
 
+/**
+ * Performs a search on the Author HashTable (S.T.)
+ * @param authorIndex
+ * @param search
+ * @param foundTitles
+ */
 void authorSearch(DSHashTable<string, Title>& authorIndex, string& search, map<string, int>& foundTitles)
 {
     toLower(search);
